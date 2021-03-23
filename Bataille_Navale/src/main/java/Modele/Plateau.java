@@ -1,12 +1,20 @@
 package Modele;
 
-public class Plateau 
-{   
-    //Attributs
-    private int nbLigne;
-    private int nbColonne;
-    private char [][] plateau;
+public class Plateau {
+     //Attributs
+    private final int nbLigne;
+    private final int nbColonne;
+    private final char [][] plateau;
     private int numPlateau;
+    public final int VALUESEA=0;
+    public final int VALUESUBMARINE=1;
+    public final int VALUEDESTROYER=2;
+    public final int VALUECRUISER=3;
+    public final int VALUEDREADNOUGHT=4;
+    public final int VALUEREMAINS=5;
+    public char[][]premieresPositions;
+    public int[][] cases;
+    public char grid[][];
     
     //Constructeur qui initialise et pre-rempli le plateau
     public Plateau(int n, int p)
@@ -14,6 +22,7 @@ public class Plateau
         nbLigne = n;
         nbColonne = p;
         plateau = new char[nbLigne][nbColonne];
+        cases= new int[32][47];
         
         //Initialisation du tableau
         for(int i=0;i<nbLigne;i++)
@@ -103,5 +112,46 @@ public class Plateau
                plateau[2+2*i][3+3*j] = grid[i][j];
             }
         }
+    }
+       
+    //renvoie le caractère correspondant à une valeur v
+    public char symboleCase1(int v){
+        switch (v) {
+            case VALUESEA:
+                return' ';
+            case VALUESUBMARINE:
+                return'#';
+            case VALUEDESTROYER:
+                return'%';
+            case VALUECRUISER:
+                return'@';
+            case VALUEDREADNOUGHT:
+                return'*';
+            default:
+                return'X';
+        }
+    }
+    
+    public char symboleCase2(int v){
+        switch (v) {
+            case VALUESEA:
+                return' ';
+            case VALUESUBMARINE:
+                return' ';
+            case VALUEDESTROYER:
+                return' ';
+            case VALUECRUISER:
+                return' ';
+            case VALUEDREADNOUGHT:
+                return' ';
+            default:
+                return'X';
+        }
+    }
+   
+    public void get1StPosition(Plateau plateau, int i, int j){
+        i=(int) ((Math.random()*((14-0)+1))+0);
+        j=(int) ((Math.random()*((14-0)+1))+0);
+
     }
 }
