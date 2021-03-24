@@ -149,9 +149,124 @@ public class Plateau {
         }
     }
    
-    public void get1StPosition(Plateau plateau, int i, int j){
-        i=(int) ((Math.random()*((14-0)+1))+0);
-        j=(int) ((Math.random()*((14-0)+1))+0);
-
+    public void randomPositionOneBoat(char grid[][], int boatSize, String typeShip)
+    {
+        //On declare les coordonnees aleatoires que l'on va utiliser
+        int i,j,cote;
+        boolean bool = true;    //Si ce booleen passe a false, c'est que l'execution s'est mal passée
+        
+        //On repete l'operation de verification tant qu'on n'a pas une position valide
+        do
+        {
+            //On repasse le booleen a true pour le cas ou on repete plusieurs fois la boucle
+            bool = true;
+            
+            //On genere trois nombres aleatoires
+            i = 0 + (int)(Math.random() * ((14-0)+1));
+            j = 0 + (int)(Math.random() * ((14-0)+1));      
+            cote = 1 + (int)(Math.random() * ((2-1)+1));    //1 represente la verticale et 2 l'horizontale
+            
+            //Pour tester le random
+            System.out.println(i+j+cote);
+            
+            if((i+boatSize > 14) || (j+boatSize > 14))
+            {
+                bool = false;
+            }
+            else
+            {
+                //Verification que les cases soient bien vides
+                //On gere le cas vertical
+                if(cote==1)
+                {
+                    for(int p=0;p<boatSize;p++)
+                    {
+                        if(grid[i+p][j] != ' ')
+                        {
+                            bool = false;
+                        }
+                    }
+                }
+            
+                //On gere le cas horizontal
+                if(cote==2)
+                {
+                    for(int p=0;p<boatSize;p++)
+                    {
+                        if(grid[i][j+p] != ' ')
+                        {
+                            bool = false;
+                        }
+                    }
+                }
+            }
+        }while(bool == false);
+        
+        //Si on quitte le do while, c'est que l'on possede un i et un j valide, on peut alors placer le bateau
+        //Cas vertical
+        if(cote == 1)
+        {
+            if("Dreadnought".equals(typeShip))
+            {
+                for(int p=i;p<=i+boatSize;p++)
+                {
+                    grid[p][j] = '*';
+                }
+            }
+            if("Cruiser".equals(typeShip))
+            {
+                for(int p=i;p<=i+boatSize;p++)
+                {
+                    grid[p][j] = '@';
+                }
+            }
+            if("Destroyer".equals(typeShip))
+            {
+                for(int p=i;p<=i+boatSize;p++)
+                {
+                    grid[p][j] = '%';
+                }
+            }
+            if("Submarine".equals(typeShip))
+            {
+                for(int p=i;p<=i+boatSize;p++)
+                {
+                    grid[p][j] = '#';
+                }
+            }
+        }
+        
+        //Cas horizontal
+        if(cote == 2)
+        {
+            if("Dreadnought".equals(typeShip))
+            {
+                for(int p=j;p<=j+boatSize;p++)
+                {
+                    grid[i][p] = '*';
+                }
+            }
+            if("Cruiser".equals(typeShip))
+            {
+                for(int p=j;p<=j+boatSize;p++)
+                {
+                    grid[i][p] = '@';
+                }
+            }
+            if("Destroyer".equals(typeShip))
+            {
+                for(int p=j;p<=j+boatSize;p++)
+                {
+                    grid[i][p] = '%';
+                }
+            }
+            if("Submarine".equals(typeShip))
+            {
+                for(int p=j;p<=j+boatSize;p++)
+                {
+                    grid[i][p] = '#';
+                }
+            }
+        }
     }
 }
