@@ -28,10 +28,10 @@ public void fire(Plateau plateau,int firePower, int x, int y){
         Scanner scanner = new Scanner(System.in);//on rentre les coordonnées du point d'impact avec un blindage de 0 à 14
         do{
             x= scanner.nextInt();
-        }while(x<0||x>14);
+        }while(x<=0||x>14);
         do{
             y= scanner.nextInt();
-        }while(y<0||y>14);
+        }while(y<=0||y>14);
         
         switch (evalCase(plateau,2+2*x,2+3*y)) {//en fonction de la valeur d'une case, il y un réusltat dufféret qand on tire dessu
             case 0:
