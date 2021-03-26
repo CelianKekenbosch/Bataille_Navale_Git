@@ -13,8 +13,7 @@ public class Plateau {
     public final int VALUEDREADNOUGHT=4;
     public final int VALUEREMAINS=5;
     public char[][]premieresPositions;
-    public int[][] cases;
-    public char grid[][];
+    public int grid[][];
     
     //Constructeur qui initialise et pre-rempli le plateau
     public Plateau(int n, int p)
@@ -22,7 +21,6 @@ public class Plateau {
         nbLigne = n;
         nbColonne = p;
         plateau = new char[nbLigne][nbColonne];
-        cases= new int[32][47];
         
         //Initialisation du tableau
         for(int i=0;i<nbLigne;i++)
@@ -100,7 +98,7 @@ public class Plateau {
     }
     
     //Recupere une grille dans laquelle on a les infos des navires pour les transferer au plateau d'affichage
-    public void convertGridIntoPlateau(char grid[][])
+    public void convertGridIntoPlateau(int grid[][])
     {
         int i,j;
         //On va parcourir la grille, et on va transferer chaque case de celle-ci dans un plateau
@@ -110,6 +108,25 @@ public class Plateau {
             {
                plateau[2+2*i][2+3*j] = grid[i][j];
                plateau[2+2*i][3+3*j] = grid[i][j];
+            }
+        }
+    }
+    
+    //valeur d'un des 2 emplacements de chaque case du plateau
+    public static int evalCase(Plateau plateau,int i,int j){
+        return plateau.grid[i][j];
+    }
+
+    //modifie la valeur des 2 emplacements de la case de coordonnées (i,j) du plateau en la fixant à valeur
+    public static void fixerCase(Plateau plateau,int i,int j,int valeur){ 
+        plateau.grid[i][j] = valeur;
+    }
+
+    //initilialise les cases du plateau à la mer(VALUESEA=0)
+    public static  void initValPlateau(Plateau plateau){
+        for (int i=0;i<15;i++){
+            for(int j=0;j<15;j++){
+                fixerCase(plateau,i,j,0);
             }
         }
     }
@@ -148,12 +165,12 @@ public class Plateau {
                 return'X';
         }
     }
-   
-    public void randomPositionOneBoat(char grid[][], int boatSize, String typeShip)
+    
+    public void randomPositionOneBoat(int grid[][], int boatSize, String typeShip)
     {
         //On declare les coordonnees aleatoires que l'on va utiliser
         int i,j,cote;
-        boolean bool = true;    //Si ce booleen passe a false, c'est que l'execution s'est mal passée
+        boolean bool;    //Si ce booleen passe a false, c'est que l'execution s'est mal passée
         
         //On repete l'operation de verification tant qu'on n'a pas une position valide
         do
@@ -181,7 +198,7 @@ public class Plateau {
                 {
                     for(int p=0;p<boatSize;p++)
                     {
-                        if(grid[i+p][j] != ' ')
+                        if(grid[i+p][j] != 0)
                         {
                             bool = false;
                         }
@@ -193,7 +210,7 @@ public class Plateau {
                 {
                     for(int p=0;p<boatSize;p++)
                     {
-                        if(grid[i][j+p] != ' ')
+                        if(grid[i][j+p] != 0)
                         {
                             bool = false;
                         }
@@ -210,28 +227,28 @@ public class Plateau {
             {
                 for(int p=i;p<=i+boatSize;p++)
                 {
-                    grid[p][j] = '*';
+                    grid[p][j] = 4;
                 }
             }
             if("Cruiser".equals(typeShip))
             {
                 for(int p=i;p<=i+boatSize;p++)
                 {
-                    grid[p][j] = '@';
+                    grid[p][j] = 3;
                 }
             }
             if("Destroyer".equals(typeShip))
             {
                 for(int p=i;p<=i+boatSize;p++)
                 {
-                    grid[p][j] = '%';
+                    grid[p][j] = 2;
                 }
             }
             if("Submarine".equals(typeShip))
             {
                 for(int p=i;p<=i+boatSize;p++)
                 {
-                    grid[p][j] = '#';
+                    grid[p][j] = 1;
                 }
             }
         }
@@ -243,28 +260,28 @@ public class Plateau {
             {
                 for(int p=j;p<=j+boatSize;p++)
                 {
-                    grid[i][p] = '*';
+                    grid[i][p] = 4;
                 }
             }
             if("Cruiser".equals(typeShip))
             {
                 for(int p=j;p<=j+boatSize;p++)
                 {
-                    grid[i][p] = '@';
+                    grid[i][p] = 3;
                 }
             }
             if("Destroyer".equals(typeShip))
             {
                 for(int p=j;p<=j+boatSize;p++)
                 {
-                    grid[i][p] = '%';
+                    grid[i][p] = 2;
                 }
             }
             if("Submarine".equals(typeShip))
             {
                 for(int p=j;p<=j+boatSize;p++)
                 {
-                    grid[i][p] = '#';
+                    grid[i][p] = 1;
                 }
             }
         }
