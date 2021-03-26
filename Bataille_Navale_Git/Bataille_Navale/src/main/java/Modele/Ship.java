@@ -23,7 +23,7 @@ public abstract class Ship {
     this.mfirePower= firePower;
 }
     
-  public void fire(Plateau plateau,int firePower, int x, int y){
+  public void fire(Plateau plateau,int firePower, int x, int y, String typeShip){
         System.out.println("rentrez les coordonnées du point d'impact svp");
         Scanner scanner = new Scanner(System.in);//on rentre les coordonnées du point d'impact avec un blindage de 0 à 14
         do{
@@ -42,7 +42,11 @@ public abstract class Ship {
                 break;
             default:
                 System.out.println("Touché!");//si on touche un navire, alors on applique une déflagration à partir du point d'impact
-                fixerCase(plateau,x,y,5);
+                
+                if("subamrine".equals(typeShip)){
+                    System.out.println("ET coulé!!!(un sous-marin en moins) Rien ne peut plus vous arrêter!");
+                    fixerCase(plateau,x,y,5);    
+                }else{
                 for(int z=0;z<firePower;z++){//pas tout à fait bon pour notre projet puisque cette méthode va dans les 4 directions
                     if(evalCase(plateau,(x+z),(y))!=0){
                         do{
@@ -62,15 +66,12 @@ public abstract class Ship {
                         }while(y-z>=0);
                     }
                     else{
-                        System.out.println("ET coulé!!!(un sous-marin en moins) Rien ne peut plus vous arrêter!");
+                        System.out.println("OU PAS!!!une ombre se déplace dans les profondeurs sans que vous puissiez l'endommager");
                     }
                 break;
         }
         
-        
+    }    
     }
   }
 }
-
-  
-
