@@ -14,4 +14,11 @@ public class Destroyer extends Ship{
         this.typeShip="destroyer";
     }
     
+    public void fusee_eclairante(){
+        int nbFusee = 1;
+        if(nbFusee!=0){
+            
+        }
+    }
+    
 }
