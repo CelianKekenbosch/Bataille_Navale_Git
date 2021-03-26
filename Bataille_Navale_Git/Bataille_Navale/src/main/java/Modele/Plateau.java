@@ -106,8 +106,36 @@ public class Plateau {
         {
             for(j=0;j<15;j++)
             {
-               plateau[2+2*i][2+3*j] = grid[i][j];
-               plateau[2+2*i][3+3*j] = grid[i][j];
+               if(grid[i][j]==0)
+               {
+                   plateau[2+2*i][2+3*j] = ' ';
+                   plateau[2+2*i][3+3*j] = ' ';
+               }
+               if(grid[i][j]==1)
+               {
+                   plateau[2+2*i][2+3*j] = '#';
+                   plateau[2+2*i][3+3*j] = '#';
+               }
+               if(grid[i][j]==2)
+               {
+                   plateau[2+2*i][2+3*j] = '%';
+                   plateau[2+2*i][3+3*j] = '%';
+               }
+               if(grid[i][j]==3)
+               {
+                   plateau[2+2*i][2+3*j] = '@';
+                   plateau[2+2*i][3+3*j] = '@';
+               }
+               if(grid[i][j]==4)
+               {
+                   plateau[2+2*i][2+3*j] = '*';
+                   plateau[2+2*i][3+3*j] = '*';
+               }
+               if(grid[i][j]==5)
+               {
+                   plateau[2+2*i][2+3*j] = 'X';
+                   plateau[2+2*i][3+3*j] = 'X';
+               }
             }
         }
     }
