@@ -6,8 +6,8 @@
 package Modele;
 
 import java.util.Scanner;
-import static Modele.Plateau.evalCase;
-import static Modele.Plateau.fixerCase;
+/*import static Modele.Plateau.evalCase;
+import static Modele.Plateau.fixerCase;*/
 
 public abstract class Ship {
 
@@ -23,7 +23,7 @@ public abstract class Ship {
     this.mfirePower= firePower;
 }
     
-public void fire(Plateau plateau,int firePower, int x, int y){
+/*public void fire(Plateau plateau,int firePower, int x, int y){
         System.out.println("rentrez les coordonnées du point d'impact svp");
         Scanner scanner = new Scanner(System.in);//on rentre les coordonnées du point d'impact avec un blindage de 0 à 14
         do{
@@ -69,10 +69,6 @@ public void fire(Plateau plateau,int firePower, int x, int y){
         
         
     }
-    
-        /*public void Move(){*/
-        
-    }
- 
+ */
 }
 
