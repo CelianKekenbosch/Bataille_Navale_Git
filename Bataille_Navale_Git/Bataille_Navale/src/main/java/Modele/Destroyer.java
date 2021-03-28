@@ -8,17 +8,10 @@ package Modele;
 public class Destroyer extends Ship{
     
     public Destroyer(int size, int firePower, String typeShip) {// on instancie la longueur et la puissance du bateau en question
-        super(size, firePower);
+        super(size, firePower, typeShip);
         this.mSize=3;
         this.mfirePower=1;
-        this.typeShip="destroyer";
-    }
-    
-    public void fusee_eclairante(){
-        int nbFusee = 1;
-        if(nbFusee!=0){
-            
-        }
+        this.mTypeShip="destroyer";
     }
     
 }
