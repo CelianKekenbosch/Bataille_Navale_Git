@@ -29,8 +29,11 @@ public abstract class Ship {
     }
 }
     
-  public void fire(Plateau plateau,int firePower, int x, int y, String typeShip){
-        System.out.println("rentrez les coordonnées du point d'impact svp");
+  public void fire(Plateau plateau,int firePower, String typeShip){
+        
+      int y;
+      int x;
+      System.out.println("rentrez les coordonnées du point d'impact svp");
         Scanner scanner = new Scanner(System.in);//on rentre les coordonnées du point d'impact avec un blindage de 0 à 14
         do{
             x= scanner.nextInt();
@@ -39,7 +42,7 @@ public abstract class Ship {
             y= scanner.nextInt();
         }while(y<=0||y>14);
         
-        switch (evalCase(plateau,2+2*x,2+3*y)) {//en fonction de la valeur d'une case, il y un réusltat dufféret qand on tire dessu
+        switch (evalCase(plateau,x,y)) {//en fonction de la valeur d'une case, il y un réusltat dufféret qand on tire dessu
             case 0:
                 System.out.println("PLOUF!à l'eau...");//si on tire dans l'eau rien ne se passe
                 break;
