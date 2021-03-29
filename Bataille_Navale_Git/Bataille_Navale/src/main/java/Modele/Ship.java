@@ -84,19 +84,21 @@ public abstract class Ship {
     }
   }
   
-  public void fusee_eclairante(Plateau plateau, int x, int y, String typeShip){
-        if("destroyer".equals(typeShip)){
+  public void fusee_eclairante(Plateau plateau, String typeShip){
+       int x; 
+       int y;
+      if("destroyer".equals(typeShip)){
             Scanner scanner = new Scanner(System.in);
             if(Ship.mNbFuseeEclairante==0){
                 System.out.println("Ce destroyer n'a plus de fusée éclairante, désolé!");
-            }else{
-                System.out.println("rentrez le point d'impact de la fusée éclairante(x,y) svp");
+            }else{       System.out.println("rentrez le point d'impact de la fusée éclairante(x,y) svp");
                 do{
                     x= scanner.nextInt();
                 }while(x<=0||x>14);
                 do{
                     y= scanner.nextInt();
                 }while(y<=0||y>14);
+         
                   
                 /*on devra travailler sur les plateaux directement(les cases du plateau des tirs du joureur =les cases en question du plateau ordi)
                 for(int w=0;w<4;w++){
