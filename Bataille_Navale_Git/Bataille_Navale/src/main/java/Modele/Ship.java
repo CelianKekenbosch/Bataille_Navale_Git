@@ -9,7 +9,7 @@ import java.util.Scanner;
 import static Modele.Plateau.evalCase;
 import static Modele.Plateau.fixerCase;
 
-public abstract class Ship {
+public class Ship {
 
     protected String mTypeShip;
     protected int mSize;

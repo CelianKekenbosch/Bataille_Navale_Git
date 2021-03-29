@@ -21,6 +21,7 @@ public class Plateau {
         nbLigne = n;
         nbColonne = p;
         plateau = new char[nbLigne][nbColonne];
+        grid=new int[15][15];
         
         //Initialisation du tableau
         for(int i=0;i<nbLigne;i++)
