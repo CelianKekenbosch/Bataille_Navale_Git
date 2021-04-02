@@ -5,14 +5,12 @@ public class Plateau {
     private final int nbLigne;
     private final int nbColonne;
     private final char [][] plateau;
-    private int numPlateau;
     public final int VALUESEA=0;
     public final int VALUESUBMARINE=1;
     public final int VALUEDESTROYER=2;
     public final int VALUECRUISER=3;
     public final int VALUEDREADNOUGHT=4;
     public final int VALUEREMAINS=5;
-    public char[][]premieresPositions;
     public int grid[][];
     
     //Constructeur qui initialise et pre-rempli le plateau
@@ -195,7 +193,7 @@ public class Plateau {
         }
     }
     
-    public void randomPositionOneBoat(int grid[][], int boatSize, String typeShip)
+    public void randomPositionOneBoat(int grid[][], int boatSize, Ship bateau)
     {
         //On declare les coordonnees aleatoires que l'on va utiliser
         int i,j,cote;
@@ -252,28 +250,28 @@ public class Plateau {
         //Cas vertical
         if(cote == 1)
         {
-            if("Dreadnought".equals(typeShip))
+            if("Dreadnought".equals(bateau.mTypeShip))
             {
                 for(int p=i;p<=i+boatSize;p++)
                 {
                     grid[p][j] = 4;
                 }
             }
-            if("Cruiser".equals(typeShip))
+            if("Cruiser".equals(bateau.mTypeShip))
             {
                 for(int p=i;p<=i+boatSize;p++)
                 {
                     grid[p][j] = 3;
                 }
             }
-            if("Destroyer".equals(typeShip))
+            if("Destroyer".equals(bateau.mTypeShip))
             {
                 for(int p=i;p<=i+boatSize;p++)
                 {
                     grid[p][j] = 2;
                 }
             }
-            if("Submarine".equals(typeShip))
+            if("Submarine".equals(bateau.mTypeShip))
             {
                 for(int p=i;p<=i+boatSize;p++)
                 {
@@ -285,28 +283,28 @@ public class Plateau {
         //Cas horizontal
         if(cote == 2)
         {
-            if("Dreadnought".equals(typeShip))
+            if("Dreadnought".equals(bateau.mTypeShip))
             {
                 for(int p=j;p<=j+boatSize;p++)
                 {
                     grid[i][p] = 4;
                 }
             }
-            if("Cruiser".equals(typeShip))
+            if("Cruiser".equals(bateau.mTypeShip))
             {
                 for(int p=j;p<=j+boatSize;p++)
                 {
                     grid[i][p] = 3;
                 }
             }
-            if("Destroyer".equals(typeShip))
+            if("Destroyer".equals(bateau.mTypeShip))
             {
                 for(int p=j;p<=j+boatSize;p++)
                 {
                     grid[i][p] = 2;
                 }
             }
-            if("Submarine".equals(typeShip))
+            if("Submarine".equals(bateau.mTypeShip))
             {
                 for(int p=j;p<=j+boatSize;p++)
                 {
@@ -314,6 +312,18 @@ public class Plateau {
                 }
             }
         }
+        
+        //Pour finir, il faut modifier les informations personnelles a chaque bateau
+        bateau.xBoat = i;
+        bateau.yBoat = j;
+        
+        if(cote == 1)
+        {
+            bateau.isVertical = true;
+        }
+        else
+        {
+            bateau.isVertical = false;
+        }
     }
 }
-//Test de modification
