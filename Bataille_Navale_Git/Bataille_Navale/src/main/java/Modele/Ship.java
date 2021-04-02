@@ -87,7 +87,7 @@ public class Ship {
     }
   }
   
-  public void fusee_eclairante(Plateau plateau2, Plateau plateau3, String typeShip){
+  public static void fusee_eclairante(Plateau plateau2, Plateau plateau3, String typeShip){
        int x; 
        int y;
        char c;
@@ -124,7 +124,7 @@ public class Ship {
         }
     }
   
-  public void move(Plateau plateau, int size){
+  public static void move(Plateau plateau, int size){
       int x1;
       int y1;
       char c1;
