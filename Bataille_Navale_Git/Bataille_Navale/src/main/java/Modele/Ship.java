@@ -15,12 +15,13 @@ public class Ship {
     protected int mSize;
     protected int mfirePower;
     protected boolean isVertical;
+    protected static int[][] coordonneesFront;
+    protected static int[][] coordonneesRear;
     protected static int mNbFuseeEclairante=1;
-    protected boolean isAlive = true;
-    protected int xBoat;
-    protected int yBoat;
     
-    public Ship(String typeShip){//constructeur de la classe mère Ship
+    public Ship(int size,int firePower, String typeShip){//constructeur de la classe mère Ship
+    this.mSize= size;
+    this.mfirePower= firePower;
     this.mTypeShip=typeShip;
     
     if(!"destroyer".equals(typeShip)){
@@ -52,26 +53,41 @@ public class Ship {
                 System.out.println("Faites plus attention, vous avez déjà touché ce point du navire !");//pareil pour un débris/épave
                 break;
             default:
-                if((typeShip == "submarine")&&(evalCase(plateau,x,y) == 1)){
+                System.out.println("Touché!");//si on touche un navire, alors on applique une déflagration à partir du point d'impact
+                
+                if("subamrine".equals(typeShip)){
                     System.out.println("ET coulé!!!(un sous-marin en moins) Rien ne peut plus vous arrêter!");
                     fixerCase(plateau,x,y,5);    
                 }else{
-                    for(int z=0;z<firePower;z++){//pas tout à fait bon pour notre projet puisque cette méthode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15)){
+                for(int z=0;z<firePower;z++){//pas tout à fait bon pour notre projet puisque cette méthode va dans les 4 directions
+                    if(evalCase(plateau,(x+z),(y))!=0){
+                        do{
                             fixerCase(plateau,(x+z),(y),5);
-                    }if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15)){
+                          }while(x+z<15);
+                    }else if(evalCase(plateau,(x),(y+z))!=0){
+                        do{
                             fixerCase(plateau,(x),(y+z),5);
-                    }if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0)){
+                        }while(y+z<15);
+                    }else if(evalCase(plateau,(x-z),(y))!=0){
+                        do{
                             fixerCase(plateau,(x-z),(y),5);
-                    }if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0)){
+                        }while(x-z>=0);
+                    }else if(evalCase(plateau,(x),(y-z))!=0){
+                        do{
                             fixerCase(plateau,(x),(y-z),5);
+                        }while(y-z>=0);
                     }
-        }    
+                    else{
+                        System.out.println("OU PAS!!!une ombre se déplace dans les profondeurs sans que vous puissiez l'endommager");
+                    }
+                break;
+        }
+        
     }    
     }
   }
   
-  public void fusee_eclairante(Plateau plateau2, Plateau plateau3, String typeShip){
+  public static void fusee_eclairante(Plateau plateau2, Plateau plateau3, String typeShip){
        int x; 
        int y;
        char c;
@@ -108,7 +124,7 @@ public class Ship {
         }
     }
   
-  public void move(Plateau plateau, int size){
+  public static void move(Plateau plateau, int size){
       int x1;
       int y1;
       char c1;
