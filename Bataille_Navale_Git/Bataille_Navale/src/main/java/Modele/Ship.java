@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package Modele;
 
 import java.util.Scanner;
@@ -10,12 +15,13 @@ public class Ship {
     protected int mSize;
     protected int mfirePower;
     protected boolean isVertical;
+    protected static int[][] coordonneesFront;
+    protected static int[][] coordonneesRear;
     protected static int mNbFuseeEclairante=1;
-    protected boolean isAlive = true;
-    protected int xBoat;
-    protected int yBoat;
     
-    public Ship(String typeShip){//constructeur de la classe mÃ¨re Ship
+    public Ship(int size,int firePower, String typeShip){//constructeur de la classe mère Ship
+    this.mSize= size;
+    this.mfirePower= firePower;
     this.mTypeShip=typeShip;
     
     if(!"destroyer".equals(typeShip)){
@@ -28,8 +34,8 @@ public class Ship {
       int y;
       int x;
       char c;
-      System.out.println("rentrez les coordonnees du point d'impact svp(EX: c9");
-        Scanner scanner = new Scanner(System.in);//on rentre les coordonnÃ©es du point d'impact avec un blindage de 0 Ã  14
+      System.out.println("rentrez les coordonnées du point d'impact svp(EX: c9");
+        Scanner scanner = new Scanner(System.in);//on rentre les coordonnées du point d'impact avec un blindage de 0 à 14
         do{
                     c= scanner.next().charAt(0);
                     x=(int)(c-'a');
@@ -39,42 +45,57 @@ public class Ship {
             y= scanner.nextInt();
         }while(y<=0||y>14);
         
-        switch (evalCase(plateau,x,y)) {//en fonction de la valeur d'une case, il y un rÃ©usltat duffÃ©ret qand on tire dessu
+        switch (evalCase(plateau,x,y)) {//en fonction de la valeur d'une case, il y un réusltat dufféret qand on tire dessu
             case 0:
-                System.out.println("PLOUF! A l'eau...");//si on tire dans l'eau rien ne se passe
+                System.out.println("PLOUF!à l'eau...");//si on tire dans l'eau rien ne se passe
                 break;
             case 5:
-                System.out.println("Faites plus attention, vous avez deja  touche ce point du navire !");//pareil pour un dÃ©bris/Ã©pave
+                System.out.println("Faites plus attention, vous avez déjà touché ce point du navire !");//pareil pour un débris/épave
                 break;
             default:
-                if((typeShip == "submarine")&&(evalCase(plateau,x,y) == 1)){
-                    System.out.println("ET coule!!!(un sous-marin en moins) Rien ne peut plus vous arreter!");
+                System.out.println("Touché!");//si on touche un navire, alors on applique une déflagration à partir du point d'impact
+                
+                if("subamrine".equals(typeShip)){
+                    System.out.println("ET coulé!!!(un sous-marin en moins) Rien ne peut plus vous arrêter!");
                     fixerCase(plateau,x,y,5);    
                 }else{
-                    for(int z=0;z<firePower;z++){//pas tout Ã  fait bon pour notre projet puisque cette mÃ©thode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15)){
+                for(int z=0;z<firePower;z++){//pas tout à fait bon pour notre projet puisque cette méthode va dans les 4 directions
+                    if(evalCase(plateau,(x+z),(y))!=0){
+                        do{
                             fixerCase(plateau,(x+z),(y),5);
-                    }if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15)){
+                          }while(x+z<15);
+                    }else if(evalCase(plateau,(x),(y+z))!=0){
+                        do{
                             fixerCase(plateau,(x),(y+z),5);
-                    }if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0)){
+                        }while(y+z<15);
+                    }else if(evalCase(plateau,(x-z),(y))!=0){
+                        do{
                             fixerCase(plateau,(x-z),(y),5);
-                    }if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0)){
+                        }while(x-z>=0);
+                    }else if(evalCase(plateau,(x),(y-z))!=0){
+                        do{
                             fixerCase(plateau,(x),(y-z),5);
+                        }while(y-z>=0);
                     }
-        }    
+                    else{
+                        System.out.println("OU PAS!!!une ombre se déplace dans les profondeurs sans que vous puissiez l'endommager");
+                    }
+                break;
+        }
+        
     }    
     }
   }
   
-  public void fusee_eclairante(Plateau plateau2, Plateau plateau3, String typeShip){
+  public static void fusee_eclairante(Plateau plateau2, Plateau plateau3, String typeShip){
        int x; 
        int y;
        char c;
       if("destroyer".equals(typeShip)){
             Scanner scanner = new Scanner(System.in);
             if(Ship.mNbFuseeEclairante==0){
-                System.out.println("Ce destroyer n'a plus de fusee eclairante, desole!");
-            }else{       System.out.println("rentrez le point d'impact de la fusee eclairante(x,y) svp");
+                System.out.println("Ce destroyer n'a plus de fusée éclairante, désolé!");
+            }else{       System.out.println("rentrez le point d'impact de la fusée éclairante(x,y) svp");
                 
                 do{
                     c= scanner.next().charAt(0);
@@ -96,14 +117,14 @@ public class Ship {
 */
 
                 mNbFuseeEclairante--;
-                System.out.println("les informations qui viennent d'apparaitre sur votre plateau ne resteront pas longtemps, utilisez-les rapidement!");
+                System.out.println("les informations qui viennent d'apparaître sur votre plateau ne resteront pas longtemps, utilisez-les rapidement!");
             }
         }else{
-            System.out.println("le navire n'est pas capable de tirer des fusees eclairantes");
+            System.out.println("le navire n'est pas capable de tirer des fusées éclairantes");
         }
     }
   
-  public void move(Plateau plateau, int size){
+  public static void move(Plateau plateau, int size){
       int x1;
       int y1;
       char c1;
@@ -117,7 +138,7 @@ public class Ship {
       Scanner scanner = new Scanner(System.in);
       
       do{
-            System.out.println("quelles sont les coordonnees de l'avant du bateau que vous voulez bouger?");
+            System.out.println("quelles sont les coordonnées de l'avant du bateau que vous voulez bouger?");
             do{
                 do{
                     c1= scanner.next().charAt(0);
@@ -131,11 +152,11 @@ public class Ship {
                 }while(y1<=0||y1>14);
                 
                 if(evalCase(plateau,x1,y1)==0){
-                    System.out.println("ce ne sont pas les coordonnees de l'avant d'un bateau, il s'agit de la mer, veillez recommencer svp");
+                    System.out.println("çe ne sont pas les coordonnées de l'avant d'un bateau, il s'agit de la mer, veillez recommencer svp");
                 }
             }while(evalCase(plateau,x1,y1)==0);
       
-            System.out.println("quelles sont les coordonnees de l'arriere du bateau que vous voulez bouger?");
+            System.out.println("quelles sont les coordonnées de l'arrière du bateau que vous voulez bouger?");
             do{
                 do{
                     c2= scanner.next().charAt(0);
@@ -149,18 +170,18 @@ public class Ship {
                 }while(y2<=0||y2>14);
                 
                 if(evalCase(plateau,x2,y2)==0){
-                    System.out.println("ce ne sont pas les coordonnees de l'arriere d'un bateau, il s'agit de la mer, veillez recommencer svp");
+                    System.out.println("çe ne sont pas les coordonnées de l'arrière d'un bateau, il s'agit de la mer, veillez recommencer svp");
                 }
             }while(evalCase(plateau,x2,y2)==0);
             
             if(((x1==x2)&&(y1==y2))||(((x1!=(x2+size))&&(x1!=(x2-size)))&&((y1!=(y2+size))&&(y1!=(y2-size))))){
-                System.out.println("l'espace entre les positions de l'avant et de l'arriere du bateau est incoherent, veillez recommencer svp");
+                System.out.println("l'espace entre les positions de l'avant et de l'arrière du bateau est incohérent, veillez recommencer svp");
             }
             
       }while(((x1==x2)&&(y1==y2))||(((x1!=(x2+size))&&(x1!=(x2-size)))&&((y1!=(y2+size))&&(y1!=(y2-size)))));
       
       
-          if(x1==(x2+size)&&(y1==y2)){//le bateau est horizontale et l'avant se trouve Ã  droite de l'arriÃ¨re sur le plateau
+          if(x1==(x2+size)&&(y1==y2)){//le bateau est horizontale et l'avant se trouve à droite de l'arrière sur le plateau
               for(int i=0;i<size;i++){
               switch (evalCase(plateau,(x2+i),y1)) {
                   case 5:
@@ -187,7 +208,7 @@ public class Ship {
                                 fixerCase(plateau,x2,y2,0);
                           }
                       else{
-                           System.out.println("ce bateau ne peut pas avancer, reessayez");
+                           System.out.println("ce bateau ne peut pas avancer, réessayez");
                           }
                       }
                       else{
@@ -198,14 +219,14 @@ public class Ship {
                                 fixerCase(plateau,x1,y1,0);
                           }
                           else{
-                     }         System.out.println("ce bateau ne peut pas reculer, reessayez");
+                     }         System.out.println("ce bateau ne peut pas reculer, réessayez");
                           }
                       }
                       
                       
               }
 
-          if(x1==(x2-size)&&(y1==y2)){//le bateau est horizontale et l'avant se trouve Ã  gauche de l'arriÃ¨re sur le plateau
+          if(x1==(x2-size)&&(y1==y2)){//le bateau est horizontale et l'avant se trouve à gauche de l'arrière sur le plateau
               for(int i=0;i<size;i++){
               switch (evalCase(plateau,(x1+i),y1)) {
                   case 5:
@@ -233,7 +254,7 @@ public class Ship {
                                 fixerCase(plateau,x1,y1,0);
                           }
                            else{
-                                System.out.println("ce bateau ne peut pas reculer, reessayez");
+                                System.out.println("ce bateau ne peut pas reculer, réessayez");
                            }
                       }
                       else{
@@ -244,13 +265,13 @@ public class Ship {
                                 fixerCase(plateau,x2,y2,0);
                           }
                           else{
-                                System.out.println("ce bateau ne peut pas avancer, reessayez");
+                                System.out.println("ce bateau ne peut pas avancer, réessayez");
                           }
                       } 
                   }
 
               }
-          if(y1==(y2+size)&&(x1==x2)){//le bateau est verticale et l'avant se trouve en bas de l'arriÃ¨re sur le plateau
+          if(y1==(y2+size)&&(x1==x2)){//le bateau est verticale et l'avant se trouve en bas de l'arrière sur le plateau
               for(int i=0;i<size;i++){
               switch (evalCase(plateau,x1,(y2+i))) {
                   case 5:
@@ -277,7 +298,7 @@ public class Ship {
                                 fixerCase(plateau,x2,y2,0);
                           }
                           else{
-                               System.out.println("ce bateau ne peut pas avancer, reessayez");
+                               System.out.println("ce bateau ne peut pas avancer, réessayez");
                           }
                       }
                       else{
@@ -288,13 +309,13 @@ public class Ship {
                                 fixerCase(plateau,x1,y1,0);
                           }
                           else{
-                              System.out.println("ce bateau ne peut pas reculer, reessayez");
+                              System.out.println("ce bateau ne peut pas reculer, réessayez");
                           }
                       } 
                   }
               }
               
-          if(y1==(y2+size)&&(x1==x2)){//le bateau est verticale et l'avant se trouve en haut de l'arriÃ¨re sur le plateau
+          if(y1==(y2+size)&&(x1==x2)){//le bateau est verticale et l'avant se trouve en haut de l'arrière sur le plateau
               for(int i=0;i<size;i++){
               switch (evalCase(plateau,x1,(y1+i))) {
                   case 5:
@@ -320,7 +341,7 @@ public class Ship {
                                 fixerCase(plateau,x2,y2,0);
                           }
                           else{
-                               System.out.println("ce bateau ne peut pas avancer, reessayez");
+                               System.out.println("ce bateau ne peut pas avancer, réessayez");
                           }
                       }
                       else{
@@ -331,16 +352,16 @@ public class Ship {
                                 fixerCase(plateau,x1,y1,0);
                           }
                           else{
-                              System.out.println("ce bateau ne peut pas reculer, reessayez");
+                              System.out.println("ce bateau ne peut pas reculer, réessayez");
                           }
                       } 
                    }
               }
       if(marche==false){
-          System.out.println("le bateau ne peut pas se deplacer car il a un emplacement deja  endommage, essayez de tirer plutot");
+          System.out.println("le bateau ne peut pas se déplacer car il a un emplacement déjà endommagé, essayez de tirer plutôt");
       }
       if(wtf==true){
-          System.out.println("vous n'avez pas vraiment saisis les coordonnees de l'avant et arriere d'un navire puisqu'il y a de la mer entre les deux coordonnees, essayez de tirer ou rentrez d'autres coordonnees valides ...");
+          System.out.println("vous n'avez pas vraiment saisis les coordonnées de l'avant et arrière d'un navire puisqu'il y a de la mer entre les deux coordonnées, essayez de tirer ou rentrez d'autres coordonnées valides ...");
       }
   }
 }
