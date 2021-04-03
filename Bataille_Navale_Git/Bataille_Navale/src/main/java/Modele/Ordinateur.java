@@ -5,7 +5,7 @@ import static Modele.Plateau.fixerCase;
 
 public class Ordinateur
 {
-    /*private String name;
+    private String name;
     private int old_i,old_j;    //Ancienne coordonnees utilisees pour abattre un bateau
     private int new_i,new_j;    //Nouvelle coordonnees utilisees pour abattre un bateau
     private boolean sinked;     //Ce booleen passe a true si un bateau a ete coule afin de reprendre la recherche
@@ -22,8 +22,8 @@ public class Ordinateur
     }
 
     //Methode qui va faire jouer l'ordinateur, il faudra au prealable set un i et un j a -1 qui seront les coordonnees par defaut si l'IA n'a pas touche de bateaux
-    //IL FAUT FOURNIR LE PLATEAU ADVERSE
-    public void iaTurn(Plateau plateau, Ship dreadnought, Ship cruiser1, Ship cruiser2, Ship destroyer1, Ship destroyer2, Ship destroyer3, Ship submarine1, Ship submarine2, Ship submarine3, Ship submarine4, boolean submarineShot)
+    //IL FAUT FOURNIR LE PLATEAU ADVERSE, LES PREMIERS NAVIRES SONT CEUX DU JOUEUR, LES AUTRES CEUX DE L'IA
+    public void iaTurn(Plateau plateau, Ship dreadnought, Ship cruiser1, Ship cruiser2, Ship destroyer1, Ship destroyer2, Ship destroyer3, Ship submarine1, Ship submarine2, Ship submarine3, Ship submarine4, boolean submarineShot, Ship dreadnought11, Ship cruiser11, Ship cruiser22, Ship destroyer11, Ship destroyer22, Ship destroyer33, Ship submarine11, Ship submarine22, Ship submarine33, Ship submarine44)
     {
         //Cas ou l'ordinateur n'a pas trouve de bateaux
         if((new_i == -1) && (new_j == -1))
@@ -46,7 +46,7 @@ public class Ordinateur
             //Cas du tir
             if(r == 0)
             {
-                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, true);
+                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
                 //On check la grille adverse pour savoir si on a touche qq chose
                 boolean sortie_de_boucle = false; //A defaut de trouver une meilleure solution
                 for(int p=0;((p<15) && (sortie_de_boucle == false));p++)
@@ -69,6 +69,7 @@ public class Ordinateur
             {
                 fusee_eclairante_IA(plateau,x,y); //IL FAUT CREER LA METHODE FUSEE ECLAIRANTE IA
                 //Si la fusee eclairante touche un bateau adverse, il marque les coordonnees de la case en haut a gauche
+                fusee = fusee + 1; //On indique qu'on a tire une fusee (compte)
                 boolean sortie_de_boucle = false; //A defaut de trouver une meilleure solution
                 for(int p=0;((p<15) && (sortie_de_boucle == false));p++)
                 {
@@ -125,7 +126,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_j = new_j - 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false);
+                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
                     }
                     //On va tirer a droite du point (si on peut)
                     else if(new_j < 14)
@@ -133,7 +134,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_j = new_j + 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false); 
+                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44); 
                     }
                 }
                 if(randomHit == 1)
@@ -145,7 +146,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_i = new_i - 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false);
+                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
                     }
                     //On va tirer en dessous du point (si on peut)
                     else if(new_i < 14)
@@ -153,7 +154,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_i = new_i + 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false); 
+                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44); 
                     }
                 }
             }
@@ -161,10 +162,10 @@ public class Ordinateur
             else if((plateau.grid[new_i][new_j] == 1)||(plateau.grid[new_i][new_j] == 2)||(plateau.grid[new_i][new_j] == 3)||(plateau.grid[new_i][new_j] == 4))
             {
                 //On va tirer tout d'abord au sous marin pour etre sur de toucher, puis eventuellement plus tard, on tirera au plus gros calibres
-                fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, true);
+                fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
             }
             
-            //Si on a pas touchÃ© de bateau au precedent tir, c'est qu'on a mal tirer aleatoirement
+            //Si on a pas touche de bateau au precedent tir, c'est qu'on a mal tirer aleatoirement
             else
             {
                 new_i = old_i;
@@ -184,7 +185,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_j = new_j - 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false);
+                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
                     }
                     //On va tirer a droite du point (si on peut)
                     else if(new_j < 14)
@@ -192,7 +193,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_j = new_j + 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false);
+                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
                     }
                 }
                 if(randomHit == 1)
@@ -204,7 +205,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_i = new_i - 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false);
+                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
                     }
                     //On va tirer en dessous du point (si on peut)
                     else if(new_i < 14)
@@ -212,7 +213,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_i = new_i + 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false); 
+                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44); 
                     }
                 }
             }
@@ -221,177 +222,597 @@ public class Ordinateur
     }
     
     //Methode de tir de l'IA, necessitant les infos de tous les objets Ship ainsi que les coordonnees de tir
-    public boolean fireIA(Plateau plateau, Ship dreadnought, Ship cruiser1, Ship cruiser2, Ship destroyer1, Ship destroyer2, Ship destroyer3, Ship submarine1, Ship submarine2, Ship submarine3, Ship submarine4, int x, int y, boolean submarineShot)
+    public boolean fireIA(Plateau plateau, Ship dreadnought, Ship cruiser1, Ship cruiser2, Ship destroyer1, Ship destroyer2, Ship destroyer3, Ship submarine1, Ship submarine2, Ship submarine3, Ship submarine4,int x, int y, boolean submarineShot, Ship dreadnought11, Ship cruiser11, Ship cruiser22, Ship destroyer11, Ship destroyer22, Ship destroyer33, Ship submarine11, Ship submarine22, Ship submarine33, Ship submarine44)
     {
         boolean sinked = false;
         //On a deux cas, celui ou on ordonne un tir au sous-marin, et le tir regulier
         //Cas du tir au sous-marin
         if(submarineShot)
         {
-            if(evalCase(plateau,x,y) == 1)
+            if((evalCase(plateau,x,y) == 1)||(evalCase(plateau,x,y) == 2))
             {
                     fixerCase(plateau,x,y,5);
                     sinked = true;
                     return sinked;
             }
-            
-            if(dreadnought.isAlive)
+        }
+        //Cas general, ou on tire au plus gros calibre
+        else
+        {
+            if(dreadnought11.isAlive)
             {
-                    for(int z=0;z<dreadnought.mfirePower;z++)
-                    {//pas tout Ã  fait bon pour notre projet puisque cette mÃ©thode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15)){
+                for(int z=0;z<dreadnought11.mfirePower;z++)
+                {   
+                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
+                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                    {
                             fixerCase(plateau,(x+z),(y),5);
-                    }if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15)){
+                    }
+                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                    {
                             fixerCase(plateau,(x),(y+z),5);
-                    }if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0)){
+                    }
+                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                    {
                             fixerCase(plateau,(x-z),(y),5);
-                    }if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0)){
+                    }
+                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
+                    {
                             fixerCase(plateau,(x),(y-z),5);
                     }
-                    }
+                }
             }
-            else if(cruiser1.isAlive)
+            else if(cruiser11.isAlive)
             {
-                for(int z=0;z<cruiser1.mfirePower;z++)
-                    {//pas tout Ã  fait bon pour notre projet puisque cette mÃ©thode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15)){
+                for(int z=0;z<cruiser11.mfirePower;z++)
+                {   
+                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
+                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                    {
                             fixerCase(plateau,(x+z),(y),5);
-                    }if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15)){
+                    }
+                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                    {
                             fixerCase(plateau,(x),(y+z),5);
-                    }if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0)){
+                    }
+                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                    {
                             fixerCase(plateau,(x-z),(y),5);
-                    }if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0)){
+                    }
+                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
+                    {
                             fixerCase(plateau,(x),(y-z),5);
                     }
-                    }
+                }
             }
-            else if(cruiser2.isAlive)
+            else if(cruiser22.isAlive)
             {
-                for(int z=0;z<cruiser2.mfirePower;z++)
-                    {//pas tout Ã  fait bon pour notre projet puisque cette mÃ©thode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15)){
+                for(int z=0;z<cruiser22.mfirePower;z++)
+                {   
+                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
+                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                    {
                             fixerCase(plateau,(x+z),(y),5);
-                    }if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15)){
+                    }
+                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                    {
                             fixerCase(plateau,(x),(y+z),5);
-                    }if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0)){
+                    }
+                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                    {
                             fixerCase(plateau,(x-z),(y),5);
-                    }if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0)){
+                    }
+                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
+                    {
                             fixerCase(plateau,(x),(y-z),5);
                     }
-                    }
+                }
             }
-            else if(destroyer1.isAlive)
+            else if(destroyer11.isAlive)
             {
-                for(int z=0;z<destroyer1.mfirePower;z++)
-                    {//pas tout Ã  fait bon pour notre projet puisque cette mÃ©thode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15)){
+                for(int z=0;z<destroyer11.mfirePower;z++)
+                {
+                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
+                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                    {
                             fixerCase(plateau,(x+z),(y),5);
-                    }if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15)){
+                    }
+                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                    {
                             fixerCase(plateau,(x),(y+z),5);
-                    }if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0)){
+                    }
+                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                    {
                             fixerCase(plateau,(x-z),(y),5);
-                    }if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0)){
+                    }
+                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
+                    {
                             fixerCase(plateau,(x),(y-z),5);
                     }
-                    }
+                }
             }
-            else if(destroyer2.isAlive)
+            else if(destroyer22.isAlive)
             {
-                for(int z=0;z<destroyer2.mfirePower;z++)
-                    {//pas tout Ã  fait bon pour notre projet puisque cette mÃ©thode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15)){
+                for(int z=0;z<destroyer22.mfirePower;z++)
+                {   
+                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
+                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                    {
                             fixerCase(plateau,(x+z),(y),5);
-                    }if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15)){
+                    }
+                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                    {
                             fixerCase(plateau,(x),(y+z),5);
-                    }if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0)){
+                    }
+                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                    {
                             fixerCase(plateau,(x-z),(y),5);
-                    }if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0)){
+                    }
+                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
+                    {
                             fixerCase(plateau,(x),(y-z),5);
                     }
-                    }
+                }
             }
-            else if(destroyer3.isAlive)
+            else if(destroyer33.isAlive)
             {
-                for(int z=0;z<destroyer3.mfirePower;z++)
-                    {//pas tout Ã  fait bon pour notre projet puisque cette mÃ©thode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15)){
+                for(int z=0;z<destroyer33.mfirePower;z++)
+                {
+                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
+                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                    {
                             fixerCase(plateau,(x+z),(y),5);
-                    }if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15)){
+                    }
+                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                    {
                             fixerCase(plateau,(x),(y+z),5);
-                    }if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0)){
+                    }
+                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                    {
                             fixerCase(plateau,(x-z),(y),5);
-                    }if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0)){
+                    }
+                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
+                    {
                             fixerCase(plateau,(x),(y-z),5);
                     }
-                    }
+                }
             }
-            else if(submarine1.isAlive)
+            else if(submarine11.isAlive)
             {
-                for(int z=0;z<submarine1.mfirePower;z++)
-                    {//pas tout Ã  fait bon pour notre projet puisque cette mÃ©thode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15)){
+                for(int z=0;z<submarine11.mfirePower;z++)
+                {
+                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
+                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                    {
                             fixerCase(plateau,(x+z),(y),5);
-                    }if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15)){
+                    }
+                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                    {
                             fixerCase(plateau,(x),(y+z),5);
-                    }if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0)){
+                    }
+                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                    {
                             fixerCase(plateau,(x-z),(y),5);
-                    }if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0)){
+                    }
+                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
+                    {
                             fixerCase(plateau,(x),(y-z),5);
                     }
-                    }
+                }
             }
-            else if(submarine2.isAlive)
+            else if(submarine22.isAlive)
             {
-                for(int z=0;z<submarine2.mfirePower;z++)
-                    {//pas tout Ã  fait bon pour notre projet puisque cette mÃ©thode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15)){
+                for(int z=0;z<submarine22.mfirePower;z++)
+                {
+                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
+                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                    {
                             fixerCase(plateau,(x+z),(y),5);
-                    }if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15)){
+                    }
+                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                    {
                             fixerCase(plateau,(x),(y+z),5);
-                    }if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0)){
+                    }
+                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                    {
                             fixerCase(plateau,(x-z),(y),5);
-                    }if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0)){
+                    }
+                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
+                    {
                             fixerCase(plateau,(x),(y-z),5);
                     }
-                    }
+                }
             }
-            else if(submarine3.isAlive)
+            else if(submarine33.isAlive)
             {
-                for(int z=0;z<submarine3.mfirePower;z++)
-                    {//pas tout Ã  fait bon pour notre projet puisque cette mÃ©thode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15)){
+                for(int z=0;z<submarine33.mfirePower;z++)
+                {
+                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
+                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                    {
                             fixerCase(plateau,(x+z),(y),5);
-                    }if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15)){
+                    }
+                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                    {
                             fixerCase(plateau,(x),(y+z),5);
-                    }if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0)){
+                    }
+                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                    {
                             fixerCase(plateau,(x-z),(y),5);
-                    }if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0)){
+                    }
+                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
+                    {
                             fixerCase(plateau,(x),(y-z),5);
                     }
-                    }
+                }
             }
-            else if(submarine4.isAlive)
+            else if(submarine44.isAlive)
             {
-                for(int z=0;z<submarine4.mfirePower;z++)
-                    {//pas tout Ã  fait bon pour notre projet puisque cette mÃ©thode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15)){
+                for(int z=0;z<submarine44.mfirePower;z++)
+                {
+                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
+                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                    {
                             fixerCase(plateau,(x+z),(y),5);
-                    }if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15)){
+                    }
+                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                    {
                             fixerCase(plateau,(x),(y+z),5);
-                    }if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0)){
+                    }
+                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                    {
                             fixerCase(plateau,(x-z),(y),5);
-                    }if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0)){
+                    }
+                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
+                    {
                             fixerCase(plateau,(x),(y-z),5);
                     }
-                    }
+                }
             }
         }
         
         //On actualise alors l'etat de tous les bateaux. Pour ce faire, on parcourt les coordonnees de chaque case des bateaux. 
         //Si celles-ci sont toutes a 5, on passe isAlive a false
         
+        //Pour chaque bateau, on regarde si il est vertical ou horizontal, et on update ses cases en fonction
+        if(dreadnought.isVertical)
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int i=0;i<dreadnought.mSize;i++)
+            {
+                if(plateau.grid[dreadnought.xBoat+i][dreadnought.yBoat] == 4)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            dreadnought.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        else
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int j=0;j<dreadnought.mSize;j++)
+            {
+                if(plateau.grid[dreadnought.xBoat][dreadnought.yBoat+j] == 4)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            dreadnought.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
         
         
+        if(cruiser1.isVertical)
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int i=0;i<cruiser1.mSize;i++)
+            {
+                if(plateau.grid[cruiser1.xBoat+i][cruiser1.yBoat] == 3)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            cruiser1.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        else
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int j=0;j<cruiser1.mSize;j++)
+            {
+                if(plateau.grid[cruiser1.xBoat][cruiser1.yBoat+j] == 3)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            cruiser1.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        
+        
+        if(cruiser2.isVertical)
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int i=0;i<cruiser2.mSize;i++)
+            {
+                if(plateau.grid[cruiser2.xBoat+i][cruiser2.yBoat] == 3)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            cruiser2.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        else
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int j=0;j<cruiser2.mSize;j++)
+            {
+                if(plateau.grid[cruiser2.xBoat][cruiser2.yBoat+j] == 3)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            cruiser2.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        
+        
+        if(destroyer1.isVertical)
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int i=0;i<destroyer1.mSize;i++)
+            {
+                if(plateau.grid[destroyer1.xBoat+i][destroyer1.yBoat] == 2)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            destroyer1.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        else
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int j=0;j<destroyer1.mSize;j++)
+            {
+                if(plateau.grid[destroyer1.xBoat][destroyer1.yBoat+j] == 2)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            destroyer1.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        
+        
+        if(destroyer2.isVertical)
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int i=0;i<destroyer2.mSize;i++)
+            {
+                if(plateau.grid[destroyer2.xBoat+i][destroyer2.yBoat] == 2)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            destroyer2.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        else
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int j=0;j<destroyer2.mSize;j++)
+            {
+                if(plateau.grid[destroyer2.xBoat][destroyer2.yBoat+j] == 2)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            destroyer2.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        
+        
+        if(destroyer3.isVertical)
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int i=0;i<destroyer3.mSize;i++)
+            {
+                if(plateau.grid[destroyer3.xBoat+i][destroyer3.yBoat] == 2)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            destroyer3.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        else
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int j=0;j<destroyer3.mSize;j++)
+            {
+                if(plateau.grid[destroyer3.xBoat][destroyer3.yBoat+j] == 2)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            destroyer3.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        
+        
+        if(submarine1.isVertical)
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int i=0;i<submarine1.mSize;i++)
+            {
+                if(plateau.grid[submarine1.xBoat+i][submarine1.yBoat] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            submarine1.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        else
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int j=0;j<submarine1.mSize;j++)
+            {
+                if(plateau.grid[submarine1.xBoat][submarine1.yBoat+j] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            submarine1.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        
+        
+        if(submarine2.isVertical)
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int i=0;i<submarine2.mSize;i++)
+            {
+                if(plateau.grid[submarine2.xBoat+i][submarine2.yBoat] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            submarine2.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        else
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int j=0;j<submarine2.mSize;j++)
+            {
+                if(plateau.grid[submarine2.xBoat][submarine2.yBoat+j] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            submarine2.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        
+        
+        if(submarine3.isVertical)
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int i=0;i<submarine3.mSize;i++)
+            {
+                if(plateau.grid[submarine3.xBoat+i][submarine3.yBoat] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            submarine3.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        else
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int j=0;j<submarine3.mSize;j++)
+            {
+                if(plateau.grid[submarine3.xBoat][submarine3.yBoat+j] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            submarine3.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        
+        
+        if(submarine4.isVertical)
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int i=0;i<submarine4.mSize;i++)
+            {
+                if(plateau.grid[submarine4.xBoat+i][submarine4.yBoat] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            submarine4.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
+        else
+        {
+            boolean alive = false; //Par defaut, le bateau est considere comme coule
+            for(int j=0;j<submarine4.mSize;j++)
+            {
+                if(plateau.grid[submarine4.xBoat][submarine4.yBoat+j] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+                {
+                    alive = true;
+                }
+            }
+            submarine4.isAlive = alive;
+            if(!alive)
+            {
+                sinked = true;
+            }
+        }
         return sinked;
-    }  */  
+    }
 }
