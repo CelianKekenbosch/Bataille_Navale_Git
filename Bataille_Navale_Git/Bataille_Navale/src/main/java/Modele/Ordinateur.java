@@ -31,7 +31,7 @@ public class Ordinateur
             //On va generer un entier egal a 0,1,2 ou 3. Si il est egal a 1 ou 2, l'ordinateur tentera de tirer une fusee eclairante, si c'est 3, il bougera un bateau
             int r;
             do{
-            r = 0 + (int)(Math.random() * ((3-0)+1));
+            r = 0 + (int)(Math.random() * ((2-0)+1));   //PAS LE 3 POUR LE MOMENT
             }while((fusee == 3)&&((r == 1)||(r == 2))); //Si on a plus de fusee, on recommence
 
             //On va generer deux entier aleatoire representant les coordonnees d'un tir (entre 0 et 14)
@@ -41,7 +41,7 @@ public class Ordinateur
             do{
             x = 0 + (int)(Math.random() * ((14-0)+1));
             y = 0 + (int)(Math.random() * ((14-0)+1));
-            }while(plateau.grid[x][y] == 2);
+            }while(plateau.grid[x][y] == 5);
             
             //Cas du tir
             if(r == 0)
@@ -53,7 +53,7 @@ public class Ordinateur
                 {
                     for(int q=0;((q<15) && (sortie_de_boucle == false));q++)
                     {
-                        if(plateau.grid[p][q] == 2) //Si la grille anonyme revele une epave
+                        if(plateau.grid[p][q] == 5) //Si la grille anonyme revele une epave
                         {
                             //On marque les coordonnees de l'impact, qui seront recuperees par la suite
                             new_i = p; 
@@ -67,15 +67,15 @@ public class Ordinateur
             //Cas fusee eclairante
             if((r == 1)||(r == 2))
             {
-                fusee_eclairante_IA(plateau,x,y); //IL FAUT CREER LA METHODE FUSEE ECLAIRANTE IA
+                fusee_eclairante_IA(plateau, x, y, destroyer11, destroyer22, destroyer33); //IL FAUT CREER LA METHODE FUSEE ECLAIRANTE IA
                 //Si la fusee eclairante touche un bateau adverse, il marque les coordonnees de la case en haut a gauche
                 fusee = fusee + 1; //On indique qu'on a tire une fusee (compte)
                 boolean sortie_de_boucle = false; //A defaut de trouver une meilleure solution
-                for(int p=0;((p<15) && (sortie_de_boucle == false));p++)
+                for(int p=x;((p<15) && (sortie_de_boucle == false) && (p<x+5));p++)
                 {
-                    for(int q=0;((q<15) && (sortie_de_boucle == false));q++)
+                    for(int q=y;((q<15) && (sortie_de_boucle == false) && (q<y+5));q++)
                     {
-                        if(plateau.grid[p][q] == 1) //Si la grille anonyme revele une presence
+                        if((plateau.grid[p][q] != 5)&&(plateau.grid[p][q] != 0)) //Si la grille anonyme revele une presence
                         {
                             //On marque les nouveles coordonnees
                             new_i = p; 
@@ -86,11 +86,11 @@ public class Ordinateur
                 }
             }
             
-            //Cas mouvement bateau
+            /*//Cas mouvement bateau
             if(r == 3)
             {
                 moveIA(); //IL FAUT FINIR LA METHODE MOVE
-            }
+            }*/
         }
         
         //Si on a coulÃ© un navire, on reset les coordonnees de tir
@@ -814,5 +814,22 @@ public class Ordinateur
             }
         }
         return sinked;
+    }
+    
+    //Methode qui va modifier les champs fusee eclairante
+    public void fusee_eclairante_IA(Plateau plateau, int x, int y, Ship destroyer11, Ship destroyer22, Ship destroyer33)
+    {
+        if(destroyer11.mNbFuseeEclairante == 1)
+        {
+            destroyer11.mNbFuseeEclairante = 0; 
+        }
+        else if(destroyer22.mNbFuseeEclairante == 1)
+        {
+            destroyer22.mNbFuseeEclairante = 0;
+        }
+        else if(destroyer33.mNbFuseeEclairante == 1)
+        {
+            destroyer33.mNbFuseeEclairante = 0;
+        }
     }
 }
