@@ -131,8 +131,10 @@ public static void fire(Plateau plateau,int firePower, String typeShip)
       boolean wtf=false;
       char movement;
       int ok=0;
+      String direction;
       Scanner scanner = new Scanner(System.in);
       
+      if(size!=1){
       do{
             System.out.println("quelles sont les coordonnees de l'avant du bateau que vous voulez bouger?");
             do{
@@ -170,11 +172,11 @@ public static void fire(Plateau plateau,int firePower, String typeShip)
                 }
             }while(evalCase(plateau,x2,y2)==0);
             
-            if(((x1==x2)&&(y1==y2))||(((x1!=(x2+size))&&(x1!=(x2-size)))&&((y1!=(y2+size))&&(y1!=(y2-size))))){
+            if(((x1==x2)&&(y1==y2))||(((x1!=(x2+(size-1)))&&(x1!=(x2-(size-1))))&&((y1!=(y2+(size-1)))&&(y1!=(y2-(size-1)))))){
                 System.out.println("l'espace entre les positions de l'avant et de l'arriere du bateau est incoherent, veillez recommencer svp");
             }
             
-      }while(((x1==x2)&&(y1==y2))||(((x1!=(x2+size))&&(x1!=(x2-size)))&&((y1!=(y2+size))&&(y1!=(y2-size)))));
+      }while(((x1==x2)&&(y1==y2))||(((x1!=(x2+(size-1)))&&(x1!=(x2-(size-1))))&&((y1!=(y2+(size-1)))&&(y1!=(y2-(size-1))))));
       
       
           if(x1==(x2+size)&&(y1==y2)){//le bateau est horizontale et l'avant se trouve Ã  droite de l'arriÃ¨re sur le plateau
@@ -358,6 +360,69 @@ public static void fire(Plateau plateau,int firePower, String typeShip)
       }
       if(wtf==true){
           System.out.println("vous n'avez pas vraiment saisis les coordonnees de l'avant et arriere d'un navire puisqu'il y a de la mer entre les deux coordonnees, essayez de tirer ou rentrez d'autres coordonnees valides ...");
+      }
+      }
+      else{
+          do{
+                System.out.println("quelles sont les coordonnees du bateau que vous voulez bouger?");
+                do{
+                    c1= scanner.next().charAt(0);
+                    x1=(int)(c1-'a');
+                
+                }while(x1<=0||x1>14);
+      
+                do{
+                    y1= scanner.nextInt();
+                
+                }while(y1<=0||y1>14);
+                
+                if(evalCase(plateau,x1,y1)==0){
+                    System.out.println("ce ne sont pas les coordonnees de l'avant d'un bateau, il s'agit de la mer, veillez recommencer svp");
+                }
+                
+            }while(evalCase(plateau,x1,y1)==0);
+          if((evalCase(plateau,x1,y1)!=0)){
+              do{
+                  direction=scanner.nextLine();
+              }while((!"haut".equals(direction))&&(!"bas".equals(direction))&&(!"gauche".equals(direction))&&(!"droite".equals(direction)));
+              if("gauche".equals(direction)){
+                  if(((evalCase(plateau,x1,(y1-1)))!=0)||((y1-1)<0)){
+                      System.out.println("ce bateau ne peut pas se deplacer vers la gauche, reessayer svp");
+                  }
+                  else{
+                      fixerCase(plateau,x1,(y1-1),(evalCase(plateau,x1,y1)));
+                      fixerCase(plateau,x1,y1,0);
+                  }
+                  
+              }
+              if("droite".equals(direction)){
+                  if(((evalCase(plateau,x1,(y1+1)))!=0)||((y1+1)>14)){
+                      System.out.println("ce bateau ne peut pas se deplacer vers la droite, reessayer svp");
+                  }
+                  else{
+                      fixerCase(plateau,x1,(y1+1),(evalCase(plateau,x1,y1)));
+                      fixerCase(plateau,x1,y1,0);
+                  }
+              }
+              if("haut".equals(direction)){
+                  if(((evalCase(plateau,(x1-1),y1))!=0)||((x1-1)<0)){
+                      System.out.println("ce bateau ne peut pas se deplacer vers le haut, reessayer svp");
+                  }
+                  else{
+                      fixerCase(plateau,(x1-1),y1,(evalCase(plateau,x1,y1)));
+                      fixerCase(plateau,x1,y1,0);
+                  }
+              }
+              if("bas".equals(direction)){
+                  if(((evalCase(plateau,(x1-1),y1))!=0)||((x1+1)>14)){
+                      System.out.println("ce bateau ne peut pas se deplacer vers le bas, reessayer svp");
+                  }
+                  else{
+                      fixerCase(plateau,(x1+1),y1,(evalCase(plateau,x1,y1)));
+                      fixerCase(plateau,x1,y1,0);
+                  }
+              }
+           }
       }
   }
 }
