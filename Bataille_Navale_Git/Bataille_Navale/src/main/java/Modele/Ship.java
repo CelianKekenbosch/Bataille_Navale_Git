@@ -23,48 +23,65 @@ public class Ship {
     }
 }
     
-  public static void fire(Plateau plateau,int firePower, String typeShip){
+public static void fire(Plateau plateau,int firePower, String typeShip)
+{   
+    int x,y;
+    char c;
+    Scanner input = new Scanner(System.in);
+    do{
+        System.out.println("Rentrez l'abcisse du point d'impact svp (entre 0 et 14)");
+        y = input.nextInt();
+    }while((y<0)||(y>14));
+      
+      
+    do{
+        System.out.println("Rentrez l'ordonnee du point d'impact svp (entre a et o)");
+        c = input.next().charAt(0);
+        x=(int)(c -'a');
+    }while((x<0)||(x>14));
+
         
-      int y;
-      int x;
-      char c;
-      System.out.println("rentrez les coordonnees du point d'impact svp(EX: c9");
-        Scanner scanner = new Scanner(System.in);//on rentre les coordonnÃ©es du point d'impact avec un blindage de 0 Ã  14
-        do{
-                    c= scanner.next().charAt(0);
-                    x=(int)(c-'a');
-        }while(x<=0||x>14);
-        
-        do{
-            y= scanner.nextInt();
-        }while(y<=0||y>14);
-        
-        switch (evalCase(plateau,x,y)) {//en fonction de la valeur d'une case, il y un rÃ©usltat duffÃ©ret qand on tire dessu
-            case 0:
-                System.out.println("PLOUF! A l'eau...");//si on tire dans l'eau rien ne se passe
-                break;
-            case 5:
-                System.out.println("Faites plus attention, vous avez deja  touche ce point du navire !");//pareil pour un dÃ©bris/Ã©pave
-                break;
-            default:
-                if(("submarine".equals(typeShip))&&(evalCase(plateau,x,y) == 1)){
-                    System.out.println("ET coule!!!(un sous-marin en moins) Rien ne peut plus vous arreter!");
-                    fixerCase(plateau,x,y,5);    
-                }else{
-                    for(int z=0;z<firePower;z++){//pas tout Ã  fait bon pour notre projet puisque cette mÃ©thode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15)){
+
+    switch(evalCase(plateau,x,y)) 
+    {
+        //en fonction de la valeur d'une case, il y un resultat different quand on tire dessus
+        case 0:
+            System.out.println("PLOUF! A l'eau...");//si on tire dans l'eau rien ne se passe
+            break;
+        case 5:
+            System.out.println("Faites plus attention, vous avez deja  touche ce point du navire !");   //pareil pour un debris/epave
+            break;
+        default:
+            if(("submarine".equals(typeShip))&&(evalCase(plateau,x,y) == 1))
+            {
+                System.out.println("ET coule!!!(un sous-marin en moins) Rien ne peut plus vous arreter!");
+                fixerCase(plateau,x,y,5);    
+            }
+            else
+            {
+                for(int z=0;z<firePower;z++)
+                {
+                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
+                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                    {
                             fixerCase(plateau,(x+z),(y),5);
-                    }if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15)){
+                    }
+                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                    {
                             fixerCase(plateau,(x),(y+z),5);
-                    }if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0)){
+                    }
+                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                    {
                             fixerCase(plateau,(x-z),(y),5);
-                    }if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0)){
+                    }
+                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
+                    {
                             fixerCase(plateau,(x),(y-z),5);
                     }
-        }    
-    }    
+                }    
+            }    
     }
-  }
+}
   
   public static void fusee_eclairante(Plateau plateau2, Plateau plateau3, String typeShip){
        int x; 

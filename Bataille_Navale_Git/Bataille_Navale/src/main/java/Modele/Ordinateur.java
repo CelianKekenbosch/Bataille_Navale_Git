@@ -42,11 +42,13 @@ public class Ordinateur
             x = 0 + (int)(Math.random() * ((14-0)+1));
             y = 0 + (int)(Math.random() * ((14-0)+1));
             }while(plateau.grid[x][y] == 5);
+            System.out.println(x);
+            System.out.println(y);
             
             //Cas du tir
             if(r == 0)
             {
-                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, x, y, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
                 //On check la grille adverse pour savoir si on a touche qq chose
                 boolean sortie_de_boucle = false; //A defaut de trouver une meilleure solution
                 for(int p=0;((p<15) && (sortie_de_boucle == false));p++)
