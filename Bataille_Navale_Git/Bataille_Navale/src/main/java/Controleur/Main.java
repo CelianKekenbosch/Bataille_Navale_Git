@@ -6,6 +6,7 @@ import java.util.Scanner;
 import static Modele.Ship.move;
 import static Modele.Ship.fusee_eclairante;
 //import static Modele.Ship.fire;
+import static Modele.Plateau.randomPositionOneBoat;
 
 public class Main {
 
@@ -47,43 +48,66 @@ public class Main {
                 initValPlateau(plateauTir);//on initialise chaque case du plateau de tir du joueur a la valeur de la mer
                 initValPlateau(plateauIA);//on initialise chaque case du plateau des bateaux du joueur a la valeur de la mer
                 plateau.convertGridIntoPlateau(plateau.grid);
-                plateauTir.convertGridIntoPlateau(plateauTir.grid);//c une differente methode de convertion pour cette grille
+                plateauTir.convertGridIntoPlateau(plateauTir.grid);
                 plateauIA.convertGridIntoPlateau(plateauIA.grid);
+                //on cre la flotte du joueur 
+                Ship s1 = new Ship("submarine");
+                Ship s2 = new Ship("submarine");
+                Ship s3 = new Ship("submarine");
+                Ship s4 = new Ship("submarine");
+                Ship d1 = new Ship("destroyer");
+                Ship d2 = new Ship("destroyer");
+                Ship d3 = new Ship("destroyer");
+                Ship c1 = new Ship("cruiser");
+                Ship c2 = new Ship("cruiser");
+                Ship D1 = new Ship("dreadnought");
                 //on appelle 10x  randomPositionOneBoat() pour les differents bateaux du joueur
-                /* 
-                s1= new Ship("submarine");
-                s2= new Ship("submarine");
-                s3= new Ship("submarine");
-                s4= new Ship("submarine");
-                d1= new Ship("destroyer");
-                d2= new Ship("destroyer");
-                d3= new Ship("destroyer");
-                c1= new Ship("cruiser");
-                c2= new Ship("cruiser");
-                D1= new Ship("dreadnought");
+                randomPositionOneBoat(plateau.grid,s1.mSize,s1.mTypeShip);
+                randomPositionOneBoat(plateau.grid,s2.mSize,s2.mTypeShip);
+                randomPositionOneBoat(plateau.grid,s3.mSize,s3.mTypeShip);
+                randomPositionOneBoat(plateau.grid,s3.mSize,s4.mTypeShip);
+                randomPositionOneBoat(plateau.grid,d1.mSize,d1.mTypeShip);
+                randomPositionOneBoat(plateau.grid,d2.mSize,d2.mTypeShip);
+                randomPositionOneBoat(plateau.grid,d3.mSize,d3.mTypeShip);
+                randomPositionOneBoat(plateau.grid,c1.mSize,c1.mTypeShip);
+                randomPositionOneBoat(plateau.grid,c2.mSize,c2.mTypeShip);
+                randomPositionOneBoat(plateau.grid,D1.mSize,D1.mTypeShip);
                 
-                */
+                plateau.convertGridIntoPlateau(plateau.grid);
+
+                //on cre la flotte de l'ordinateur
+                Ship IAs1= new Ship("submarine");
+                Ship IAs2= new Ship("submarine");
+                Ship IAs3= new Ship("submarine");
+                Ship IAs4= new Ship("submarine");
+                Ship IAd1= new Ship("destroyer");
+                Ship IAd2= new Ship("destroyer");
+                Ship IAd3= new Ship("destroyer");
+                Ship IAc1= new Ship("cruiser");
+                Ship IAc2= new Ship("cruiser");
+                Ship IAD1= new Ship("dreadnought");
                 //on appelle 10x  randomPositionOneBoat() pour les differents bateaux de l'ordinateur
-                /* 
-                IAs1= new Ship("submarine");
-                IAs2= new Ship("submarine");
-                IAs3= new Ship("submarine");
-                IAs4= new Ship("submarine");
-                IAd1= new Ship("destroyer");
-                IAd2= new Ship("destroyer");
-                IAd3= new Ship("destroyer");
-                IAc1= new Ship("cruiser");
-                IAc2= new Ship("cruiser");
-                IAD1= new Ship("dreadnought");
+                randomPositionOneBoat(plateau.grid,IAs1.mSize,IAs1.mTypeShip);
+                randomPositionOneBoat(plateau.grid,IAs2.mSize,IAs2.mTypeShip);
+                randomPositionOneBoat(plateau.grid,IAs3.mSize,IAs3.mTypeShip);
+                randomPositionOneBoat(plateau.grid,IAs3.mSize,IAs4.mTypeShip);
+                randomPositionOneBoat(plateau.grid,IAd1.mSize,IAd1.mTypeShip);
+                randomPositionOneBoat(plateau.grid,IAd2.mSize,IAd2.mTypeShip);
+                randomPositionOneBoat(plateau.grid,IAd3.mSize,IAd3.mTypeShip);
+                randomPositionOneBoat(plateau.grid,IAc1.mSize,IAc1.mTypeShip);
+                randomPositionOneBoat(plateau.grid,IAc2.mSize,IAc2.mTypeShip);
+                randomPositionOneBoat(plateau.grid,IAD1.mSize,IAD1.mTypeShip);
+          
                 
-                */
                 do{
                     
                     
                     System.out.println("C'est votre tour, choissisez votre prochaine action:");
                     System.out.println("");
+                    System.out.println("Position de votre flotte:");
                     plateau.affichePlateau();
                     System.out.println(" ");
+                    System.out.println("Detruisez la flotte de l'ordinateur:");
                     plateauTir.affichePlateau();
                     System.out.println("1. tirer avec un bateau");
                     System.out.println("");
@@ -95,7 +119,7 @@ public class Main {
                     System.out.println("");
                     System.out.println("5. Quitter et sauvegarder la partie actuelle ");
                     System.out.println("");
-                    System.out.println("6. Afficher le plateau de l'odinateur(juste pour la soutenance ");
+                    System.out.println("6. Afficher le plateau de l'odinateur(juste pour la soutenance) ");
                     Scanner scannerAction = new Scanner(System.in);
                     action=scannerAction.nextInt();
                     switch(action){
@@ -145,8 +169,6 @@ public class Main {
                 
                 break;
         }
-        
-        
 
     }
     

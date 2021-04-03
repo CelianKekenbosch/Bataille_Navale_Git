@@ -94,7 +94,7 @@ public class Plateau {
             {
                 System.out.print(plateau[i][j]);
             }
-            System.out.println(" ");
+            System.out.println(" ");   
         }
     }
     
@@ -195,7 +195,7 @@ public class Plateau {
         }
     }
     
-    public void randomPositionOneBoat(int grid[][], int boatSize, String typeShip)
+    public static void randomPositionOneBoat(int grid[][], int boatSize, String typeShip)
     {
         //On declare les coordonnees aleatoires que l'on va utiliser
         int i,j,cote;
@@ -213,7 +213,7 @@ public class Plateau {
             cote = 1 + (int)(Math.random() * ((2-1)+1));    //1 represente la verticale et 2 l'horizontale
             
             //Pour tester le random
-            System.out.println(i+j+cote);
+            /*System.out.println(i+j+cote);*/
             
             if((i+boatSize > 14) || (j+boatSize > 14))
             {

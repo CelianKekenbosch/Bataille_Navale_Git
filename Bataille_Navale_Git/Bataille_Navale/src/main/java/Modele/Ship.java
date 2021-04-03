@@ -6,8 +6,8 @@ import static Modele.Plateau.fixerCase;
 
 public class Ship {
 
-    protected String mTypeShip;
-    protected int mSize;
+    public String mTypeShip;
+    public int mSize;
     protected int mfirePower;
     protected boolean isVertical;
     protected static int mNbFuseeEclairante=1;
@@ -23,7 +23,7 @@ public class Ship {
     }
 }
     
-  public void fire(Plateau plateau,int firePower, String typeShip){
+  public static void fire(Plateau plateau,int firePower, String typeShip){
         
       int y;
       int x;
@@ -47,7 +47,7 @@ public class Ship {
                 System.out.println("Faites plus attention, vous avez deja  touche ce point du navire !");//pareil pour un dÃ©bris/Ã©pave
                 break;
             default:
-                if((typeShip == "submarine")&&(evalCase(plateau,x,y) == 1)){
+                if(("submarine".equals(typeShip))&&(evalCase(plateau,x,y) == 1)){
                     System.out.println("ET coule!!!(un sous-marin en moins) Rien ne peut plus vous arreter!");
                     fixerCase(plateau,x,y,5);    
                 }else{
@@ -66,7 +66,7 @@ public class Ship {
     }
   }
   
-  public void fusee_eclairante(Plateau plateau2, Plateau plateau3, String typeShip){
+  public static void fusee_eclairante(Plateau plateau2, Plateau plateau3, String typeShip){
        int x; 
        int y;
        char c;
@@ -103,7 +103,7 @@ public class Ship {
         }
     }
   
-  public void move(Plateau plateau, int size){
+  public static void move(Plateau plateau, int size){
       int x1;
       int y1;
       char c1;
