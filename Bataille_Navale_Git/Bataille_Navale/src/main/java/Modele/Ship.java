@@ -11,7 +11,7 @@ public class Ship {
     protected int mfirePower;
     protected boolean isVertical;
     protected static int mNbFuseeEclairante=1;
-    protected boolean isAlive = true;
+    public boolean isAlive = true;
     protected int xBoat;
     protected int yBoat;
     

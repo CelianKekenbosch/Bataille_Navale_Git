@@ -23,7 +23,7 @@ public class Ordinateur
 
     //Methode qui va faire jouer l'ordinateur, il faudra au prealable set un i et un j a -1 qui seront les coordonnees par defaut si l'IA n'a pas touche de bateaux
     //IL FAUT FOURNIR LE PLATEAU ADVERSE, LES PREMIERS NAVIRES SONT CEUX DU JOUEUR, LES AUTRES CEUX DE L'IA
-    public void iaTurn(Plateau plateau, Ship dreadnought, Ship cruiser1, Ship cruiser2, Ship destroyer1, Ship destroyer2, Ship destroyer3, Ship submarine1, Ship submarine2, Ship submarine3, Ship submarine4, boolean submarineShot, Ship dreadnought11, Ship cruiser11, Ship cruiser22, Ship destroyer11, Ship destroyer22, Ship destroyer33, Ship submarine11, Ship submarine22, Ship submarine33, Ship submarine44)
+    public void iaTurn(Plateau plateau, Ship dreadnought, Ship cruiser1, Ship cruiser2, Ship destroyer1, Ship destroyer2, Ship destroyer3, Ship submarine1, Ship submarine2, Ship submarine3, Ship submarine4, Ship dreadnought11, Ship cruiser11, Ship cruiser22, Ship destroyer11, Ship destroyer22, Ship destroyer33, Ship submarine11, Ship submarine22, Ship submarine33, Ship submarine44)
     {
         //Cas ou l'ordinateur n'a pas trouve de bateaux
         if((new_i == -1) && (new_j == -1))
