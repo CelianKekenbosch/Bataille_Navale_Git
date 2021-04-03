@@ -30,15 +30,15 @@ public static void fire(Plateau plateau,int firePower, String typeShip)
     Scanner input = new Scanner(System.in);
     do{
         System.out.println("Rentrez l'abcisse du point d'impact svp (entre 0 et 14)");
-        y = input.nextInt();
-    }while((y<0)||(y>14));
+        x = input.nextInt();
+    }while((x<0)||(x>14));
       
       
     do{
         System.out.println("Rentrez l'ordonnee du point d'impact svp (entre a et o)");
         c = input.next().charAt(0);
-        x=(int)(c -'a');
-    }while((x<0)||(x>14));
+        y=(int)(c -'a');
+    }while((y<0)||(y>14));
 
         
 
@@ -54,31 +54,115 @@ public static void fire(Plateau plateau,int firePower, String typeShip)
         default:
             if(("submarine".equals(typeShip))&&(evalCase(plateau,x,y) == 1))
             {
-                System.out.println("ET coule!!!(un sous-marin en moins) Rien ne peut plus vous arreter!");
-                fixerCase(plateau,x,y,5);    
+            System.out.println("ET coule!!!(un sous-marin en moins) Rien ne peut plus vous arreter!");
+            fixerCase(plateau,x,y,5);    
             }
             else
             {
-                for(int z=0;z<firePower;z++)
+                if("submarine".equals(typeShip))
                 {
-                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                    fixerCase(plateau, x, y, 5);
+                }
+                else if("destroyer".equals(typeShip))
+                {
+                    if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                     {
-                            fixerCase(plateau,(x+z),(y),5);
+                        fixerCase(plateau, x, y, 5);
                     }
-                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                }
+                else if("cruiser".equals(typeShip))
+                {
+                    //On va dessiner un "+" sans la barre du bas
+                    if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                     {
-                            fixerCase(plateau,(x),(y+z),5);
+                        fixerCase(plateau, x, y, 5);	//Case centrale
                     }
-                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                    if((x-1)>=0)
                     {
-                            fixerCase(plateau,(x-z),(y),5);
+                        if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0))
+                        {
+                            fixerCase(plateau, x-1, y, 5);	//Case de gauche
+                        } 
                     }
-                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
+                    if((x+1)<15)
                     {
-                            fixerCase(plateau,(x),(y-z),5);
+                        if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0))
+                        {
+                            fixerCase(plateau, x+1, y, 5);	//Case de droite
+                        } 
                     }
-                }    
+                    if((y-1)>=0)
+                    {
+                        if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0))
+                        {
+                            fixerCase(plateau, x, y-1, 5);  //Case du dessus	
+                        } 	
+                    }
+                }
+                else if("dreadnought".equals(typeShip))
+                {
+                    //On va dessiner un "+"
+                    if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
+                    {
+                        fixerCase(plateau, x, y, 5);	//Case centrale
+                    }
+                    if((x-1)>=0)
+                    {
+                        if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0))
+                        {
+                            fixerCase(plateau, x-1, y, 5);	//Case de gauche
+                        } 
+                    }
+                    if((x+1)<15)
+                    {
+                        if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0))
+                        {
+                            fixerCase(plateau, x+1, y, 5);	//Case de droite
+                        } 
+                    }
+                    if((y-1)>=0)
+                    {
+                        if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0))
+                        {
+                            fixerCase(plateau, x, y-1, 5);  //Case du dessus	
+                        } 	
+                    }
+                    if((y+1)<15)
+                    {
+                        if((plateau.grid[x][y+1] != 1)&&(plateau.grid[x][y+1] != 0))
+                        {
+                            fixerCase(plateau, x, y+1, 5);  //Case du dessous	
+                        }                    
+                    }
+                    if((x-2)>=0)
+                    {
+                        if((plateau.grid[x-2][y] != 1)&&(plateau.grid[x-2][y] != 0))
+                        {
+                            fixerCase(plateau, x-2, y, 5);  //Case de gauche x2	
+                        }
+                    }
+                    if((x+2)<15)
+                    {
+                        if((plateau.grid[x+2][y] != 1)&&(plateau.grid[x+2][y] != 0))
+                        {
+                            fixerCase(plateau, x+2, y, 5);  //Case de droite x2	
+                        }
+                    }
+                    if((y-2)>=0)
+                    {
+                        if((plateau.grid[x][y-2] != 1)&&(plateau.grid[x][y-2] != 0))
+                        {
+                            fixerCase(plateau, x, y-2, 5);  //Case du dessus x2	
+                        }
+                    }
+                    if((y+2)<15)
+                    {
+                        if((plateau.grid[x][y+2] != 1)&&(plateau.grid[x][y+2] != 0))
+                        {
+                            fixerCase(plateau, x, y+2, 5);  //Case du dessous x2
+                        }
+                    }
+                }	
             }    
     }
 }

@@ -243,232 +243,173 @@ public class Ordinateur
         {
             if(dreadnought11.isAlive)
             {
-                for(int z=0;z<dreadnought11.mfirePower;z++)
-                {   
-                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                //On va dessiner un "+"
+                if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
+                {
+                    fixerCase(plateau, x, y, 5);	//Case centrale
+                }
+                if((x-1)>=0)
+                {
+                    if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0))
                     {
-                            fixerCase(plateau,(x+z),(y),5);
+                        fixerCase(plateau, x-1, y, 5);	//Case de gauche
+                    } 
+                }
+                if((x+1)<15)
+                {
+                    if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0))
+                    {
+                        fixerCase(plateau, x+1, y, 5);	//Case de droite
+                    } 
+                }
+                if((y-1)>=0)
+                {
+                    if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0))
+                    {
+                        fixerCase(plateau, x, y-1, 5);  //Case du dessus	
+                    } 	
+                }
+                if((y+1)<15)
+                {
+                    if((plateau.grid[x][y+1] != 1)&&(plateau.grid[x][y+1] != 0))
+                    {
+                        fixerCase(plateau, x, y+1, 5);  //Case du dessous	
+                    }                    
+                }
+                if((x-2)>=0)
+                {
+                    if((plateau.grid[x-2][y] != 1)&&(plateau.grid[x-2][y] != 0))
+                    {
+                        fixerCase(plateau, x-2, y, 5);  //Case de gauche x2	
                     }
-                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                }
+                if((x+2)<15)
+                {
+                    if((plateau.grid[x+2][y] != 1)&&(plateau.grid[x+2][y] != 0))
                     {
-                            fixerCase(plateau,(x),(y+z),5);
+                        fixerCase(plateau, x+2, y, 5);  //Case de droite x2	
                     }
-                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                }
+                if((y-2)>=0)
+                {
+                    if((plateau.grid[x][y-2] != 1)&&(plateau.grid[x][y-2] != 0))
                     {
-                            fixerCase(plateau,(x-z),(y),5);
+                        fixerCase(plateau, x, y-2, 5);  //Case du dessus x2	
                     }
-                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
+                }
+                if((y+2)<15)
+                {
+                    if((plateau.grid[x][y+2] != 1)&&(plateau.grid[x][y+2] != 0))
                     {
-                            fixerCase(plateau,(x),(y-z),5);
+                        fixerCase(plateau, x, y+2, 5);  //Case du dessous x2
                     }
                 }
             }
             else if(cruiser11.isAlive)
             {
-                for(int z=0;z<cruiser11.mfirePower;z++)
-                {   
-                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                //On va dessiner un "+" sans la barre du bas
+                if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
+                {
+                    fixerCase(plateau, x, y, 5);	//Case centrale
+                }
+                if((x-1)>=0)
+                {
+                    if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0))
                     {
-                            fixerCase(plateau,(x+z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                        fixerCase(plateau, x-1, y, 5);	//Case de gauche
+                    } 
+                }
+                if((x+1)<15)
+                {
+                    if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0))
                     {
-                            fixerCase(plateau,(x),(y+z),5);
-                    }
-                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                        fixerCase(plateau, x+1, y, 5);	//Case de droite
+                    } 
+                }
+                if((y-1)>=0)
+                {
+                    if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0))
                     {
-                            fixerCase(plateau,(x-z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
-                    {
-                            fixerCase(plateau,(x),(y-z),5);
-                    }
+                        fixerCase(plateau, x, y-1, 5);  //Case du dessus	
+                    } 	
                 }
             }
             else if(cruiser22.isAlive)
             {
-                for(int z=0;z<cruiser22.mfirePower;z++)
-                {   
-                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
+                //On va dessiner un "+" sans la barre du bas
+                if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
+                {
+                    fixerCase(plateau, x, y, 5);	//Case centrale
+                }
+                if((x-1)>=0)
+                {
+                    if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0))
                     {
-                            fixerCase(plateau,(x+z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
+                        fixerCase(plateau, x-1, y, 5);	//Case de gauche
+                    } 
+                }
+                if((x+1)<15)
+                {
+                    if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0))
                     {
-                            fixerCase(plateau,(x),(y+z),5);
-                    }
-                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
+                        fixerCase(plateau, x+1, y, 5);	//Case de droite
+                    } 
+                }
+                if((y-1)>=0)
+                {
+                    if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0))
                     {
-                            fixerCase(plateau,(x-z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
-                    {
-                            fixerCase(plateau,(x),(y-z),5);
-                    }
+                        fixerCase(plateau, x, y-1, 5);  //Case du dessus	
+                    } 	
                 }
             }
             else if(destroyer11.isAlive)
             {
-                for(int z=0;z<destroyer11.mfirePower;z++)
+                if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                 {
-                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
-                    {
-                            fixerCase(plateau,(x+z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
-                    {
-                            fixerCase(plateau,(x),(y+z),5);
-                    }
-                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
-                    {
-                            fixerCase(plateau,(x-z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
-                    {
-                            fixerCase(plateau,(x),(y-z),5);
-                    }
+                    fixerCase(plateau, x, y, 5);
                 }
             }
             else if(destroyer22.isAlive)
             {
-                for(int z=0;z<destroyer22.mfirePower;z++)
-                {   
-                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
-                    {
-                            fixerCase(plateau,(x+z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
-                    {
-                            fixerCase(plateau,(x),(y+z),5);
-                    }
-                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
-                    {
-                            fixerCase(plateau,(x-z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
-                    {
-                            fixerCase(plateau,(x),(y-z),5);
-                    }
+                if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
+                {
+                    fixerCase(plateau, x, y, 5);
                 }
             }
             else if(destroyer33.isAlive)
             {
-                for(int z=0;z<destroyer33.mfirePower;z++)
+                if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                 {
-                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
-                    {
-                            fixerCase(plateau,(x+z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
-                    {
-                            fixerCase(plateau,(x),(y+z),5);
-                    }
-                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
-                    {
-                            fixerCase(plateau,(x-z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
-                    {
-                            fixerCase(plateau,(x),(y-z),5);
-                    }
+                    fixerCase(plateau, x, y, 5);
                 }
             }
             else if(submarine11.isAlive)
             {
-                for(int z=0;z<submarine11.mfirePower;z++)
+                if(plateau.grid[x][y] != 0)
                 {
-                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
-                    {
-                            fixerCase(plateau,(x+z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
-                    {
-                            fixerCase(plateau,(x),(y+z),5);
-                    }
-                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
-                    {
-                            fixerCase(plateau,(x-z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
-                    {
-                            fixerCase(plateau,(x),(y-z),5);
-                    }
+                    fixerCase(plateau, x, y, 5);
                 }
             }
             else if(submarine22.isAlive)
             {
-                for(int z=0;z<submarine22.mfirePower;z++)
+                if(plateau.grid[x][y] != 0)
                 {
-                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
-                    {
-                            fixerCase(plateau,(x+z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
-                    {
-                            fixerCase(plateau,(x),(y+z),5);
-                    }
-                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
-                    {
-                            fixerCase(plateau,(x-z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
-                    {
-                            fixerCase(plateau,(x),(y-z),5);
-                    }
+                    fixerCase(plateau, x, y, 5);
                 }
             }
             else if(submarine33.isAlive)
             {
-                for(int z=0;z<submarine33.mfirePower;z++)
+                if(plateau.grid[x][y] != 0)
                 {
-                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
-                    {
-                            fixerCase(plateau,(x+z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
-                    {
-                            fixerCase(plateau,(x),(y+z),5);
-                    }
-                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
-                    {
-                            fixerCase(plateau,(x-z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
-                    {
-                            fixerCase(plateau,(x),(y-z),5);
-                    }
+                    fixerCase(plateau, x, y, 5);
                 }
             }
             else if(submarine44.isAlive)
             {
-                for(int z=0;z<submarine44.mfirePower;z++)
+                if(plateau.grid[x][y] != 0)
                 {
-                    //pas tout a fait bon pour notre projet puisque cette methode va dans les 4 directions
-                    if((evalCase(plateau,(x+z),(y))!=0)&&(evalCase(plateau,(x+z),(y))!=1)&&(x+z<15))
-                    {
-                            fixerCase(plateau,(x+z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y+z))!=0)&&(evalCase(plateau,(x),(y+z))!=1)&&(y+z<15))
-                    {
-                            fixerCase(plateau,(x),(y+z),5);
-                    }
-                    if((evalCase(plateau,(x-z),(y))!=0)&&(evalCase(plateau,(x-z),(y))!=1)&&(x-z>=0))
-                    {
-                            fixerCase(plateau,(x-z),(y),5);
-                    }
-                    if((evalCase(plateau,(x),(y-z))!=0)&&(evalCase(plateau,(x),(y-z))!=1)&&(y-z>=0))
-                    {
-                            fixerCase(plateau,(x),(y-z),5);
-                    }
+                    fixerCase(plateau, x, y, 5);
                 }
             }
         }

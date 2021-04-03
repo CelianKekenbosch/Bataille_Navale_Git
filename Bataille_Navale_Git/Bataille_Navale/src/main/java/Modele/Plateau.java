@@ -105,6 +105,43 @@ public class Plateau {
         }
     }
     
+    //Methode qui affiche les cases touchees chez l'IA
+    public void affichePlateauMasque()
+    {
+        int i,j;
+        for(i=0;i<nbLigne;i++)
+        {
+            for(j=0;j<nbColonne;j++)
+            {
+                if(plateau[i][j] == 'X')
+                {
+                    System.out.print("X");
+                }
+                else if(plateau[i][j] == '*')
+                {
+                    System.out.print(" ");
+                }
+                else if(plateau[i][j] == '@')
+                {
+                    System.out.print(" ");
+                }
+                else if(plateau[i][j] == '%')
+                {
+                    System.out.print(" ");
+                }
+                else if(plateau[i][j] == '#')
+                {
+                    System.out.print(" ");
+                }
+                else
+                {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println(" ");   
+        }
+    }
+    
     //Recupere une grille dans laquelle on a les infos des navires pour les transferer au plateau d'affichage
     public void convertGridIntoPlateau(int grid[][])
     {
