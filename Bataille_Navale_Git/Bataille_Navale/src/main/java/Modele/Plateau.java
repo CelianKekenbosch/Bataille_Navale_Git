@@ -202,7 +202,7 @@ public class Plateau {
         }
     }
     
-    public static void randomPositionOneBoat(int grid[][], int boatSize, String typeShip)
+    public static void randomPositionOneBoat(int grid[][], Ship bateau)
     {
         //On declare les coordonnees aleatoires que l'on va utiliser
         int i,j,cote;
@@ -219,10 +219,7 @@ public class Plateau {
             j = 0 + (int)(Math.random() * ((14-0)+1));      
             cote = 1 + (int)(Math.random() * ((2-1)+1));    //1 represente la verticale et 2 l'horizontale
             
-            //Pour tester le random
-            /*System.out.println(i+j+cote);*/
-            
-            if((i+boatSize > 14) || (j+boatSize > 14))
+            if((i+bateau.mSize > 14) || (j+bateau.mSize > 14))
             {
                 bool = false;
             }
@@ -232,7 +229,7 @@ public class Plateau {
                 //On gere le cas vertical
                 if(cote==1)
                 {
-                    for(int p=0;p<boatSize;p++)
+                    for(int p=0;p<bateau.mSize;p++)
                     {
                         if(grid[i+p][j] != 0)
                         {
@@ -244,7 +241,7 @@ public class Plateau {
                 //On gere le cas horizontal
                 if(cote==2)
                 {
-                    for(int p=0;p<boatSize;p++)
+                    for(int p=0;p<bateau.mSize;p++)
                     {
                         if(grid[i][j+p] != 0)
                         {
@@ -259,30 +256,30 @@ public class Plateau {
         //Cas vertical
         if(cote == 1)
         {
-            if("dreadnought".equals(typeShip))
+            if("dreadnought".equals(bateau.mTypeShip))
             {
-                for(int p=i;p<=i+boatSize;p++)
+                for(int p=i;p<=i+bateau.mSize;p++)
                 {
                     grid[p][j] = 4;
                 }
             }
-            if("cruiser".equals(typeShip))
+            if("cruiser".equals(bateau.mTypeShip))
             {
-                for(int p=i;p<=i+boatSize;p++)
+                for(int p=i;p<=i+bateau.mSize;p++)
                 {
                     grid[p][j] = 3;
                 }
             }
-            if("destroyer".equals(typeShip))
+            if("destroyer".equals(bateau.mTypeShip))
             {
-                for(int p=i;p<=i+boatSize;p++)
+                for(int p=i;p<=i+bateau.mSize;p++)
                 {
                     grid[p][j] = 2;
                 }
             }
-            if("submarine".equals(typeShip))
+            if("submarine".equals(bateau.mTypeShip))
             {
-                for(int p=i;p<=i+boatSize;p++)
+                for(int p=i;p<=i+bateau.mSize;p++)
                 {
                     grid[p][j] = 1;
                 }
@@ -292,35 +289,42 @@ public class Plateau {
         //Cas horizontal
         if(cote == 2)
         {
-            if("dreadnought".equals(typeShip))
+            if("dreadnought".equals(bateau.mTypeShip))
             {
-                for(int p=j;p<=j+boatSize;p++)
+                for(int p=j;p<=j+bateau.mSize;p++)
                 {
                     grid[i][p] = 4;
                 }
             }
-            if("cruiser".equals(typeShip))
+            if("cruiser".equals(bateau.mTypeShip))
             {
-                for(int p=j;p<=j+boatSize;p++)
+                for(int p=j;p<=j+bateau.mSize;p++)
                 {
                     grid[i][p] = 3;
                 }
             }
-            if("destroyer".equals(typeShip))
+            if("destroyer".equals(bateau.mTypeShip))
             {
-                for(int p=j;p<=j+boatSize;p++)
+                for(int p=j;p<=j+bateau.mSize;p++)
                 {
                     grid[i][p] = 2;
                 }
             }
-            if("submarine".equals(typeShip))
+            if("submarine".equals(bateau.mTypeShip))
             {
-                for(int p=j;p<=j+boatSize;p++)
+                for(int p=j;p<=j+bateau.mSize;p++)
                 {
                     grid[i][p] = 1;
                 }
             }
         }
+        
+        //On donne ces infos au bateau en question
+        if(cote == 1)
+        {
+            bateau.isVertical = true;
+        }
+        bateau.xBoat = i;
+        bateau.yBoat = j;
     }
 }
-//Test de modification
