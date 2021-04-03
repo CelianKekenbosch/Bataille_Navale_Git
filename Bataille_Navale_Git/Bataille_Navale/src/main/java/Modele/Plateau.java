@@ -258,28 +258,28 @@ public class Plateau {
         {
             if("dreadnought".equals(bateau.mTypeShip))
             {
-                for(int p=i;p<=i+bateau.mSize;p++)
+                for(int p=i;p<i+bateau.mSize;p++)
                 {
                     grid[p][j] = 4;
                 }
             }
             if("cruiser".equals(bateau.mTypeShip))
             {
-                for(int p=i;p<=i+bateau.mSize;p++)
+                for(int p=i;p<i+bateau.mSize;p++)
                 {
                     grid[p][j] = 3;
                 }
             }
             if("destroyer".equals(bateau.mTypeShip))
             {
-                for(int p=i;p<=i+bateau.mSize;p++)
+                for(int p=i;p<i+bateau.mSize;p++)
                 {
                     grid[p][j] = 2;
                 }
             }
             if("submarine".equals(bateau.mTypeShip))
             {
-                for(int p=i;p<=i+bateau.mSize;p++)
+                for(int p=i;p<i+bateau.mSize;p++)
                 {
                     grid[p][j] = 1;
                 }
@@ -291,28 +291,28 @@ public class Plateau {
         {
             if("dreadnought".equals(bateau.mTypeShip))
             {
-                for(int p=j;p<=j+bateau.mSize;p++)
+                for(int p=j;p<j+bateau.mSize;p++)
                 {
                     grid[i][p] = 4;
                 }
             }
             if("cruiser".equals(bateau.mTypeShip))
             {
-                for(int p=j;p<=j+bateau.mSize;p++)
+                for(int p=j;p<j+bateau.mSize;p++)
                 {
                     grid[i][p] = 3;
                 }
             }
             if("destroyer".equals(bateau.mTypeShip))
             {
-                for(int p=j;p<=j+bateau.mSize;p++)
+                for(int p=j;p<j+bateau.mSize;p++)
                 {
                     grid[i][p] = 2;
                 }
             }
             if("submarine".equals(bateau.mTypeShip))
             {
-                for(int p=j;p<=j+bateau.mSize;p++)
+                for(int p=j;p<j+bateau.mSize;p++)
                 {
                     grid[i][p] = 1;
                 }
