@@ -32,6 +32,13 @@ public class Plateau {
             }
         }
         
+        for(int i =0;i<15;i++){
+            for(int j=0;j<15;j++)
+            {
+                grid[i][j] = 0;
+            }
+        }
+        
         //Pre-remplissage du tableau
         //On rempli le tableau avec les chiffres et les lettres indicateurs
         char chiffre = '0';
@@ -252,28 +259,28 @@ public class Plateau {
         //Cas vertical
         if(cote == 1)
         {
-            if("Dreadnought".equals(typeShip))
+            if("dreadnought".equals(typeShip))
             {
                 for(int p=i;p<=i+boatSize;p++)
                 {
                     grid[p][j] = 4;
                 }
             }
-            if("Cruiser".equals(typeShip))
+            if("cruiser".equals(typeShip))
             {
                 for(int p=i;p<=i+boatSize;p++)
                 {
                     grid[p][j] = 3;
                 }
             }
-            if("Destroyer".equals(typeShip))
+            if("destroyer".equals(typeShip))
             {
                 for(int p=i;p<=i+boatSize;p++)
                 {
                     grid[p][j] = 2;
                 }
             }
-            if("Submarine".equals(typeShip))
+            if("submarine".equals(typeShip))
             {
                 for(int p=i;p<=i+boatSize;p++)
                 {
@@ -285,28 +292,28 @@ public class Plateau {
         //Cas horizontal
         if(cote == 2)
         {
-            if("Dreadnought".equals(typeShip))
+            if("dreadnought".equals(typeShip))
             {
                 for(int p=j;p<=j+boatSize;p++)
                 {
                     grid[i][p] = 4;
                 }
             }
-            if("Cruiser".equals(typeShip))
+            if("cruiser".equals(typeShip))
             {
                 for(int p=j;p<=j+boatSize;p++)
                 {
                     grid[i][p] = 3;
                 }
             }
-            if("Destroyer".equals(typeShip))
+            if("destroyer".equals(typeShip))
             {
                 for(int p=j;p<=j+boatSize;p++)
                 {
                     grid[i][p] = 2;
                 }
             }
-            if("Submarine".equals(typeShip))
+            if("submarine".equals(typeShip))
             {
                 for(int p=j;p<=j+boatSize;p++)
                 {

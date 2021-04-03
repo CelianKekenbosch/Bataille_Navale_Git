@@ -47,9 +47,9 @@ public class Main {
                 initValPlateau(plateau);//on initialise chaque case du plateau des bateaux du joueur a la valeur de la mer
                 initValPlateau(plateauTir);//on initialise chaque case du plateau de tir du joueur a la valeur de la mer
                 initValPlateau(plateauIA);//on initialise chaque case du plateau des bateaux du joueur a la valeur de la mer
-                plateau.convertGridIntoPlateau(plateau.grid);
+                /*plateau.convertGridIntoPlateau(plateau.grid);
                 plateauTir.convertGridIntoPlateau(plateauTir.grid);
-                plateauIA.convertGridIntoPlateau(plateauIA.grid);
+                plateauIA.convertGridIntoPlateau(plateauIA.grid);*/
                 //on cre la flotte du joueur 
                 Ship s1 = new Ship("submarine");
                 Ship s2 = new Ship("submarine");
@@ -87,16 +87,18 @@ public class Main {
                 Ship IAc2= new Ship("cruiser");
                 Ship IAD1= new Ship("dreadnought");
                 //on appelle 10x  randomPositionOneBoat() pour les differents bateaux de l'ordinateur
-                randomPositionOneBoat(plateau.grid,IAs1.mSize,IAs1.mTypeShip);
-                randomPositionOneBoat(plateau.grid,IAs2.mSize,IAs2.mTypeShip);
-                randomPositionOneBoat(plateau.grid,IAs3.mSize,IAs3.mTypeShip);
-                randomPositionOneBoat(plateau.grid,IAs3.mSize,IAs4.mTypeShip);
-                randomPositionOneBoat(plateau.grid,IAd1.mSize,IAd1.mTypeShip);
-                randomPositionOneBoat(plateau.grid,IAd2.mSize,IAd2.mTypeShip);
-                randomPositionOneBoat(plateau.grid,IAd3.mSize,IAd3.mTypeShip);
-                randomPositionOneBoat(plateau.grid,IAc1.mSize,IAc1.mTypeShip);
-                randomPositionOneBoat(plateau.grid,IAc2.mSize,IAc2.mTypeShip);
-                randomPositionOneBoat(plateau.grid,IAD1.mSize,IAD1.mTypeShip);
+                randomPositionOneBoat(plateauIA.grid,IAs1.mSize,IAs1.mTypeShip);
+                randomPositionOneBoat(plateauIA.grid,IAs2.mSize,IAs2.mTypeShip);
+                randomPositionOneBoat(plateauIA.grid,IAs3.mSize,IAs3.mTypeShip);
+                randomPositionOneBoat(plateauIA.grid,IAs3.mSize,IAs4.mTypeShip);
+                randomPositionOneBoat(plateauIA.grid,IAd1.mSize,IAd1.mTypeShip);
+                randomPositionOneBoat(plateauIA.grid,IAd2.mSize,IAd2.mTypeShip);
+                randomPositionOneBoat(plateauIA.grid,IAd3.mSize,IAd3.mTypeShip);
+                randomPositionOneBoat(plateauIA.grid,IAc1.mSize,IAc1.mTypeShip);
+                randomPositionOneBoat(plateauIA.grid,IAc2.mSize,IAc2.mTypeShip);
+                randomPositionOneBoat(plateauIA.grid,IAD1.mSize,IAD1.mTypeShip);
+                
+                plateauIA.convertGridIntoPlateau(plateauIA.grid);
           
                 
                 do{
