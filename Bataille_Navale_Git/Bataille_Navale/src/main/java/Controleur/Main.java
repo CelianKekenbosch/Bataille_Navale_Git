@@ -16,7 +16,7 @@ public class Main {
         String type;
         boolean victoire=false;
         boolean save=false;
-        System.out.println("Bonjours! Vous jouez à la bataille Navale(revisitée), choissisez ce que vous voulez faire:");
+        System.out.println("Bonjours! Vous jouez a la bataille Navale(differente), choissisez ce que vous voulez faire:");
         System.out.println(" ");
         System.out.println(" 1. Commencer une nouvelle partie.");
         System.out.println(" ");
@@ -34,24 +34,49 @@ public class Main {
             case 4://on arrete le programme de force
                 System.exit(0);
                 break;
-            case 3://on affiche une aide déjà écrite
+            case 3://on affiche une aide deja ecrite
                 help();
                 break;
-            case 2://on charge une partie déjà sauvegardée
+            case 2://on charge une partie deja sauvegardee
                 break;
             default://on commence une toute nouvelle partie
                 Plateau plateau = new Plateau(32,47);   //(32,47) est la taille de la grille avec tous les caracteres
                 Plateau plateauTir = new Plateau(32,47);
                 Plateau plateauIA = new Plateau(32,47);
-                initValPlateau(plateau);//on initialise chaque case du plateau des bateaux du joueur à la valeur de la mer
-                initValPlateau(plateauTir);//on initialise chaque case du plateau de tir du joueur à la valeur de la mer
-                initValPlateau(plateauIA);//on initialise chaque case du plateau des bateaux du joueur à la valeur de la mer
+                initValPlateau(plateau);//on initialise chaque case du plateau des bateaux du joueur a la valeur de la mer
+                initValPlateau(plateauTir);//on initialise chaque case du plateau de tir du joueur a la valeur de la mer
+                initValPlateau(plateauIA);//on initialise chaque case du plateau des bateaux du joueur a la valeur de la mer
                 plateau.convertGridIntoPlateau(plateau.grid);
-                plateauTir.convertGridIntoPlateau(plateauTir.grid);//c une différente méthode de convertion pour cette grille
+                plateauTir.convertGridIntoPlateau(plateauTir.grid);//c une differente methode de convertion pour cette grille
                 plateauIA.convertGridIntoPlateau(plateauIA.grid);
-                //on appelle 10x  randomPositionOneBoat() pour les différents bateaux du joueur
-                /* */
-                //on appelle 10x  randomPositionOneBoat() pour les différents bateaux de l'ordinateur
+                //on appelle 10x  randomPositionOneBoat() pour les differents bateaux du joueur
+                /* 
+                s1= new Ship("submarine");
+                s2= new Ship("submarine");
+                s3= new Ship("submarine");
+                s4= new Ship("submarine");
+                d1= new Ship("destroyer");
+                d2= new Ship("destroyer");
+                d3= new Ship("destroyer");
+                c1= new Ship("cruiser");
+                c2= new Ship("cruiser");
+                D1= new Ship("dreadnought");
+                
+                */
+                //on appelle 10x  randomPositionOneBoat() pour les differents bateaux de l'ordinateur
+                /* 
+                IAs1= new Ship("submarine");
+                IAs2= new Ship("submarine");
+                IAs3= new Ship("submarine");
+                IAs4= new Ship("submarine");
+                IAd1= new Ship("destroyer");
+                IAd2= new Ship("destroyer");
+                IAd3= new Ship("destroyer");
+                IAc1= new Ship("cruiser");
+                IAc2= new Ship("cruiser");
+                IAD1= new Ship("dreadnought");
+                
+                */
                 do{
                     
                     
@@ -62,7 +87,7 @@ public class Main {
                     plateauTir.affichePlateau();
                     System.out.println("1. tirer avec un bateau");
                     System.out.println("");
-                    System.out.println("2. tirer une fusée éclairante avec un destroyer");
+                    System.out.println("2. tirer une fusee eclairante avec un destroyer");
                     System.out.println("");
                     System.out.println("3. bouger un bateau intact d'une case ");
                     System.out.println("");
@@ -84,8 +109,8 @@ public class Main {
                             plateauTir.affichePlateau();
                             break;
                         case 2:
-                            System.out.println("rentrez le type de bateau qui tire la fusée éclairante(il faut que ce soit un destroyer)");
-                            Scanner scannerType = new Scanner(System.in);//à changer quand les bateaux seront nommés
+                            System.out.println("rentrez le type de bateau qui tire la fusee eclairante(il faut que ce soit un destroyer)");
+                            Scanner scannerType = new Scanner(System.in);//a changer quand les bateaux seront nommes
                             type=scannerType.nextLine();
                             fusee_eclairante(plateauTir,plateauIA,type);
                             
@@ -103,7 +128,7 @@ public class Main {
                             help();
                             break;
                         case 5:
-                            System.out.println("Vous avez décider de quitter la partie, elle sera sauvegardée ne vous inquiétez pas!");
+                            System.out.println("Vous avez decider de quitter la partie, elle sera sauvegardee ne vous inquietez pas!");
                             //quitter+sauvegarder
                             save=true;
                             break;
@@ -125,12 +150,12 @@ public class Main {
 
     }
     
-    //commence une partie(nouvelle si on n'a pas chargé une ancienne)
+    //commence une partie(nouvelle si on n'a pas charge une ancienne)
     public static void startGame(){
         
     }
     
-    //charge une ancienne partie déjà enregistrée
+    //charge une ancienne partie deja enregistree
     public static void loadGame(){
         
     }
@@ -139,20 +164,20 @@ public class Main {
     public static void help(){
         char bn;
         final String AIDE= "\" vous avez choisie aide , les regles du jeux sont les suivantes :\" \n" +
-"                \"Vous devez deplacer tirer sur les bateaux ennemis . pour cela , vous tirerez sur les cases ennemis en entrant les coordonnées que vous voulez attaquer,\" \n" +
-"                \"Vous pouvez egalement deplacer un navire s’il n’est pas touché par l’ennemi, pour cela entrez les coordonnés sur lesquels vous voulez l’affecter.\"\n" +
-"                 \"un navire n'est coulé que si toutes les cases qu'il occupe sont touchées\"\n " +
+"                \"Vous devez deplacer tirer sur les bateaux ennemis . pour cela , vous tirerez sur les cases ennemis en entrant les coordonnees que vous voulez attaquer,\" \n" +
+"                \"Vous pouvez egalement deplacer un navire s’il n’est pas touche par l’ennemi, pour cela entrez les coordonnes sur lesquels vous voulez l’affecter.\"\n" +
+"                 \"un navire n'est coule que si toutes les cases qu'il occupe sont touchees\"\n " +
 "                \"Pour gagner vous devez couler tous les navires de l’ennemis.\" \n" +
 "                \"Vous pouvez quitter la partie ne appuyant sur Q.\"\n" +
-"                 \"un cuirassé occupe 7 cases\"\n" +
+"                 \"un cuirasse occupe 7 cases\"\n" +
 "                 \"un croiseur occupe 5 cases\"\n" +
 "                 \"un destroyer occupe 3 cases\"\n" +
 "                 \"un sous marin occupe 1 case\"\n" +
-"                 \"sur la grille de tirs les croix signifient que vous avez toucher un navire et il ne peut plus se déplacer\"\n" +
-"                 \"sur votre grille les navires touchés sont représentés par des symboles \"\n" +
-"                 \"La puissance de tir des navires s'organise de la maniere suivante : un destroyer et un sous marin peuvent toucher 1 case, un cuirassé peut toucher 8 cases adjacentes au point d'impact dans chaque directions, tandis qu'un croiseur peut toucher cases adjacentes au point d'impact dans chaque directions\" \n" +
+"                 \"sur la grille de tirs les croix signifient que vous avez toucher un navire et il ne peut plus se deplacer\"\n" +
+"                 \"sur votre grille les navires touches sont representes par des symboles \"\n" +
+"                 \"La puissance de tir des navires s'organise de la maniere suivante : un destroyer et un sous marin peuvent toucher 1 case, un cuirasse peut toucher 8 cases adjacentes au point d'impact dans chaque directions, tandis qu'un croiseur peut toucher cases adjacentes au point d'impact dans chaque directions\" \n" +
 "                 \"Les sous marins sont les seuls pouvant couler d'autres sous marins\"\n" +
-"                \"destroyer peuvent lancer des fusées eclairantes qui vont afficher pendant un tour un carré de coté 4 sur la grille adverse \"; ";
+"                \"destroyer peuvent lancer des fusees eclairantes qui vont afficher pendant un tour un carre de cote 4 sur la grille adverse \"; ";
         System.out.println("voulez-vous afficher une aide ?(Y/N)");
         Scanner scanner = new Scanner(System.in);
         do{

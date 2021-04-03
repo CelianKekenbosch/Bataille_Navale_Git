@@ -146,12 +146,12 @@ public class Plateau {
         return plateau.grid[i][j];
     }
 
-    //modifie la valeur des 2 emplacements de la case de coordonnées (i,j) du plateau en la fixant à valeur
+    //modifie la valeur des 2 emplacements de la case de coordonnees (i,j) du plateau en la fixant a valeur
     public static void fixerCase(Plateau plateau,int i,int j,int valeur){ 
         plateau.grid[i][j] = valeur;
     }
 
-    //initilialise les cases du plateau à la mer(VALUESEA=0)
+    //initilialise les cases du plateau a la mer(VALUESEA=0)
     public static  void initValPlateau(Plateau plateau){
         for (int i=0;i<15;i++){
             for(int j=0;j<15;j++){
@@ -160,7 +160,7 @@ public class Plateau {
         }
     }
        
-    //renvoie le caractère correspondant à une valeur v
+    //renvoie le caractere correspondant a une valeur v
     public char symboleCase1(int v){
         switch (v) {
             case VALUESEA:
@@ -199,7 +199,7 @@ public class Plateau {
     {
         //On declare les coordonnees aleatoires que l'on va utiliser
         int i,j,cote;
-        boolean bool;    //Si ce booleen passe a false, c'est que l'execution s'est mal passée
+        boolean bool;    //Si ce booleen passe a false, c'est que l'execution s'est mal passee
         
         //On repete l'operation de verification tant qu'on n'a pas une position valide
         do
