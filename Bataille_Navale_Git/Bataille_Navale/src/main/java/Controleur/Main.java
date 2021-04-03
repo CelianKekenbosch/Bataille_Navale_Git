@@ -185,11 +185,12 @@ public class Main {
                         case 3://move a changer
                             System.out.println("rentrez la taille du bateau que vous voulez bouger");
                             Scanner scannerTest = new Scanner(System.in);//pareil
-                            taille=scannerTest.nextInt();
+                            do{
+                                taille=scannerTest.nextInt();
+                            }while((taille<0)||(taille>14));
                             move(plateau,taille);
-                            plateau.affichePlateau();                          
+                            plateau.convertGridIntoPlateau(plateau.grid);                         
                             System.out.println("votre mouvement a ete effectue!");
-                            plateauTir.affichePlateau();//à changer car plateauTir=plateauIA
                             System.out.println("l'ordinateur va jouer, preparez vous a l'impact!");
                             break;
                         case 4://ok
