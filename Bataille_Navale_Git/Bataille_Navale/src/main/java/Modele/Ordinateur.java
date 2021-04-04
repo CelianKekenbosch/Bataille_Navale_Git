@@ -25,6 +25,17 @@ public class Ordinateur
     //IL FAUT FOURNIR LE PLATEAU ADVERSE, LES PREMIERS NAVIRES SONT CEUX DU JOUEUR, LES AUTRES CEUX DE L'IA
     public void iaTurn(Plateau plateau, Ship dreadnought, Ship cruiser1, Ship cruiser2, Ship destroyer1, Ship destroyer2, Ship destroyer3, Ship submarine1, Ship submarine2, Ship submarine3, Ship submarine4, Ship dreadnought11, Ship cruiser11, Ship cruiser22, Ship destroyer11, Ship destroyer22, Ship destroyer33, Ship submarine11, Ship submarine22, Ship submarine33, Ship submarine44)
     {
+        //Si on a coule un navire, on reset les coordonnees de tir
+        if(sinked)
+        {
+            old_i = -1;
+            old_j = -1;
+            new_i = -1;
+            new_j = -1;
+            sinked = false;
+            System.out.println("L'ordinateur ayant coule un de vos batiments va reprendre ses recherches !");
+        }
+        
         boolean antiDoubleAction = false;
         //Cas ou l'ordinateur n'a pas trouve de bateaux
         if((new_i == -1) && (new_j == -1))
@@ -48,20 +59,18 @@ public class Ordinateur
             //Cas du tir
             if(r == 0)
             {
+                System.out.println("Tir aleatoire");
                 sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, x, y, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
                 //On check la grille adverse pour savoir si on a touche qq chose
-                boolean sortie_de_boucle = false; //A defaut de trouver une meilleure solution
-                for(int p=0;((p<15) && (sortie_de_boucle == false));p++)
+                if(!sinked)
                 {
-                    for(int q=0;((q<15) && (sortie_de_boucle == false));q++)
+                    if(plateau.grid[x][y] == 5)
                     {
-                        if(plateau.grid[p][q] == 5) //Si la grille anonyme revele une epave
-                        {
-                            //On marque les coordonnees de l'impact, qui seront recuperees par la suite
-                            new_i = p; 
-                            new_j = q;
-                            sortie_de_boucle = true;
-                        }
+                        //On marque les coordonnees de l'impact, qui seront recuperees par la suite
+                        new_i = x; 
+                        new_j = y;
+                        old_i = x;
+                        old_j = y;
                     }
                 }
             }
@@ -69,8 +78,10 @@ public class Ordinateur
             //Cas fusee eclairante
             if((r == 1)||(r == 2))
             {
-                fusee_eclairante_IA(plateau, x, y, destroyer11, destroyer22, destroyer33); 
-                System.out.println("L'ordinateur tire une fusee eclairante en " + x + ", " + y);
+                fusee_eclairante_IA(plateau, x, y, destroyer11, destroyer22, destroyer33);
+                char f;
+                f = (char) (x + 'a');
+                System.out.println("L'ordinateur tire une fusee eclairante en " + f + ", " + y);
                 //Si la fusee eclairante touche un bateau adverse, il marque les coordonnees de la case en haut a gauche
                 fusee = fusee + 1; //On indique qu'on a tire une fusee (compte)
                 boolean sortie_de_boucle = false; //A defaut de trouver une meilleure solution
@@ -83,6 +94,8 @@ public class Ordinateur
                             //On marque les nouveles coordonnees
                             new_i = p; 
                             new_j = q;
+                            old_i = p;
+                            old_j = q;
                             sortie_de_boucle = true;
                             System.out.println("Des canons s'orientent vers vous..");
                         }
@@ -105,6 +118,7 @@ public class Ordinateur
             new_i = -1;
             new_j = -1;
             sinked = false;
+            System.out.println("L'ordinateur ayant coule un de vos batiments va reprendre ses recherches !");
         }
         
         //Cas ou l'ordinateur a trouve un bateau
@@ -113,56 +127,82 @@ public class Ordinateur
             //On a les coordonnees i,j d'un point d'un bateau
             //Trois cas sont possibles
             
-            //Cas de la presence d'une epave (si l'ordinateur a tire au hasard et touche un navire)
-            if(plateau.grid[new_i][new_j] == 5)
+            //CAS 1
+            //Cas de la presence d'une epave (si l'ordinateur a tire au hasard et touche un navire) ou a tire suite a une fusee eclairante
+            if((plateau.grid[new_i][new_j] == 5)&&((new_i == old_i)&&(new_j == old_j)))
             {
-                //On genere un entier aleatoire qui vaut 0 ou 1
-                //Si il vaut 0, on cherche a gauche ou a droite. Si il vaut 1, on cherche au dessus ou en dessous
-                int randomHit;
-                randomHit = 0 + (int)(Math.random() * ((1-0)+1));
-                System.out.println("L'ordinateur va tirer autour d'une epave");
-                
-                if(randomHit == 0)
+                boolean hasFired1 = false;
+                System.out.println("L'ordinateur va tirer autour d'une epave !");
+                //Il va tirer a gauche
+                if(new_j>0)
                 {
-                    //On va tirer a gauche de ce point afin de trouver la suite du bateau (si on peut)
-                    if(new_j > 0)
+                    //Si il y a un sous-marin
+                    if(plateau.grid[new_i][new_j-1] == 1)
                     {
-                        //On set-up les coordonnees actuelles du point afin d'y revenir si on ne touche pas
-                        old_i = new_i;
-                        old_j = new_j;
-                        new_j = new_j - 1;
-                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        new_j = new_j-1;
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        hasFired1 = true;
                     }
-                    //On va tirer a droite du point (si on peut)
-                    else if(new_j < 14)
+                    else if((plateau.grid[new_i][new_j-1] == 2)||(plateau.grid[new_i][new_j-1] == 3)||(plateau.grid[new_i][new_j-1] == 4))
                     {
-                        old_i = new_i;
-                        old_j = new_j;
-                        new_j = new_j + 1;
-                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44); 
+                        new_j = new_j-1;
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        hasFired1 = true;
                     }
                 }
-                if(randomHit == 1)
+                //Sinon au dessus
+                if((new_i>0)&&(!hasFired1))
                 {
-                    //On va tirer au dessus de ce point afin de trouver la suite du bateau (si on peut)
-                    if(new_i > 0)
+                    //Si il y a un sous-marin
+                    if(plateau.grid[new_i-1][new_j] == 1)
                     {
-                        //On set-up les coordonnees actuelles du point afin d'y revenir si on ne touche pas
-                        old_i = new_i;
-                        old_j = new_j;
-                        new_i = new_i - 1;
-                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        new_i = new_i-1;
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        hasFired1 = true;
                     }
-                    //On va tirer en dessous du point (si on peut)
-                    else if(new_i < 14)
+                    else if((plateau.grid[new_i-1][new_j] == 2)||(plateau.grid[new_i-1][new_j] == 3)||(plateau.grid[new_i-1][new_j] == 4))
                     {
-                        old_i = new_i;
-                        old_j = new_j;
-                        new_i = new_i + 1;
-                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44); 
+                        new_i = new_i-1;
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        hasFired1 = true;
+                    }
+                }
+                //Sinon a droite
+                if((new_j<14)&&(!hasFired1))
+                {
+                    //Si il y a un sous-marin
+                    if(plateau.grid[new_i][new_j+1] == 1)
+                    {
+                        new_j = new_j+1;
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        hasFired1 = true;
+                    }
+                    else if((plateau.grid[new_i][new_j+1] == 2)||(plateau.grid[new_i][new_j+1] == 3)||(plateau.grid[new_i][new_j+1] == 4))
+                    {
+                        new_j = new_j+1;
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        hasFired1 = true;
+                    }
+                }
+                //Sinon en dessous
+                if((new_i<14)&&(!hasFired1))
+                {
+                    //Si il y a un sous-marin
+                    if(plateau.grid[new_i+1][new_j] == 1)
+                    {
+                        new_i = new_i+1;
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        hasFired1 = true;
+                    }
+                    else if((plateau.grid[new_i+1][new_j] == 2)||(plateau.grid[new_i+1][new_j] == 3)||(plateau.grid[new_i+1][new_j] == 4))
+                    {
+                        new_i = new_i+1;
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        hasFired1 = true;
                     }
                 }
             }
+            //CAS 2
             //Cas de la presence d'un navire (a la fusee eclairante)
             else if((plateau.grid[new_i][new_j] == 1)||(plateau.grid[new_i][new_j] == 2)||(plateau.grid[new_i][new_j] == 3)||(plateau.grid[new_i][new_j] == 4))
             {
@@ -171,56 +211,201 @@ public class Ordinateur
                 sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
             }
             
-            //Si on a pas touche de bateau au precedent tir, c'est qu'on a mal tirer aleatoirement
+            //CAS 3
+            //CAS DE RECHERCHE DE DESTRUCTION COMPLETE DU NAVIRE
             else
             {
-                System.out.println("L'ordinateur va retenter un tir autour de l'epave");
-                new_i = old_i;
-                new_j = old_j;
-                //Comme on revient sur une epave, on recommence un tir aleatoire
-                //On genere un entier aleatoire qui vaut 0 ou 1
-                //Si il vaut 0, on cherche a gauche ou a droite. Si il vaut 1, on cherche au dessus ou en dessous
-                int randomHit;
-                randomHit = 0 + (int)(Math.random() * ((1-0)+1));
+                //Ce cas est execute si old_i et old_j sont differents respectivement de new_i et new_j et qu'il y a presence d'une epave en new_i new_j
+                System.out.println("Chef ! L'ennemi cherche a nous couler !!!");
                 
-                if(randomHit == 0)
+                boolean hasFired = false;
+                //Cas ou on a tire a gauche au prealable d'une epave
+                if(new_j == old_j-1)
                 {
-                    //On va tirer a gauche de ce point afin de trouver la suite du bateau (si on peut)
-                    if(new_j > 0)
+                    //On va parcourir vers la gauche jusqu'a trouve une cible, tomber sur la mer ou arriver au bord du plateau (3 cas d'arrets)
+                    for(int j=new_j;(j>0)&&(plateau.grid[new_i][j] != 0)&&(!hasFired);j--)
                     {
-                        //On set-up les coordonnees actuelles du point afin d'y revenir si on ne touche pas
-                        old_i = new_i;
-                        old_j = new_j;
-                        new_j = new_j - 1;
-                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        //Si on trouve une cible
+                        if((plateau.grid[new_i][j-1] != 0)||(plateau.grid[new_i][j-1] != 5))
+                        {
+                            //Si il y a un sous-marin
+                            if(plateau.grid[new_i][j-1] == 1)
+                            {
+                                new_j = j-1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, j-1, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                            else if((plateau.grid[new_i][j-1] == 2)||(plateau.grid[new_i][j-1] == 3)||(plateau.grid[new_i][j-1] == 4))
+                            {
+                                new_j = j-1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, j-1, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                        }
                     }
-                    //On va tirer a droite du point (si on peut)
-                    else if(new_j < 14)
+                    
+                    //Si on arrive ici sans avoir tire, c'est qu'on est tombe soit sur la mer, soit sur le bord de la carte. On va donc partir dans l'autre sens
+                    for(int j=old_j;(j<14)&&(plateau.grid[new_i][j] != 0)&&(!hasFired);j++)
                     {
-                        old_i = new_i;
-                        old_j = new_j;
-                        new_j = new_j + 1;
-                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        //Si on trouve une cible
+                        if((plateau.grid[new_i][j+1] != 0)||(plateau.grid[new_i][j+1] != 5))
+                        {
+                            //Si il y a un sous-marin
+                            if(plateau.grid[new_i][j+1] == 1)
+                            {
+                                new_j = j+1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, j+1, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                            else if((plateau.grid[new_i][j+1] == 2)||(plateau.grid[new_i][j+1] == 3)||(plateau.grid[new_i][j+1] == 4))
+                            {
+                                new_j = j+1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, j+1, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                        }
                     }
                 }
-                if(randomHit == 1)
+               
+                //Cas ou on a tire a droite au prealable d'une epave
+                if(new_j == old_j + 1)
                 {
-                    //On va tirer au dessus de ce point afin de trouver la suite du bateau (si on peut)
-                    if(new_i > 0)
+                    //On va parcourir vers la droite jusqu'a trouve une cible, tomber sur la mer ou arriver au bord du plateau (3 cas d'arrets)
+                    for(int j=new_j;(j<14)&&(plateau.grid[new_i][j] != 0)&&(!hasFired);j++)
                     {
-                        //On set-up les coordonnees actuelles du point afin d'y revenir si on ne touche pas
-                        old_i = new_i;
-                        old_j = new_j;
-                        new_i = new_i - 1;
-                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        //Si on trouve une cible
+                        if((plateau.grid[new_i][j+1] != 0)||(plateau.grid[new_i][j+1] != 5))
+                        {
+                            //Si il y a un sous-marin
+                            if(plateau.grid[new_i][j+1] == 1)
+                            {
+                                new_j = j+1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, j+1, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                            else if((plateau.grid[new_i][j+1] == 2)||(plateau.grid[new_i][j+1] == 3)||(plateau.grid[new_i][j+1] == 4))
+                            {
+                                new_j = j+1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, j+1, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                        }
                     }
-                    //On va tirer en dessous du point (si on peut)
-                    else if(new_i < 14)
+                    
+                    //Si on arrive ici sans avoir tire, c'est qu'on est tombe soit sur la mer, soit sur le bord de la carte. On va donc partir dans l'autre sens
+                    for(int j=old_j;(j>0)&&(plateau.grid[new_i][j] != 0)&&(!hasFired);j--)
                     {
-                        old_i = new_i;
-                        old_j = new_j;
-                        new_i = new_i + 1;
-                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44); 
+                        //Si on trouve une cible
+                        if((plateau.grid[new_i][j-1] != 0)||(plateau.grid[new_i][j-1] != 5))
+                        {
+                            //Si il y a un sous-marin
+                            if(plateau.grid[new_i][j-1] == 1)
+                            {
+                                new_j = j-1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, j-1, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                            else if((plateau.grid[new_i][j-1] == 2)||(plateau.grid[new_i][j-1] == 3)||(plateau.grid[new_i][j-1] == 4))
+                            {
+                                new_j = j-1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, j-1, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                        }
+                    }
+                }
+                //Cas ou on a tire au dessus au prealable d'une epave
+                if(new_i == old_i - 1)
+                {
+                    //On va parcourir vers le haut jusqu'a trouve une cible, tomber sur la mer ou arriver au bord du plateau (3 cas d'arrets)
+                    for(int i=new_i;(i>0)&&(plateau.grid[i][new_j] != 0)&&(!hasFired);i--)
+                    {
+                        //Si on trouve une cible
+                        if((plateau.grid[i-1][new_j] != 0)||(plateau.grid[i-1][new_j] != 5))
+                        {
+                            //Si il y a un sous-marin
+                            if(plateau.grid[i-1][new_j] == 1)
+                            {
+                                new_i = i-1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, i-1, new_j, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                            else if((plateau.grid[i-1][new_j] == 2)||(plateau.grid[i-1][new_j] == 3)||(plateau.grid[i-1][new_j] == 4))
+                            {
+                                new_i = i-1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, i-1, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                        }
+                    }
+                    
+                    //Si on arrive ici sans avoir tire, c'est qu'on est tombe soit sur la mer, soit sur le bord de la carte. On va donc partir dans l'autre sens
+                    for(int i=old_i;(i<14)&&(plateau.grid[i][new_j] != 0)&&(!hasFired);i++)
+                    {
+                        //Si on trouve une cible
+                        if((plateau.grid[i+1][new_j] != 0)||(plateau.grid[i+1][new_j] != 5))
+                        {
+                            //Si il y a un sous-marin
+                            if(plateau.grid[i+1][new_j] == 1)
+                            {
+                                new_i = i+1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, i+1, new_j, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                            else if((plateau.grid[i+1][new_j] == 2)||(plateau.grid[i+1][new_j] == 3)||(plateau.grid[i+1][new_j] == 4))
+                            {
+                                new_i = i+1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, i+1, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                        }
+                    }
+                }
+                //Cas ou on a tire au dessous au prealable d'une epave
+                if(new_i == old_i + 1)
+                {
+                    //On va parcourir vers le bas jusqu'a trouve une cible, tomber sur la mer ou arriver au bord du plateau (3 cas d'arrets)
+                    for(int i=new_i;(i<14)&&(plateau.grid[i][new_j] != 0)&&(!hasFired);i++)
+                    {
+                        //Si on trouve une cible
+                        if((plateau.grid[i+1][new_j] != 0)||(plateau.grid[i+1][new_j] != 5))
+                        {
+                            //Si il y a un sous-marin
+                            if(plateau.grid[i+1][new_j] == 1)
+                            {
+                                new_i = i+1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, i+1, new_j, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                            else if((plateau.grid[i+1][new_j] == 2)||(plateau.grid[i+1][new_j] == 3)||(plateau.grid[i+1][new_j] == 4))
+                            {
+                                new_i = i+1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, i+1, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                        }
+                    }
+                    
+                    //Si on arrive ici sans avoir tire, c'est qu'on est tombe soit sur la mer, soit sur le bord de la carte. On va donc partir dans l'autre sens
+                    for(int i=old_i;(i>0)&&(plateau.grid[i][new_j] != 0)&&(!hasFired);i--)
+                    {
+                        //Si on trouve une cible
+                        if((plateau.grid[i-1][new_j] != 0)||(plateau.grid[i-1][new_j] != 5))
+                        {
+                            //Si il y a un sous-marin
+                            if(plateau.grid[i-1][new_j] == 1)
+                            {
+                                new_i = i-1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, i-1, new_j, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                            else if((plateau.grid[i-1][new_j] == 2)||(plateau.grid[i-1][new_j] == 3)||(plateau.grid[i-1][new_j] == 4))
+                            {
+                                new_i = i-1;
+                                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, i-1, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                                hasFired = true;
+                            }
+                        }
                     }
                 }
             }
@@ -231,19 +416,25 @@ public class Ordinateur
     //Methode de tir de l'IA, necessitant les infos de tous les objets Ship ainsi que les coordonnees de tir
     public boolean fireIA(Plateau plateau, Ship dreadnought, Ship cruiser1, Ship cruiser2, Ship destroyer1, Ship destroyer2, Ship destroyer3, Ship submarine1, Ship submarine2, Ship submarine3, Ship submarine4,int x, int y, boolean submarineShot, Ship dreadnought11, Ship cruiser11, Ship cruiser22, Ship destroyer11, Ship destroyer22, Ship destroyer33, Ship submarine11, Ship submarine22, Ship submarine33, Ship submarine44)
     {
-        System.out.println("Tir de l'ordinateur en " + x + ", " + y + " chef !");
+        char f;
+        f = (char)(x + 'a');
+        System.out.println("Tir de l'ordinateur en " + f + ", " + y + " chef !");
+        
         boolean sinked = false;
         //On a deux cas, celui ou on ordonne un tir au sous-marin, et le tir regulier
         //Cas du tir au sous-marin
         if(submarineShot)
         {
-            if((evalCase(plateau,x,y) == 1)||(evalCase(plateau,x,y) == 2))
+            if(evalCase(plateau,x,y) == 1)
             {
-                    fixerCase(plateau,x,y,5);
-                    sinked = true;
-                    System.out.println("L'ordinateur tire au sous-marin ! ");
-                    System.out.println("Un de nos batiments a coule..");
-                    return sinked;
+                fixerCase(plateau,x,y,5);
+                sinked = true;
+                System.out.println("L'ordinateur tire au sous-marin ! ");
+            }
+            else if((evalCase(plateau,x,y) != 0)&&(evalCase(plateau,x,y) != 5))
+            {
+                fixerCase(plateau,x,y,5);
+                System.out.println("L'ordinateur tire au sous-marin ! ");
             }
         }
         //Cas general, ou on tire au plus gros calibre
@@ -436,7 +627,7 @@ public class Ordinateur
         //Si celles-ci sont toutes a 5, on passe isAlive a false
         
         //Pour chaque bateau, on regarde si il est vertical ou horizontal, et on update ses cases en fonction
-        if(dreadnought.isVertical)
+        if((dreadnought.isVertical)&&(dreadnought.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int i=0;i<dreadnought.mSize;i++)
@@ -453,7 +644,7 @@ public class Ordinateur
                 System.out.println("Un de nos batiments a coule.. (cuirasse)");
             }
         }
-        else
+        else if((!dreadnought.isVertical)&&(dreadnought.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int j=0;j<dreadnought.mSize;j++)
@@ -472,7 +663,7 @@ public class Ordinateur
         }
         
         
-        if(cruiser1.isVertical)
+        if((cruiser1.isVertical)&&(cruiser1.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int i=0;i<cruiser1.mSize;i++)
@@ -489,7 +680,7 @@ public class Ordinateur
                 System.out.println("Un de nos batiments a coule.. (croiseur)");
             }
         }
-        else
+        else if((!cruiser1.isVertical)&&(cruiser1.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int j=0;j<cruiser1.mSize;j++)
@@ -508,7 +699,7 @@ public class Ordinateur
         }
         
         
-        if(cruiser2.isVertical)
+        if((cruiser2.isVertical)&&(cruiser2.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int i=0;i<cruiser2.mSize;i++)
@@ -525,7 +716,7 @@ public class Ordinateur
                 System.out.println("Un de nos batiments a coule.. (croiseur)");
             }
         }
-        else
+        else if((!cruiser2.isVertical)&&(cruiser2.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int j=0;j<cruiser2.mSize;j++)
@@ -544,7 +735,7 @@ public class Ordinateur
         }
         
         
-        if(destroyer1.isVertical)
+        if((destroyer1.isVertical)&&(destroyer1.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int i=0;i<destroyer1.mSize;i++)
@@ -561,7 +752,7 @@ public class Ordinateur
                 System.out.println("Un de nos batiments a coule.. (destroyer)");
             }
         }
-        else
+        else if((!destroyer1.isVertical)&&(destroyer1.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int j=0;j<destroyer1.mSize;j++)
@@ -580,7 +771,7 @@ public class Ordinateur
         }
         
         
-        if(destroyer2.isVertical)
+        if((destroyer2.isVertical)&&(destroyer2.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int i=0;i<destroyer2.mSize;i++)
@@ -597,7 +788,7 @@ public class Ordinateur
                 System.out.println("Un de nos batiments a coule.. (destroyer)");
             }
         }
-        else
+        else if((!destroyer2.isVertical)&&(destroyer2.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int j=0;j<destroyer2.mSize;j++)
@@ -616,7 +807,7 @@ public class Ordinateur
         }
         
         
-        if(destroyer3.isVertical)
+        if((destroyer3.isVertical)&&(destroyer3.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int i=0;i<destroyer3.mSize;i++)
@@ -633,7 +824,7 @@ public class Ordinateur
                 System.out.println("Un de nos batiments a coule.. (destroyer)");
             }
         }
-        else
+        else if((!destroyer3.isVertical)&&(destroyer3.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int j=0;j<destroyer3.mSize;j++)
@@ -652,7 +843,7 @@ public class Ordinateur
         }
         
         
-        if(submarine1.isVertical)
+        if((submarine1.isVertical)&&(submarine1.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int i=0;i<submarine1.mSize;i++)
@@ -669,7 +860,7 @@ public class Ordinateur
                 System.out.println("Un de nos batiments a coule.. (sous-marin)");
             }
         }
-        else
+        else if((!submarine1.isVertical)&&(submarine1.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int j=0;j<submarine1.mSize;j++)
@@ -688,7 +879,7 @@ public class Ordinateur
         }
         
         
-        if(submarine2.isVertical)
+        if((submarine2.isVertical)&&(submarine2.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int i=0;i<submarine2.mSize;i++)
@@ -705,7 +896,7 @@ public class Ordinateur
                 System.out.println("Un de nos batiments a coule.. (sous-marin)");
             }
         }
-        else
+        else if((!submarine2.isVertical)&&(submarine2.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int j=0;j<submarine2.mSize;j++)
@@ -724,7 +915,7 @@ public class Ordinateur
         }
         
         
-        if(submarine3.isVertical)
+        if((submarine3.isVertical)&&(submarine3.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int i=0;i<submarine3.mSize;i++)
@@ -741,7 +932,7 @@ public class Ordinateur
                 System.out.println("Un de nos batiments a coule.. (sous-marin)");
             }
         }
-        else
+        else if((!submarine3.isVertical)&&(submarine3.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int j=0;j<submarine3.mSize;j++)
@@ -760,7 +951,7 @@ public class Ordinateur
         }
         
         
-        if(submarine4.isVertical)
+        if((submarine4.isVertical)&&(submarine4.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int i=0;i<submarine4.mSize;i++)
@@ -777,7 +968,7 @@ public class Ordinateur
                 System.out.println("Un de nos batiments a coule.. (sous-marin)");
             }
         }
-        else
+        else if((!submarine4.isVertical)&&(submarine4.isAlive))
         {
             boolean alive = false; //Par defaut, le bateau est considere comme coule
             for(int j=0;j<submarine4.mSize;j++)
