@@ -59,110 +59,111 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
             else
             {
-                if("submarine".equals(typeShip))
+                if(null != typeShip)
+                switch (typeShip) {
+            case "submarine":
+                fixerCase(plateau, x, y, 5);
+                break;
+            case "destroyer":
+                if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                 {
                     fixerCase(plateau, x, y, 5);
                 }
-                else if("destroyer".equals(typeShip))
+                break;
+            case "cruiser":
+                //On va dessiner un "+" sans la barre du bas
+                if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                 {
-                    if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
+                    fixerCase(plateau, x, y, 5);	//Case centrale
+                }
+                if((x-1)>=0)
+                {
+                    if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        fixerCase(plateau, x, y, 5);
+                        fixerCase(plateau, x-1, y, 5);	//Case de gauche
                     }
                 }
-                else if("cruiser".equals(typeShip))
+                if((x+1)<15)
                 {
-                    //On va dessiner un "+" sans la barre du bas
-                    if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
+                    if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        fixerCase(plateau, x, y, 5);	//Case centrale
-                    }
-                    if((x-1)>=0)
-                    {
-                        if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0)&&(plateau.grid[x][y]==5))
-                        {
-                            fixerCase(plateau, x-1, y, 5);	//Case de gauche
-                        } 
-                    }
-                    if((x+1)<15)
-                    {
-                        if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0)&&(plateau.grid[x][y]==5))
-                        {
-                            fixerCase(plateau, x+1, y, 5);	//Case de droite
-                        } 
-                    }
-                    if((y-1)>=0)
-                    {
-                        if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0)&&(plateau.grid[x][y]==5))
-                        {
-                            fixerCase(plateau, x, y-1, 5);  //Case du dessus	
-                        } 	
+                        fixerCase(plateau, x+1, y, 5);	//Case de droite
                     }
                 }
-                else if("dreadnought".equals(typeShip))
+                if((y-1)>=0)
                 {
-                    //On va dessiner un "+"
-                    if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
+                    if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        fixerCase(plateau, x, y, 5);	//Case centrale
+                        fixerCase(plateau, x, y-1, 5);  //Case du dessus
                     }
-                    if((x-1)>=0)
+                }
+                break;
+            case "dreadnought":
+                //On va dessiner un "+"
+                if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
+                {
+                    fixerCase(plateau, x, y, 5);	//Case centrale
+                }
+                if((x-1)>=0)
+                {
+                    if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0)&&(plateau.grid[x][y]==5))
-                        {
-                            fixerCase(plateau, x-1, y, 5);	//Case de gauche
-                        } 
+                        fixerCase(plateau, x-1, y, 5);	//Case de gauche
                     }
-                    if((x+1)<15)
+                }
+                if((x+1)<15)
+                {
+                    if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0)&&(plateau.grid[x][y]==5))
-                        {
-                            fixerCase(plateau, x+1, y, 5);	//Case de droite
-                        } 
+                        fixerCase(plateau, x+1, y, 5);	//Case de droite
                     }
-                    if((y-1)>=0)
+                }
+                if((y-1)>=0)
+                {
+                    if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0)&&(plateau.grid[x][y]==5))
-                        {
-                            fixerCase(plateau, x, y-1, 5);  //Case du dessus	
-                        } 	
+                        fixerCase(plateau, x, y-1, 5);  //Case du dessus
                     }
-                    if((y+1)<15)
+                }
+                if((y+1)<15)
+                {
+                    if((plateau.grid[x][y+1] != 1)&&(plateau.grid[x][y+1] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        if((plateau.grid[x][y+1] != 1)&&(plateau.grid[x][y+1] != 0)&&(plateau.grid[x][y]==5))
-                        {
-                            fixerCase(plateau, x, y+1, 5);  //Case du dessous	
-                        }                    
+                        fixerCase(plateau, x, y+1, 5);  //Case du dessous
                     }
-                    if(((x-1)>=0)&&((y-1)>=0))
+                }
+                if(((x-1)>=0)&&((y-1)>=0))
+                {
+                    if((plateau.grid[x-1][y-1] != 1)&&(plateau.grid[x-1][y-1] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        if((plateau.grid[x-1][y-1] != 1)&&(plateau.grid[x-1][y-1] != 0)&&(plateau.grid[x][y]==5))
-                        {
-                            fixerCase(plateau, x-1, y-1, 5);  //Case nord ouest	
-                        }
+                        fixerCase(plateau, x-1, y-1, 5);  //Case nord ouest
                     }
-                    if(((x+1)<15)&&((y-1)>=0))
+                }
+                if(((x+1)<15)&&((y-1)>=0))
+                {
+                    if((plateau.grid[x+1][y-1] != 1)&&(plateau.grid[x+1][y-1] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        if((plateau.grid[x+1][y-1] != 1)&&(plateau.grid[x+1][y-1] != 0)&&(plateau.grid[x][y]==5))
-                        {
-                            fixerCase(plateau, x+1, y-1, 5);  //Case nord est
-                        }
+                        fixerCase(plateau, x+1, y-1, 5);  //Case nord est
                     }
-                    if(((y+1)<15)&&((x-1)>=0))
+                }
+                if(((y+1)<15)&&((x-1)>=0))
+                {
+                    if((plateau.grid[x-1][y+1] != 1)&&(plateau.grid[x-1][y+1] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        if((plateau.grid[x-1][y+1] != 1)&&(plateau.grid[x-1][y+1] != 0)&&(plateau.grid[x][y]==5))
-                        {
-                            fixerCase(plateau, x-1, y+1, 5);  //Case sud ouest
-                        }
+                        fixerCase(plateau, x-1, y+1, 5);  //Case sud ouest
                     }
-                    if(((y+1)<15)&&((x+1)<15))
+                }
+                if(((y+1)<15)&&((x+1)<15))
+                {
+                    if((plateau.grid[x+1][y+1] != 1)&&(plateau.grid[x+1][y+1] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        if((plateau.grid[x+1][y+1] != 1)&&(plateau.grid[x+1][y+1] != 0)&&(plateau.grid[x][y]==5))
-                        {
-                            fixerCase(plateau, x+1, y+1, 5);  //Case sud est
-                        }
+                        fixerCase(plateau, x+1, y+1, 5);  //Case sud est
                     }
-                }	
+                }
+                break;
+            default:
+                break;
+        }	
             }    
     }
     
@@ -478,54 +479,54 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
       String direction;
       Scanner scanner = new Scanner(System.in);
       
-      if(size!=1){
-      do{
+      if(size!=1){//si ça n'est pas un sous-marin
+      do{//on recommence jusqu'a ce que les deux point soient pas les memes et que qu'il soient a une distance de la taille du navire(-1) verticalement ou horizontalement
             System.out.println("quelles sont les coordonnees de l'avant du bateau que vous voulez bouger?");
-            do{
-                do{
+            do{//on recommence jusqu'a ce que les coordonnnes rentrees corresponde a une case qui n'est pas la mer
+                do{//on rentre une lettre (de a a 0)et elle est convertie en chiffre
                     c1= scanner.next().charAt(0);
                     x1=(int)(c1-'a');
                 
                 }while(x1<=0||x1>14);
       
-                do{
+                do{//on rentre un chiffre de 0 a 14
                     y1= scanner.nextInt();
                 
-                }while(y1<=0||y1>14);
+                }while(y1<0||y1>14);
                 
-                if(evalCase(plateau,x1,y1)==0){
+                if(evalCase(plateau,x1,y1)==0){//message de probleme
                     System.out.println("ce ne sont pas les coordonnees de l'avant d'un bateau, il s'agit de la mer, veillez recommencer svp");
                 }
             }while(evalCase(plateau,x1,y1)==0);
       
             System.out.println("quelles sont les coordonnees de l'arriere du bateau que vous voulez bouger?");
-            do{
-                do{
+            do{//on recommence jusqu'a ce que les coordonnnes rentrees corresponde a une case qui n'est pas la mer
+                do{//on rentre une lettre(de a a 0) et elle est convertie en chiffre
                     c2= scanner.next().charAt(0);
                     x2=(int)(c2-'a');
                 
                 }while(x2<=0||x2>14);
       
-                do{
+                do{//on rentre un chiffre de 0 a 14
                     y2= scanner.nextInt();
                 
-                }while(y2<=0||y2>14);
+                }while(y2<0||y2>14);
                 
-                if(evalCase(plateau,x2,y2)==0){
+                if(evalCase(plateau,x2,y2)==0){//message de probleme
                     System.out.println("ce ne sont pas les coordonnees de l'arriere d'un bateau, il s'agit de la mer, veillez recommencer svp");
                 }
             }while(evalCase(plateau,x2,y2)==0);
             
-            if(((x1==x2)&&(y1==y2))||(((x1!=(x2+(size-1)))&&(x1!=(x2-(size-1))))&&((y1!=(y2+(size-1)))&&(y1!=(y2-(size-1)))))){
+            if(((x1==x2)&&(y1==y2))||(((x1!=(x2+(size-1)))&&(x1!=(x2-(size-1))))&&((y1!=(y2+(size-1)))&&(y1!=(y2-(size-1)))))){//message de probleme si incoherence entre les points
                 System.out.println("l'espace entre les positions de l'avant et de l'arriere du bateau est incoherent, veillez recommencer svp");
             }
             
       }while(((x1==x2)&&(y1==y2))||(((x1!=(x2+(size-1)))&&(x1!=(x2-(size-1))))&&((y1!=(y2+(size-1)))&&(y1!=(y2-(size-1))))));
       
       
-          if(x1==(x2+size)&&(y1==y2)){//le bateau est horizontale et l'avant se trouve Ã  droite de l'arriÃ¨re sur le plateau
-              for(int i=0;i<size;i++){
-              switch (evalCase(plateau,(x2+i),y1)) {
+          if(x1==(x2+size)&&(y1==y2)){//le bateau est horizontale et l'avant se trouve a droite de l'arriere sur le plateau
+              for(int i=0;i<size+1;i++){
+              switch (evalCase(plateau,(x2+i),y1)) {//on parcourt toute les cases du bateau qu'on a choissit, et on verifie s'il y a au moins une case endommagee ou la mer, si oui, ok!=size
                   case 5:
                       marche=false;
                       break;
@@ -537,39 +538,39 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
                       break;
                       }
               }
-              if(ok==size){
-                      System.out.println("Voulez-vous avancer ou reculer avce ce navire(a/r)?");
-                      do{
+              if(ok==size){//s'il n'y a pas de cases endommagees, on demande si le bateau avance ou recule
+                      System.out.println("Voulez-vous avancer ou reculer avec ce navire(a/r)?");
+                      do{//on rentre une lettre jusqu'a ce que la lettre soit un r ou un a
                           movement= scanner.next().charAt(0);
                       }while(movement!='a'&&movement!='r');
-                      if(movement=='a'){
-                          if(!((x1+1>14)||(evalCase(plateau,(x1+1),y1)!=0))){
-                                for(int j=0;j<size;j++){
+                      if(movement=='a'){//si c'est un a->avancer
+                          if(((x1+1>14)||(evalCase(plateau,(x1+1),y1)!=0))){//si y'a des obstacles ou si on sort du plateau, ca sort un message d'erreur
+                                System.out.println("ce bateau ne peut pas avancer, reessayez");
+                          }
+                      else{//on avance toute les cases du bateau, et on supprime(met a zero) la case de l'arriere 
+                           for(int j=0;j<size;j++){
                                   fixerCase(plateau,(x2+j+1),y2,(evalCase(plateau,(x2+j),y2)));
                              }
                                 fixerCase(plateau,x2,y2,0);
                           }
-                      else{
-                           System.out.println("ce bateau ne peut pas avancer, reessayez");
-                          }
                       }
-                      else{
-                          if(!((x2-1<0)||(evalCase(plateau,(x2-1),y1)!=0))){
-                              for(int j=0;j<size;j++){
+                      else{//si c'est un r->reculer
+                          if(((x2-1<0)||(evalCase(plateau,(x2-1),y1)!=0))){//si y'a des obstacles ou si on sort du plateau, ca sort un message d'erreur
+                              System.out.println("ce bateau ne peut pas reculer, reessayez");
+                          }
+                          else{
+                     }         for(int j=0;j<size;j++){//on recule toute les cases du bateau, et on supprime(met a zero) la case de l'avant 
                                   fixerCase(plateau,(x2+j-1),y2,(evalCase(plateau,(x2+j),y1)));
                              }
                                 fixerCase(plateau,x1,y1,0);
-                          }
-                          else{
-                     }         System.out.println("ce bateau ne peut pas reculer, reessayez");
                           }
                       }
                       
                       
               }
 
-          if(x1==(x2-size)&&(y1==y2)){//le bateau est horizontale et l'avant se trouve Ã  gauche de l'arriÃ¨re sur le plateau
-              for(int i=0;i<size;i++){
+          if(x1==(x2-size)&&(y1==y2)){//le bateau est horizontale et l'avant se trouve a  gauche de l'arriere sur le plateau
+              for(int i=0;i<size+1;i++){//on parcourt toute les cases du bateau qu'on a choissit, et on verifie s'il y a au moins une case endommagee ou la mer, si oui, ok!=size
               switch (evalCase(plateau,(x1+i),y1)) {
                   case 5:
                       marche=false;
@@ -583,38 +584,38 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
                       
                       }
               }
-              if(ok==size){
+              if(ok==size){//s'il n'y a pas de cases endommagees, on demande si le bateau avance ou recule
                       System.out.println("Voulez-vous avancer ou reculer avce ce navire(a/r)?");
-                       do{
+                       do{//on rentre une lettre jusqu'a ce que la lettre soit un r ou un a
                           movement= scanner.next().charAt(0);
                       }while(movement!='a'&&movement!='r');
-                      if(movement=='r'){
-                           if(!((x2+1>14)||(evalCase(plateau,(x2+1),y1)!=0))){
-                              for(int j=0;j<size;j++){
+                      if(movement=='r'){//si c'est un r->reculer
+                           if(((x2+1>14)||(evalCase(plateau,(x2+1),y1)!=0))){//si y'a des obstacles ou si on sort du plateau, ca sort un message d'erreur
+                              System.out.println("ce bateau ne peut pas reculer, reessayez");
+                          }
+                           else{
+                                for(int j=0;j<size;j++){//on recule toute les cases du bateau, et on supprime(met a zero) la case de l'avant 
                                   fixerCase(plateau,(x1+j+1),y1,(evalCase(plateau,(x1+j),y1)));
                              }
                                 fixerCase(plateau,x1,y1,0);
-                          }
-                           else{
-                                System.out.println("ce bateau ne peut pas reculer, reessayez");
                            }
                       }
-                      else{
-                          if(!((x1-1<0)||(evalCase(plateau,(x1-1),y1)!=0))){
-                              for(int j=0;j<size;j++){
+                      else{//si c'est un a->avancer
+                          if(((x1-1<0)||(evalCase(plateau,(x1-1),y1)!=0))){//si y'a des obstacles ou si on sort du plateau, ca sort un message d'erreur
+                              System.out.println("ce bateau ne peut pas avancer, reessayez");
+                          }
+                          else{
+                                for(int j=0;j<size;j++){//on avance toute les cases du bateau, et on supprime(met a zero) la case de l'arriere 
                                   fixerCase(plateau,(x1+j-1),y1,(evalCase(plateau,(x1+j),y1)));
                              }
                                 fixerCase(plateau,x2,y2,0);
-                          }
-                          else{
-                                System.out.println("ce bateau ne peut pas avancer, reessayez");
                           }
                       } 
                   }
 
               }
-          if(y1==(y2+size)&&(x1==x2)){//le bateau est verticale et l'avant se trouve en bas de l'arriÃ¨re sur le plateau
-              for(int i=0;i<size;i++){
+          if(y1==(y2+size)&&(x1==x2)){//le bateau est verticale et l'avant se trouve en bas de l'arriere sur le plateau
+              for(int i=0;i<size+1;i++){//on parcourt toute les cases du bateau qu'on a choissit, et on verifie s'il y a au moins une case endommagee ou la mer, si oui, ok!=size
               switch (evalCase(plateau,x1,(y2+i))) {
                   case 5:
                       marche=false;
@@ -627,38 +628,38 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
                       break;
                       }
               }
-              if(ok==size){
+              if(ok==size){//s'il n'y a pas de cases endommagees, on demande si le bateau avance ou recule
                       System.out.println("Voulez-vous avancer ou reculer avce ce navire(a/r)?");
-                       do{
+                       do{//on rentre une lettre jusqu'a ce que la lettre soit un r ou un a
                           movement= scanner.next().charAt(0);
                       }while(movement!='a'&&movement!='r');
-                      if(movement=='a'){
-                          if(!((y1+1>14)||(evalCase(plateau,x1,(y1+1))!=0))){
-                              for(int j=0;j<size;j++){
+                      if(movement=='a'){//si c'est un a->avancer
+                          if(((y1+1>14)||(evalCase(plateau,x1,(y1+1))!=0))){//si y'a des obstacles ou si on sort du plateau, ca sort un message d'erreur
+                              System.out.println("ce bateau ne peut pas avancer, reessayez");
+                          }
+                          else{//on avance toute les cases du bateau, et on supprime(met a zero) la case de l'arriere 
+                               for(int j=0;j<size;j++){
                                   fixerCase(plateau,x2,(y2+j+1),(evalCase(plateau,x2,(y2+j))));
                              }
                                 fixerCase(plateau,x2,y2,0);
                           }
-                          else{
-                               System.out.println("ce bateau ne peut pas avancer, reessayez");
-                          }
                       }
-                      else{
-                          if(!((y2-1<0)||(evalCase(plateau,x2,(y1-1))!=0))){
-                              for(int j=0;j<size;j++){
+                      else{//si c'est un r->reculer
+                          if(((y2-1<0)||(evalCase(plateau,x2,(y1-1))!=0))){//si y'a des obstacles ou si on sort du plateau, ca sort un message d'erreur
+                              System.out.println("ce bateau ne peut pas reculer, reessayez");
+                          }
+                          else{
+                              for(int j=0;j<size;j++){//on recule toute les cases du bateau, et on supprime(met a zero) la case de l'avant 
                                   fixerCase(plateau,x2,(y2+j-1),(evalCase(plateau,x2,(y2+j))));
                              }
                                 fixerCase(plateau,x1,y1,0);
-                          }
-                          else{
-                              System.out.println("ce bateau ne peut pas reculer, reessayez");
                           }
                       } 
                   }
               }
               
-          if(y1==(y2+size)&&(x1==x2)){//le bateau est verticale et l'avant se trouve en haut de l'arriÃ¨re sur le plateau
-              for(int i=0;i<size;i++){
+          if(y1==(y2+size)&&(x1==x2)){//le bateau est verticale et l'avant se trouve en haut de l'arriere sur le plateau
+              for(int i=0;i<size+1;i++){//on parcourt toute les cases du bateau qu'on a choissit, et on verifie s'il y a au moins une case endommagee ou la mer, si oui, ok!=size
               switch (evalCase(plateau,x1,(y1+i))) {
                   case 5:
                       marche=false;
@@ -670,100 +671,100 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
                       break;
                  }
               }
-                 if(ok==size){
+                 if(ok==size){//s'il n'y a pas de cases endommagees, on demande si le bateau avance ou recule
                       System.out.println("Voulez-vous avancer ou reculer avce ce navire(a/r)?");
-                       do{
+                       do{//on rentre une lettre jusqu'a ce que la lettre soit un r ou un a
                           movement= scanner.next().charAt(0);
                       }while(movement!='a'&&movement!='r');
-                      if(movement=='a'){
-                          if(!((y1-1<0)||(evalCase(plateau,x2,(y1-1))!=0))){
-                              for(int j=0;j<size;j++){
+                      if(movement=='a'){//si c'est un a->avancer
+                          if(((y1-1<0)||(evalCase(plateau,x2,(y1-1))!=0))){//si y'a des obstacles ou si on sort du plateau, ca sort un message d'erreur
+                              System.out.println("ce bateau ne peut pas avancer, reessayez");
+                          }
+                          else{//on avance toute les cases du bateau, et on supprime(met a zero) la case de l'arriere 
+                               for(int j=0;j<size;j++){
                                   fixerCase(plateau,x1,(y1+j-1),(evalCase(plateau,x1,(y1+j))));
                              }
                                 fixerCase(plateau,x2,y2,0);
                           }
-                          else{
-                               System.out.println("ce bateau ne peut pas avancer, reessayez");
-                          }
                       }
-                      else{
-                          if(!((y2+1>14)||(evalCase(plateau,x1,(y2+1))!=0))){
+                      else{//si c'est un r->reculer
+                          if(((y2+1>14)||(evalCase(plateau,x1,(y2+1))!=0))){//si y'a des obstacles ou si on sort du plateau, ca sort un message d'erreur
+                              System.out.println("ce bateau ne peut pas reculer, reessayez");
+                          }
+                          else{//on recule toute les cases du bateau, et on supprime(met a zero) la case de l'avant 
                               for(int j=0;j<size;j++){
                                   fixerCase(plateau,x1,(y1+j+1),(evalCase(plateau,x1,(y1+j))));
                              }
                                 fixerCase(plateau,x1,y1,0);
                           }
-                          else{
-                              System.out.println("ce bateau ne peut pas reculer, reessayez");
-                          }
                       } 
                    }
               }
-      if(marche==false){
+      if(marche==false){//quand on a teste s'il y avait des cases endommagees, on a return le boolean marche=false pcq il y avit au moins une case endommagee
           System.out.println("le bateau ne peut pas se deplacer car il a un emplacement deja  endommage, essayez de tirer plutot");
       }
-      if(wtf==true){
+      if(wtf==true){//quand on a teste s'il y avait des cases endommagees, on a return le boolean wtf=true pcq il y avait la mer au moins une fois
           System.out.println("vous n'avez pas vraiment saisis les coordonnees de l'avant et arriere d'un navire puisqu'il y a de la mer entre les deux coordonnees, essayez de tirer ou rentrez d'autres coordonnees valides ...");
       }
       }
-      else{
-          do{
+      else{//si c'est un sous-marin
+          do{//on rentre les coordonnees du points jusqu'a que ce soit pas la mer
                 System.out.println("quelles sont les coordonnees du bateau que vous voulez bouger?");
-                do{
+                do{//on rentre une lettre(entre a et 0)qui est convertie en chiffre entre 0 et 14(jusqu'a que ce soit le cas)
                     c1= scanner.next().charAt(0);
                     x1=(int)(c1-'a');
                 
                 }while(x1<=0||x1>14);
       
-                do{
+                do{//on rentreun chiffre compris entre 0 et 14(jusqu'a que ce soit le cas)
                     y1= scanner.nextInt();
                 
-                }while(y1<=0||y1>14);
+                }while(y1<0||y1>14);
                 
-                if(evalCase(plateau,x1,y1)==0){
+                if(evalCase(plateau,x1,y1)==0){//message d'erreur si la case rentree est la mer
                     System.out.println("ce ne sont pas les coordonnees de l'avant d'un bateau, il s'agit de la mer, veillez recommencer svp");
                 }
                 
             }while(evalCase(plateau,x1,y1)==0);
-          if((evalCase(plateau,x1,y1)!=0)){
-              do{
+          if((evalCase(plateau,x1,y1)!=0)){//si on a bien rentre les coordonnes du points alors on peut continuer
+              do{//on rentre un string qui correspnd a la direction et qui est blinde pour qu'on ne rentre pas n'importe quoi
                   direction=scanner.nextLine();
               }while((!"haut".equals(direction))&&(!"bas".equals(direction))&&(!"gauche".equals(direction))&&(!"droite".equals(direction)));
               if("gauche".equals(direction)){
-                  if(((evalCase(plateau,x1,(y1-1)))!=0)||((y1-1)<0)){
+                  if(((evalCase(plateau,x1,(y1-1)))!=0)||((y1-1)<0)){//si y'a un obstacle ou si on sort du plateau, ca sort un message d'erreur
                       System.out.println("ce bateau ne peut pas se deplacer vers la gauche, reessayer svp");
                   }
                   else{
-                      fixerCase(plateau,x1,(y1-1),(evalCase(plateau,x1,y1)));
-                      fixerCase(plateau,x1,y1,0);
+                      fixerCase(plateau,x1,(y1-1),(evalCase(plateau,x1,y1)));//on bouge la case de 1 vers la gauche 
+                      fixerCase(plateau,x1,y1,0);//on supprime(met a zero) l'ancienne case
                   }
                   
               }
               if("droite".equals(direction)){
-                  if(((evalCase(plateau,x1,(y1+1)))!=0)||((y1+1)>14)){
+                  if(((evalCase(plateau,x1,(y1+1)))!=0)||((y1+1)>14)){//si y'a un obstacle ou si on sort du plateau, ca sort un message d'erreur
                       System.out.println("ce bateau ne peut pas se deplacer vers la droite, reessayer svp");
                   }
                   else{
-                      fixerCase(plateau,x1,(y1+1),(evalCase(plateau,x1,y1)));
-                      fixerCase(plateau,x1,y1,0);
+                      fixerCase(plateau,x1,(y1+1),(evalCase(plateau,x1,y1)));//on bouge la case de 1 vers la droite 
+                      fixerCase(plateau,x1,y1,0);//on supprime(met a zero) l'ancienne case
                   }
               }
               if("haut".equals(direction)){
-                  if(((evalCase(plateau,(x1-1),y1))!=0)||((x1-1)<0)){
+                  if(((evalCase(plateau,(x1-1),y1))!=0)||((x1-1)<0)){//si y'a un obstacle ou si on sort du plateau, ca sort un message d'erreur
                       System.out.println("ce bateau ne peut pas se deplacer vers le haut, reessayer svp");
                   }
                   else{
-                      fixerCase(plateau,(x1-1),y1,(evalCase(plateau,x1,y1)));
-                      fixerCase(plateau,x1,y1,0);
+                      fixerCase(plateau,(x1-1),y1,(evalCase(plateau,x1,y1)));//on bouge la case de 1 vers le haut  
+                      fixerCase(plateau,x1,y1,0);//on supprime(met a zero) l'ancienne case
                   }
               }
               if("bas".equals(direction)){
-                  if(((evalCase(plateau,(x1-1),y1))!=0)||((x1+1)>14)){
+                  if(((evalCase(plateau,(x1-1),y1))!=0)||((x1+1)>14)){//si y'a un obstacle ou si on sort du plateau, ca sort un message d'erreur
                       System.out.println("ce bateau ne peut pas se deplacer vers le bas, reessayer svp");
                   }
                   else{
-                      fixerCase(plateau,(x1+1),y1,(evalCase(plateau,x1,y1)));
-                      fixerCase(plateau,x1,y1,0);
+                      fixerCase(plateau,(x1+1),y1,(evalCase(plateau,x1,y1)));//on bouge la case de 1 vers le bas
+                      fixerCase(plateau,x1,y1,0);//on supprime(met a zero) l'ancienne case
                   }
               }
            }
