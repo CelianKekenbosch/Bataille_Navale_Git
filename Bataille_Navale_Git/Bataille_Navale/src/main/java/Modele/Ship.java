@@ -650,7 +650,7 @@ public static boolean fusee_eclairante(Plateau plateau, Ship destroyer1, Ship de
                     c1= scanner.next().charAt(0);
                     x1=(int)(c1-'a');
                 
-                }while(x1<=0||x1>14);
+                }while(x1<0||x1>14);
       
                 do{//on rentre un chiffre de 0 a 14
                     y1= scanner.nextInt();
@@ -668,7 +668,7 @@ public static boolean fusee_eclairante(Plateau plateau, Ship destroyer1, Ship de
                     c2= scanner.next().charAt(0);
                     x2=(int)(c2-'a');
                 
-                }while(x2<=0||x2>14);
+                }while(x2<0||x2>14);
       
                 do{//on rentre un chiffre de 0 a 14
                     y2= scanner.nextInt();
@@ -687,7 +687,7 @@ public static boolean fusee_eclairante(Plateau plateau, Ship destroyer1, Ship de
       }while(((x1==x2)&&(y1==y2))||(((x1!=(x2+(size-1)))&&(x1!=(x2-(size-1))))&&((y1!=(y2+(size-1)))&&(y1!=(y2-(size-1))))));
       
       
-          if(x1==(x2+size)&&(y1==y2)){//le bateau est horizontale et l'avant se trouve a droite de l'arriere sur le plateau
+          if(x1==(x2+size)&&(y1==y2)){//le bateau est verticale et l'avant se trouve en bas de l'arriere sur le plateau
               for(int i=0;i<size+1;i++){
               switch (evalCase(plateau,(x2+i),y1)) {//on parcourt toute les cases du bateau qu'on a choissit, et on verifie s'il y a au moins une case endommagee ou la mer, si oui, ok!=size
                   case 5:
@@ -732,7 +732,7 @@ public static boolean fusee_eclairante(Plateau plateau, Ship destroyer1, Ship de
                       
               }
 
-          if(x1==(x2-size)&&(y1==y2)){//le bateau est horizontale et l'avant se trouve a  gauche de l'arriere sur le plateau
+          if(x1==(x2-size)&&(y1==y2)){//le bateau est verticale et l'avant se trouve en haut de l'arriere sur le plateau
               for(int i=0;i<size+1;i++){//on parcourt toute les cases du bateau qu'on a choissit, et on verifie s'il y a au moins une case endommagee ou la mer, si oui, ok!=size
               switch (evalCase(plateau,(x1+i),y1)) {
                   case 5:
@@ -748,7 +748,7 @@ public static boolean fusee_eclairante(Plateau plateau, Ship destroyer1, Ship de
                       }
               }
               if(ok==size){//s'il n'y a pas de cases endommagees, on demande si le bateau avance ou recule
-                      System.out.println("Voulez-vous avancer ou reculer avce ce navire(a/r)?");
+                      System.out.println("Voulez-vous avancer ou reculer avec ce navire(a/r)?");
                        do{//on rentre une lettre jusqu'a ce que la lettre soit un r ou un a
                           movement= scanner.next().charAt(0);
                       }while(movement!='a'&&movement!='r');
@@ -777,7 +777,7 @@ public static boolean fusee_eclairante(Plateau plateau, Ship destroyer1, Ship de
                   }
 
               }
-          if(y1==(y2+size)&&(x1==x2)){//le bateau est verticale et l'avant se trouve en bas de l'arriere sur le plateau
+          if(y1==(y2+size)&&(x1==x2)){//le bateau est horizontale et l'avant se trouve a droite de l'arriere sur le plateau
               for(int i=0;i<size+1;i++){//on parcourt toute les cases du bateau qu'on a choissit, et on verifie s'il y a au moins une case endommagee ou la mer, si oui, ok!=size
               switch (evalCase(plateau,x1,(y2+i))) {
                   case 5:
@@ -792,7 +792,7 @@ public static boolean fusee_eclairante(Plateau plateau, Ship destroyer1, Ship de
                       }
               }
               if(ok==size){//s'il n'y a pas de cases endommagees, on demande si le bateau avance ou recule
-                      System.out.println("Voulez-vous avancer ou reculer avce ce navire(a/r)?");
+                      System.out.println("Voulez-vous avancer ou reculer avec ce navire(a/r)?");
                        do{//on rentre une lettre jusqu'a ce que la lettre soit un r ou un a
                           movement= scanner.next().charAt(0);
                       }while(movement!='a'&&movement!='r');
@@ -821,7 +821,7 @@ public static boolean fusee_eclairante(Plateau plateau, Ship destroyer1, Ship de
                   }
               }
               
-          if(y1==(y2+size)&&(x1==x2)){//le bateau est verticale et l'avant se trouve en haut de l'arriere sur le plateau
+          if(y1==(y2+size)&&(x1==x2)){//le bateau est horizontale et l'avant se trouve a gauche de l'arriere sur le plateau
               for(int i=0;i<size+1;i++){//on parcourt toute les cases du bateau qu'on a choissit, et on verifie s'il y a au moins une case endommagee ou la mer, si oui, ok!=size
               switch (evalCase(plateau,x1,(y1+i))) {
                   case 5:
@@ -835,7 +835,7 @@ public static boolean fusee_eclairante(Plateau plateau, Ship destroyer1, Ship de
                  }
               }
                  if(ok==size){//s'il n'y a pas de cases endommagees, on demande si le bateau avance ou recule
-                      System.out.println("Voulez-vous avancer ou reculer avce ce navire(a/r)?");
+                      System.out.println("Voulez-vous avancer ou reculer avec ce navire(a/r)?");
                        do{//on rentre une lettre jusqu'a ce que la lettre soit un r ou un a
                           movement= scanner.next().charAt(0);
                       }while(movement!='a'&&movement!='r');
@@ -877,7 +877,7 @@ public static boolean fusee_eclairante(Plateau plateau, Ship destroyer1, Ship de
                     c1= scanner.next().charAt(0);
                     x1=(int)(c1-'a');
                 
-                }while(x1<=0||x1>14);
+                }while(x1<0||x1>14);
       
                 do{//on rentreun chiffre compris entre 0 et 14(jusqu'a que ce soit le cas)
                     y1= scanner.nextInt();
