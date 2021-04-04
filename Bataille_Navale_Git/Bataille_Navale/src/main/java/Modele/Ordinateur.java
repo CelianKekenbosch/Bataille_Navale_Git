@@ -3,7 +3,7 @@ package Modele;
 import static Modele.Plateau.evalCase;
 import static Modele.Plateau.fixerCase;
 
-public class Ordinateur
+public class Ordinateur implements java.io.Serializable
 {
     private String name;
     private int old_i,old_j;    //Ancienne coordonnees utilisees pour abattre un bateau

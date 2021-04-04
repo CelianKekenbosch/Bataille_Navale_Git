@@ -1,6 +1,6 @@
 package Modele;
 
-public class Plateau {
+public class Plateau implements java.io.Serializable{
      //Attributs
     private final int nbLigne;
     private final int nbColonne;

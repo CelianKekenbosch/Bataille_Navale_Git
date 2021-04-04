@@ -4,7 +4,7 @@ import java.util.Scanner;
 import static Modele.Plateau.evalCase;
 import static Modele.Plateau.fixerCase;
 
-public class Ship {
+public class Ship implements java.io.Serializable{
 
     public String mTypeShip;
     public int mSize;

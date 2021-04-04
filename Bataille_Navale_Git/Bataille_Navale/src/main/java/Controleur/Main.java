@@ -9,10 +9,16 @@ import static Modele.Plateau.randomPositionOneBoat;
 import static Modele.Ship.move;
 import static Vue.Vue.affichePlateau;
 import static Vue.Vue.affichePlateauMasque;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 
 public class Main{
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         int choix;
         int action;
         int taille;
@@ -52,6 +58,223 @@ public class Main{
                     touche2=pause2.next().charAt(0);
                     break;
                 case 2: //On charge une partie deja sauvegardee
+                    ObjectInputStream ois = null;
+                    
+                    try{
+                        final FileInputStream fichier = new FileInputStream("BatailleNavaleSave.ser");
+                        ois = new ObjectInputStream(fichier);
+                        Dreadnought D1 = (Dreadnought) ois.readObject();
+                        Cruiser c1 = (Cruiser) ois.readObject();
+                        Cruiser c2 = (Cruiser) ois.readObject();
+                        Destroyer d1 = (Destroyer) ois.readObject();
+                        Destroyer d2 = (Destroyer) ois.readObject();
+                        Destroyer d3 = (Destroyer) ois.readObject();
+                        Submarine s1 = (Submarine) ois.readObject();
+                        Submarine s2 = (Submarine) ois.readObject();
+                        Submarine s3 = (Submarine) ois.readObject();
+                        Submarine s4 = (Submarine) ois.readObject();
+                        Dreadnought IAD1 = (Dreadnought) ois.readObject();
+                        Cruiser IAc1 = (Cruiser) ois.readObject();
+                        Cruiser IAc2 = (Cruiser) ois.readObject();
+                        Destroyer IAd1 = (Destroyer) ois.readObject();
+                        Destroyer IAd2 = (Destroyer) ois.readObject();
+                        Destroyer IAd3 = (Destroyer) ois.readObject();
+                        Submarine IAs1 = (Submarine) ois.readObject();
+                        Submarine IAs2 = (Submarine) ois.readObject();
+                        Submarine IAs3 = (Submarine) ois.readObject();
+                        Submarine IAs4 = (Submarine) ois.readObject();
+                        Plateau plateau = (Plateau) ois.readObject();
+                        Plateau plateauIA = (Plateau) ois.readObject();
+                        Ordinateur IA = (Ordinateur) ois.readObject();
+                        
+                        //Puis on joue la partie
+                        plateau.convertGridIntoPlateau();
+                        plateauIA.convertGridIntoPlateau();
+                        
+                        do{
+                        //Boucle de choix d'actions du joueur lors d'un tour
+                        boolean repete;
+                        boolean hasFusee;
+                        boolean moved;
+                        do
+                        {
+                            repete=false;
+                            hasFusee = true;
+                            moved = true;
+                            System.out.println("C'est votre tour, choissisez votre prochaine action:");
+                            System.out.println("");
+                            System.out.println("Position de votre flotte:");
+                            plateau.convertGridIntoPlateau();
+                            plateau.affichePlateau();
+                            System.out.println(" ");
+                            System.out.println("Detruisez la flotte de l'ordinateur:");
+                            //plateauTir.affichePlateau();
+                            //On affiche a chaque tour l'avance de l'attaque du joueur
+                            plateauIA.convertGridIntoPlateau();
+                            affichePlateauMasque(plateauIA);
+                            System.out.println("1. Tirer avec un bateau");
+                            System.out.println("");
+                            System.out.println("2. Tirer une fusee eclairante avec un destroyer");
+                            System.out.println("");
+                            System.out.println("3. Bouger un bateau intact d'une case ");
+                            System.out.println("");
+                            System.out.println("4. Afficher l'aide ");
+                            System.out.println("");
+                            System.out.println("5. Quitter et sauvegarder la partie actuelle");
+                            System.out.println("");
+                            System.out.println("6. Afficher le plateau de l'ordinateur (juste pour la soutenance)");
+                            Scanner scannerAction = new Scanner(System.in);
+                            action=scannerAction.nextInt();
+
+                            switch(action){
+                                case 1://ok
+                                {
+                                    int typeShip;
+                                    boolean alive=true;
+                                    do{
+
+                                        System.out.println("Choisissez le type de bateau avec lequel vous voulez tirer (1 pour sous-marin, 2 destroyer, 3 croiseur et 4 cuirasse)");//pareil
+                                        Scanner scannerShip= new Scanner(System.in);
+                                        typeShip = scannerShip.nextInt();
+                                        if(typeShip==2){
+                                            if (!(d1.isAlive)&&!(d2.isAlive)&&!(d3.isAlive)){
+                                                alive=false;
+                                            }
+                                        }
+                                        if(typeShip==3){
+                                            if (!(c1.isAlive)&&!(c2.isAlive)){
+                                                alive=false;
+                                            }
+                                        }
+                                        if(typeShip==4){
+                                            if (!(D1.isAlive)){
+                                                alive=false;
+                                            }    
+                                        }   
+                                    }while(((typeShip<1)||(typeShip>5))&&!(alive));
+
+                                    switch(typeShip){
+                                        case 1:
+                                            Submarine.fire(plateauIA,"submarine", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
+                                            break;
+                                        case 2:
+                                            Destroyer.fire(plateauIA,"destroyer", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
+                                            break;
+                                        case 3 :
+                                            Cruiser.fire(plateauIA,"cruiser", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
+                                            break;
+                                        default:
+                                            Dreadnought.fire(plateauIA,"dreadnought", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
+                                            break;
+                                    }
+                                    System.out.println("Votre tir a ete effectue!");
+                                    //plateauTir.affichePlateau();//à changer car plateauTir=plateauIA
+                                    plateauIA.convertGridIntoPlateau();
+                                    affichePlateauMasque(plateauIA);
+                                    break;
+                                }
+
+                                case 2://ok
+                                    hasFusee = fusee_eclairante(plateauIA, d1, d2, d3);
+                                    if(hasFusee)
+                                    {
+                                        System.out.println("Fusee eclairante tiree chef !");
+                                    }
+                                    break;
+
+                                case 3://ok
+
+                                    moved = move(plateau, D1, c1, c2, d1, d2, d3, s1, s2, s3, s4);
+                                    plateau.convertGridIntoPlateau();                         
+                                    break;
+                                case 4://ok
+                                    help();
+                                    repete=true;
+                                    System.out.println("Entrez une touche pour continuer");
+                                    Scanner pause= new Scanner(System.in);
+                                    char touche;
+                                    touche=pause.next().charAt(0);
+                                    break;
+                                case 5://ok
+                                    System.out.println("Vous avez decider de quitter la partie, elle sera sauvegardee ne vous inquietez pas !");
+                                    //Quitter+sauvegarder
+                                    ObjectOutputStream oos = null;   
+                                    try{
+                                        final FileOutputStream fichier1 = new FileOutputStream("BatailleNavaleSave.ser") ;
+                                        oos = new ObjectOutputStream(fichier1) ; 
+                                        oos.writeObject(D1);
+                                        oos.writeObject(c1);
+                                        oos.writeObject(c2);
+                                        oos.writeObject(d1);
+                                        oos.writeObject(d2);
+                                        oos.writeObject(d3);
+                                        oos.writeObject(s1);
+                                        oos.writeObject(s2);
+                                        oos.writeObject(s3);
+                                        oos.writeObject(s4);
+                                        oos.writeObject(IAD1);
+                                        oos.writeObject(IAc1);
+                                        oos.writeObject(IAc2);
+                                        oos.writeObject(IAd1);
+                                        oos.writeObject(IAd2);
+                                        oos.writeObject(IAd3);
+                                        oos.writeObject(IAs1);
+                                        oos.writeObject(IAs2);
+                                        oos.writeObject(IAs3);
+                                        oos.writeObject(IAs4);
+                                        oos.writeObject(plateau);
+                                        oos.writeObject(plateauIA);
+                                        oos.writeObject(IA);
+                                        oos.flush();
+                                    } catch(final java.io.IOException error){
+                                      error.printStackTrace();
+                                    } finally{
+                                      try{
+                                          if(oos != null)
+                                          {
+                                              oos.flush();
+                                              oos.close();
+                                          }
+                                      } catch (final IOException e2)
+                                      {
+                                          e2.printStackTrace();
+                                      }
+                                    }
+                                    
+                                    save=true;
+                                    break;
+                                default://ok
+                                    affichePlateau(plateauIA);
+                                    repete=true;
+                                    System.out.println("Entrez une touche pour continuer");
+                                    Scanner pause1= new Scanner(System.in);
+                                    char touche1;
+                                    touche=pause1.next().charAt(0);
+                                    break;
+                            }
+                        }while((repete)||(!hasFusee)||(!moved));//ok
+                        if((victoire == false)&&(save == false))
+                        {
+                            System.out.println("C'est le tour de l'ordinateur, preparez vous a l'impact !");
+                            IA.iaTurn(plateau, D1, c1, c2, d1, d2, d3, s1, s2, s3, s4, IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
+                        }   
+                    }while((victoire==false)&&(save==false));
+                        
+                    } catch (java.io.IOException error){
+                        error.printStackTrace();  
+                    } catch (ClassNotFoundException error) {
+                        error.printStackTrace();
+                    }
+                    finally {
+                      try{
+                          if(ois != null)
+                          {
+                              ois.close();
+                          }
+                      }catch (IOException e2){
+                          e2.printStackTrace();
+                      }
+                    }
                     break;
                 default:    //On commence une toute nouvelle partie
                     Ordinateur IA=new Ordinateur("IA");
@@ -202,7 +425,7 @@ public class Main{
                                     }
                                     break;
 
-                                case 3://move a changer
+                                case 3://ok
 
                                     moved = move(plateau, D1, c1, c2, d1, d2, d3, s1, s2, s3, s4);
                                     plateau.convertGridIntoPlateau();                         
@@ -215,9 +438,52 @@ public class Main{
                                     char touche;
                                     touche=pause.next().charAt(0);
                                     break;
-                                case 5://R
+                                case 5://ok
                                     System.out.println("Vous avez decider de quitter la partie, elle sera sauvegardee ne vous inquietez pas !");
-                                    //quitter+sauvegarder
+                                    //Quitter+sauvegarder
+                                    ObjectOutputStream oos = null;   
+                                    try{
+                                        final FileOutputStream fichier = new FileOutputStream("BatailleNavaleSave.ser") ;
+                                        oos = new ObjectOutputStream(fichier) ; 
+                                        oos.writeObject(D1);
+                                        oos.writeObject(c1);
+                                        oos.writeObject(c2);
+                                        oos.writeObject(d1);
+                                        oos.writeObject(d2);
+                                        oos.writeObject(d3);
+                                        oos.writeObject(s1);
+                                        oos.writeObject(s2);
+                                        oos.writeObject(s3);
+                                        oos.writeObject(s4);
+                                        oos.writeObject(IAD1);
+                                        oos.writeObject(IAc1);
+                                        oos.writeObject(IAc2);
+                                        oos.writeObject(IAd1);
+                                        oos.writeObject(IAd2);
+                                        oos.writeObject(IAd3);
+                                        oos.writeObject(IAs1);
+                                        oos.writeObject(IAs2);
+                                        oos.writeObject(IAs3);
+                                        oos.writeObject(IAs4);
+                                        oos.writeObject(plateau);
+                                        oos.writeObject(plateauIA);
+                                        oos.writeObject(IA);
+                                        oos.flush();
+                                    } catch(final java.io.IOException error){
+                                      error.printStackTrace();
+                                    } finally{
+                                      try{
+                                          if(oos != null)
+                                          {
+                                              oos.flush();
+                                              oos.close();
+                                          }
+                                      } catch (final IOException e2)
+                                      {
+                                          e2.printStackTrace();
+                                      }
+                                    }
+                                    
                                     save=true;
                                     break;
                                 default://ok
@@ -230,23 +496,16 @@ public class Main{
                                     break;
                             }
                         }while((repete)||(!hasFusee)||(!moved));//ok
-                        System.out.println("C'est le tour de l'ordinateur, preparez vous a l'impact !");
-                        IA.iaTurn(plateau, D1, c1, c2, d1, d2, d3, s1, s2, s3, s4, IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
+                        if((victoire == false)&&(save == false))
+                        {
+                            System.out.println("C'est le tour de l'ordinateur, preparez vous a l'impact !");
+                            IA.iaTurn(plateau, D1, c1, c2, d1, d2, d3, s1, s2, s3, s4, IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
+                        }   
                     }while((victoire==false)&&(save==false));
 
                 break;
             }
         }while(repete1);
-    }
-    
-    //commence une partie(nouvelle si on n'a pas charge une ancienne)
-    public static void startGame(){
-        
-    }
-    
-    //charge une ancienne partie deja enregistree
-    public static void loadGame(){
-        
     }
     
     //affiche une aide
@@ -279,5 +538,5 @@ public class Main{
         }while(!((bn=='Y')||(bn=='y')||(bn=='N')||(bn=='n')));*/
         
         System.out.println(AIDE);
-    }    
+    }
 }
