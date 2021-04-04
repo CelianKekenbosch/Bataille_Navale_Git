@@ -113,29 +113,25 @@ public class Plateau {
         {
             for(j=0;j<nbColonne;j++)
             {
-                if(plateau[i][j] == 'X')
-                {
-                    System.out.print("X");
-                }
-                else if(plateau[i][j] == '*')
-                {
-                    System.out.print(" ");
-                }
-                else if(plateau[i][j] == '@')
-                {
-                    System.out.print(" ");
-                }
-                else if(plateau[i][j] == '%')
-                {
-                    System.out.print(" ");
-                }
-                else if(plateau[i][j] == '#')
-                {
-                    System.out.print(" ");
-                }
-                else
-                {
-                    System.out.print(plateau[i][j]);
+                switch (plateau[i][j]) {
+                    case 'X':
+                        System.out.print("X");
+                        break;
+                    case '*':
+                        System.out.print(" ");
+                        break;
+                    case '@':
+                        System.out.print(" ");
+                        break;
+                    case '%':
+                        System.out.print(" ");
+                        break;
+                    case '#':
+                        System.out.print(" ");
+                        break;
+                    default:
+                        System.out.print(plateau[i][j]);
+                        break;
                 }
             }
             System.out.println(" ");   
