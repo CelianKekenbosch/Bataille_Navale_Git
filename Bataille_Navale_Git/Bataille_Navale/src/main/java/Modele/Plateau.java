@@ -4,7 +4,7 @@ public class Plateau {
      //Attributs
     private final int nbLigne;
     private final int nbColonne;
-    private final char [][] plateau;
+    public final char [][] plateau;
     private int numPlateau;
     public final int VALUESEA=0;
     public final int VALUESUBMARINE=1;

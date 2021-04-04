@@ -34,7 +34,6 @@ public class Ordinateur
             int r;
             do{
             r = 0 + (int)(Math.random() * ((2-0)+1));   //PAS LE 3 POUR LE MOMENT
-            System.out.println(r);
             }while((fusee == 3)&&((r == 1)||(r == 2))); //Si on a plus de fusee, on recommence
 
             //On va generer deux entier aleatoire representant les coordonnees d'un tir (entre 0 et 14)
@@ -242,6 +241,8 @@ public class Ordinateur
             {
                     fixerCase(plateau,x,y,5);
                     sinked = true;
+                    System.out.println("L'ordinateur tire au sous-marin ! ");
+                    System.out.println("Un de nos batiments a coule..");
                     return sinked;
             }
         }
@@ -254,6 +255,7 @@ public class Ordinateur
                 if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                 {
                     fixerCase(plateau, x, y, 5);	//Case centrale
+                    System.out.println("L'ordinateur tire au cuirasse ! ");
                 }
                 if((x-1)>=0)
                 {
@@ -318,6 +320,7 @@ public class Ordinateur
                 if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                 {
                     fixerCase(plateau, x, y, 5);	//Case centrale
+                    System.out.println("L'ordinateur tire au croiseur ! ");
                 }
                 if((x-1)>=0)
                 {
@@ -347,6 +350,7 @@ public class Ordinateur
                 if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                 {
                     fixerCase(plateau, x, y, 5);	//Case centrale
+                    System.out.println("L'ordinateur tire au croiseur ! ");
                 }
                 if((x-1)>=0)
                 {
@@ -375,6 +379,7 @@ public class Ordinateur
                 if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                 {
                     fixerCase(plateau, x, y, 5);
+                    System.out.println("L'ordinateur tire au destroyer ! ");
                 }
             }
             else if(destroyer22.isAlive)
@@ -382,6 +387,7 @@ public class Ordinateur
                 if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                 {
                     fixerCase(plateau, x, y, 5);
+                    System.out.println("L'ordinateur tire au destroyer ! ");
                 }
             }
             else if(destroyer33.isAlive)
@@ -389,6 +395,7 @@ public class Ordinateur
                 if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                 {
                     fixerCase(plateau, x, y, 5);
+                    System.out.println("L'ordinateur tire au destroyer ! ");
                 }
             }
             else if(submarine11.isAlive)
@@ -396,6 +403,7 @@ public class Ordinateur
                 if(plateau.grid[x][y] != 0)
                 {
                     fixerCase(plateau, x, y, 5);
+                    System.out.println("L'ordinateur tire au sous-marin ! ");
                 }
             }
             else if(submarine22.isAlive)
@@ -403,6 +411,7 @@ public class Ordinateur
                 if(plateau.grid[x][y] != 0)
                 {
                     fixerCase(plateau, x, y, 5);
+                    System.out.println("L'ordinateur tire au sous-marin ! ");
                 }
             }
             else if(submarine33.isAlive)
@@ -410,6 +419,7 @@ public class Ordinateur
                 if(plateau.grid[x][y] != 0)
                 {
                     fixerCase(plateau, x, y, 5);
+                    System.out.println("L'ordinateur tire au sous-marin ! ");
                 }
             }
             else if(submarine44.isAlive)
@@ -417,6 +427,7 @@ public class Ordinateur
                 if(plateau.grid[x][y] != 0)
                 {
                     fixerCase(plateau, x, y, 5);
+                    System.out.println("L'ordinateur tire au sous-marin ! ");
                 }
             }
         }
@@ -439,6 +450,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (cuirasse)");
             }
         }
         else
@@ -455,6 +467,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (cuirasse)");
             }
         }
         
@@ -473,6 +486,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (croiseur)");
             }
         }
         else
@@ -489,6 +503,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (croiseur)");
             }
         }
         
@@ -507,6 +522,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (croiseur)");
             }
         }
         else
@@ -523,6 +539,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (croiseur)");
             }
         }
         
@@ -541,6 +558,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (destroyer)");
             }
         }
         else
@@ -557,6 +575,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (destroyer)");
             }
         }
         
@@ -575,6 +594,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (destroyer)");
             }
         }
         else
@@ -591,6 +611,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (destroyer)");
             }
         }
         
@@ -609,6 +630,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (destroyer)");
             }
         }
         else
@@ -625,6 +647,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (destroyer)");
             }
         }
         
@@ -643,6 +666,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (sous-marin)");
             }
         }
         else
@@ -659,6 +683,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (sous-marin)");
             }
         }
         
@@ -677,6 +702,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (sous-marin)");
             }
         }
         else
@@ -693,6 +719,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (sous-marin)");
             }
         }
         
@@ -711,6 +738,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (sous-marin)");
             }
         }
         else
@@ -727,6 +755,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (sous-marin)");
             }
         }
         
@@ -745,6 +774,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (sous-marin)");
             }
         }
         else
@@ -761,6 +791,7 @@ public class Ordinateur
             if(!alive)
             {
                 sinked = true;
+                System.out.println("Un de nos batiments a coule.. (sous-marin)");
             }
         }
         return sinked;

@@ -10,15 +10,14 @@ public class Ship {
     public int mSize;
     protected int mfirePower;
     protected boolean isVertical;
-    protected static int mNbFuseeEclairante=1;
+    public int mNbFuseeEclairante=1;
     public boolean isAlive = true;
     protected int xBoat;
     protected int yBoat;
     
     public Ship(String typeShip){//constructeur de la classe mÃ¨re Ship
     this.mTypeShip=typeShip;
-    
-    if(!"destroyer".equals(typeShip)){
+    if(!("destroyer".equals(typeShip))){
         mNbFuseeEclairante=0;
     }
 }
@@ -29,28 +28,27 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
     char c;
     Scanner input = new Scanner(System.in);
     do{
-        System.out.println("Rentrez l'abcisse du point d'impact svp (entre 0 et 14)");
-        y = input.nextInt();
-    }while((y<0)||(y>14));
-      
-      
-    do{
         System.out.println("Rentrez l'ordonnee du point d'impact svp (entre a et o)");
         c = input.next().charAt(0);
         x=(int)(c -'a');
     }while((x<0)||(x>14));
-
-        
-
+    
+    do{
+        System.out.println("Rentrez l'abcisse du point d'impact svp (entre 0 et 14)");
+        y = input.nextInt();
+    }while((y<0)||(y>14));
+      
     switch(evalCase(plateau,x,y)) 
     {
         //en fonction de la valeur d'une case, il y un resultat different quand on tire dessus
         case 0:
             System.out.println("PLOUF! A l'eau...");//si on tire dans l'eau rien ne se passe
             break;
+            
         case 5:
             System.out.println("Faites plus attention, vous avez deja  touche ce point du navire !");   //pareil pour un debris/epave
             break;
+            
         default:
             if(("submarine".equals(typeShip))&&(evalCase(plateau,x,y) == 1))
             {
@@ -59,113 +57,116 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
             else
             {
-                if(null != typeShip)
-                switch (typeShip) {
-            case "submarine":
-                fixerCase(plateau, x, y, 5);
-                break;
-            case "destroyer":
-                if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
+                if(("submarine".equals(typeShip))&&(plateau.grid[x][y] != 0))
                 {
                     fixerCase(plateau, x, y, 5);
+                    System.out.println("Touche !");
                 }
-                break;
-            case "cruiser":
-                //On va dessiner un "+" sans la barre du bas
-                if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
+                if("destroyer".equals(typeShip))
                 {
-                    fixerCase(plateau, x, y, 5);	//Case centrale
-                }
-                if((x-1)>=0)
-                {
-                    if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0)&&(plateau.grid[x][y]==5))
+                    if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                     {
-                        fixerCase(plateau, x-1, y, 5);	//Case de gauche
+                        fixerCase(plateau, x, y, 5);
+                        System.out.println("Touche !");
                     }
                 }
-                if((x+1)<15)
-                {
-                    if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0)&&(plateau.grid[x][y]==5))
+                if("cruiser".equals(typeShip))
+                {    
+                    //On va dessiner un "+" sans la barre du bas
+                    if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                     {
-                        fixerCase(plateau, x+1, y, 5);	//Case de droite
+                        fixerCase(plateau, x, y, 5);	//Case centrale
+                        System.out.println("Touche !");
+                    }
+                    if((x-1)>=0)
+                    {
+                        if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0)&&(plateau.grid[x][y]==5))
+                        {
+                            fixerCase(plateau, x-1, y, 5);	//Case de gauche
+                        }
+                    }
+                    if((x+1)<15)
+                    {
+                        if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0)&&(plateau.grid[x][y]==5))
+                        {
+                            fixerCase(plateau, x+1, y, 5);	//Case de droite
+                        }
+                    }
+                    if((y-1)>=0)
+                    {
+                        if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0)&&(plateau.grid[x][y]==5))
+                        {
+                            fixerCase(plateau, x, y-1, 5);  //Case du dessus
+                        }
                     }
                 }
-                if((y-1)>=0)
-                {
-                    if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0)&&(plateau.grid[x][y]==5))
+                if("dreadnought".equals(typeShip))
+                { 
+                    //On va dessiner un "+"
+                    if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
                     {
-                        fixerCase(plateau, x, y-1, 5);  //Case du dessus
+                        fixerCase(plateau, x, y, 5);	//Case centrale
+                        System.out.println("Touche !");
+                    }
+                    if((x-1)>=0)
+                    {
+                        if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0)&&(plateau.grid[x][y]==5))
+                        {
+                            fixerCase(plateau, x-1, y, 5);	//Case de gauche
+                        }
+                    }
+                    if((x+1)<15)
+                    {
+                        if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0)&&(plateau.grid[x][y]==5))
+                        {
+                            fixerCase(plateau, x+1, y, 5);	//Case de droite
+                        }
+                    }
+                    if((y-1)>=0)
+                    {
+                        if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0)&&(plateau.grid[x][y]==5))
+                        {
+                            fixerCase(plateau, x, y-1, 5);  //Case du dessus
+                        }
+                    }
+                    if((y+1)<15)
+                    {
+                        if((plateau.grid[x][y+1] != 1)&&(plateau.grid[x][y+1] != 0)&&(plateau.grid[x][y]==5))
+                        {
+                            fixerCase(plateau, x, y+1, 5);  //Case du dessous
+                        }
+                    }
+                    if(((x-1)>=0)&&((y-1)>=0))
+                    {
+                        if((plateau.grid[x-1][y-1] != 1)&&(plateau.grid[x-1][y-1] != 0)&&(plateau.grid[x][y]==5))
+                        {
+                            fixerCase(plateau, x-1, y-1, 5);  //Case nord ouest
+                        }
+                    }
+                    if(((x+1)<15)&&((y-1)>=0))
+                    {
+                        if((plateau.grid[x+1][y-1] != 1)&&(plateau.grid[x+1][y-1] != 0)&&(plateau.grid[x][y]==5))
+                        {
+                            fixerCase(plateau, x+1, y-1, 5);  //Case nord est
+                        }
+                    }
+                    if(((y+1)<15)&&((x-1)>=0))
+                    {
+                        if((plateau.grid[x-1][y+1] != 1)&&(plateau.grid[x-1][y+1] != 0)&&(plateau.grid[x][y]==5))
+                        {
+                            fixerCase(plateau, x-1, y+1, 5);  //Case sud ouest
+                        }
+                    }
+                    if(((y+1)<15)&&((x+1)<15))
+                    {
+                        if((plateau.grid[x+1][y+1] != 1)&&(plateau.grid[x+1][y+1] != 0)&&(plateau.grid[x][y]==5))
+                        {
+                            fixerCase(plateau, x+1, y+1, 5);  //Case sud est
+                        }
                     }
                 }
-                break;
-            case "dreadnought":
-                //On va dessiner un "+"
-                if((plateau.grid[x][y] != 1)&&(plateau.grid[x][y] != 0))
-                {
-                    fixerCase(plateau, x, y, 5);	//Case centrale
-                }
-                if((x-1)>=0)
-                {
-                    if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0)&&(plateau.grid[x][y]==5))
-                    {
-                        fixerCase(plateau, x-1, y, 5);	//Case de gauche
-                    }
-                }
-                if((x+1)<15)
-                {
-                    if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0)&&(plateau.grid[x][y]==5))
-                    {
-                        fixerCase(plateau, x+1, y, 5);	//Case de droite
-                    }
-                }
-                if((y-1)>=0)
-                {
-                    if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0)&&(plateau.grid[x][y]==5))
-                    {
-                        fixerCase(plateau, x, y-1, 5);  //Case du dessus
-                    }
-                }
-                if((y+1)<15)
-                {
-                    if((plateau.grid[x][y+1] != 1)&&(plateau.grid[x][y+1] != 0)&&(plateau.grid[x][y]==5))
-                    {
-                        fixerCase(plateau, x, y+1, 5);  //Case du dessous
-                    }
-                }
-                if(((x-1)>=0)&&((y-1)>=0))
-                {
-                    if((plateau.grid[x-1][y-1] != 1)&&(plateau.grid[x-1][y-1] != 0)&&(plateau.grid[x][y]==5))
-                    {
-                        fixerCase(plateau, x-1, y-1, 5);  //Case nord ouest
-                    }
-                }
-                if(((x+1)<15)&&((y-1)>=0))
-                {
-                    if((plateau.grid[x+1][y-1] != 1)&&(plateau.grid[x+1][y-1] != 0)&&(plateau.grid[x][y]==5))
-                    {
-                        fixerCase(plateau, x+1, y-1, 5);  //Case nord est
-                    }
-                }
-                if(((y+1)<15)&&((x-1)>=0))
-                {
-                    if((plateau.grid[x-1][y+1] != 1)&&(plateau.grid[x-1][y+1] != 0)&&(plateau.grid[x][y]==5))
-                    {
-                        fixerCase(plateau, x-1, y+1, 5);  //Case sud ouest
-                    }
-                }
-                if(((y+1)<15)&&((x+1)<15))
-                {
-                    if((plateau.grid[x+1][y+1] != 1)&&(plateau.grid[x+1][y+1] != 0)&&(plateau.grid[x][y]==5))
-                    {
-                        fixerCase(plateau, x+1, y+1, 5);  //Case sud est
-                    }
-                }
-                break;
-            default:
-                break;
-        }	
-            }    
-    }
+            }	
+    }    
     
     //Pour chaque bateau, on regarde si il est vertical ou horizontal, et on update ses cases en fonction
     if(dreadnought.isVertical)
@@ -428,42 +429,104 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
     }
 }
   
-  public static void fusee_eclairante(Plateau plateau3, String typeShip){
-       int x; 
-       int y;
-       char c;
-      if("destroyer".equals(typeShip)){
-            Scanner scanner = new Scanner(System.in);
-            if(Ship.mNbFuseeEclairante==0){
-                System.out.println("Ce destroyer n'a plus de fusee eclairante, desole!");
-            }else{       System.out.println("rentrez le point d'impact de la fusee eclairante(x,y) svp");
-                
-                do{
-                    c= scanner.next().charAt(0);
-                    x=(int)(c-'a');
-                }while(x<=0||x>14);
-                
-                do{
-                    y= scanner.nextInt();
-                }while(y<=0||y>14);
-         
-                  
-                /*on devra travailler sur les plateaux directement(les cases du plateau des tirs du joureur =les cases en question du plateau ordi)
-                for(int w=0;w<4;w++){
-                    for(int z=0;z<4;z++){
-                            plateau2[2+2*(x+w)][2+3*(y+z)]=plateau3[2+2*(x+w)][2+3*(y+z)];
-                            plateau2[2+2*(x+w)][3+3*(y+z)]=plateau3[2+2*(x+w)][3+3*(x+z)];
+//Methode qui affiche les navires adverses dans la zone d'effet sous la forme "X" et qui renvoie un booleen egal a true si on peut tirer ou false si on ne peut pas
+//IL FAUT LE PLATEAU DE L'IA
+public static boolean fusee_eclairante(Plateau plateau, Ship destroyer1, Ship destroyer2, Ship destroyer3)
+{
+        boolean possedeFusee = true;
+	//On va d'abord verifier qu'il existe une fusee eclairante dans les stocks
+	if((destroyer1.mNbFuseeEclairante == 0)&&(destroyer2.mNbFuseeEclairante == 0)&&(destroyer3.mNbFuseeEclairante == 0))
+	{
+            possedeFusee = false;
+            System.out.println("Vous n'avez plus de fusee eclairante..");
+            return possedeFusee;
+	}
+	else
+	{
+            if(destroyer1.mNbFuseeEclairante == 1)
+            {
+                destroyer1.mNbFuseeEclairante = 0;
+            }
+            else if(destroyer2.mNbFuseeEclairante == 1)
+            {
+                destroyer2.mNbFuseeEclairante = 0;
+            }
+            else if(destroyer3.mNbFuseeEclairante == 1)
+            {
+                destroyer3.mNbFuseeEclairante = 0;
+            }
+            int x,y;
+            char c;
+            Scanner input = new Scanner(System.in);		
+
+            do{
+                    System.out.println("Rentrez l'ordonnee du point d'impact svp (entre a et o)");
+                    c = input.next().charAt(0);
+                    x=(int)(c -'a');
+            }while((x<0)||(x>14));
+
+            do{
+                    System.out.println("Rentrez l'abcisse du point d'impact svp (entre 0 et 14)");
+                    y = input.nextInt();
+            }while((y<0)||(y>14));
+
+            //On va reveler une zone 4*4 au joueur le temps d'un tour
+            int i,j;
+            for(i=0;i<32;i++)
+            {
+                for(j=0;j<47;j++)
+                {
+                    if(plateau.plateau[i][j] == 'X')
+                    {
+                        System.out.print("X");
+                    }
+                    else if((plateau.plateau[i][j] == '*')&&((i>=2+2*x)&&(i<=2+2*(x+3))&&(j>=2+3*y)&&(j<=3+3*(y+3))))
+                    {
+                        System.out.print("~");
+                    }
+                    else if((plateau.plateau[i][j] == '@')&&((i>=2+2*x)&&(i<=2+2*(x+3))&&(j>=2+3*y)&&(j<=3+3*(y+3))))
+                    {
+                        System.out.print("~");
+                    }
+                    else if((plateau.plateau[i][j] == '%')&&((i>=2+2*x)&&(i<=2+2*(x+3))&&(j>=2+3*y)&&(j<=3+3*(y+3))))
+                    {
+                        System.out.print("~");
+                    }
+                    else if((plateau.plateau[i][j] == '#')&&((i>=2+2*x)&&(i<=2+2*(x+3))&&(j>=2+3*y)&&(j<=3+3*(y+3))))
+                    {
+                        System.out.print("~");
+                    }
+                    else
+                    {
+                        switch (plateau.plateau[i][j]) 
+                        {
+                            case '*':
+                                System.out.print(" ");
+                                break;
+
+                            case '@':
+                                System.out.print(" ");
+                                break;
+
+                            case '%':
+                                System.out.print(" ");
+                                break;
+
+                            case '#':
+                                System.out.print(" ");
+                                break;
+
+                            default:
+                                System.out.print(plateau.plateau[i][j]);
+                                break;    
+                        }
                     }
                 }
-*/
-
-                mNbFuseeEclairante--;
-                System.out.println("les informations qui viennent d'apparaitre sur votre plateau ne resteront pas longtemps, utilisez-les rapidement!");
+                System.out.println(" ");
             }
-        }else{
-            System.out.println("le navire n'est pas capable de tirer des fusees eclairantes");
-        }
+        return possedeFusee;
     }
+}
   
   public static void move(Plateau plateau, int size){
       int x1;
@@ -481,7 +544,7 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
       
       if(size!=1){//si ça n'est pas un sous-marin
       do{//on recommence jusqu'a ce que les deux point soient pas les memes et que qu'il soient a une distance de la taille du navire(-1) verticalement ou horizontalement
-            System.out.println("quelles sont les coordonnees de l'avant du bateau que vous voulez bouger?");
+            System.out.println("Quelles sont les coordonnees de l'avant du bateau que vous voulez bouger?");
             do{//on recommence jusqu'a ce que les coordonnnes rentrees corresponde a une case qui n'est pas la mer
                 do{//on rentre une lettre (de a a 0)et elle est convertie en chiffre
                     c1= scanner.next().charAt(0);
@@ -495,11 +558,11 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
                 }while(y1<0||y1>14);
                 
                 if(evalCase(plateau,x1,y1)==0){//message de probleme
-                    System.out.println("ce ne sont pas les coordonnees de l'avant d'un bateau, il s'agit de la mer, veillez recommencer svp");
+                    System.out.println("Ce ne sont pas les coordonnees de l'avant d'un bateau, il s'agit de la mer, veillez recommencer svp");
                 }
             }while(evalCase(plateau,x1,y1)==0);
       
-            System.out.println("quelles sont les coordonnees de l'arriere du bateau que vous voulez bouger?");
+            System.out.println("Quelles sont les coordonnees de l'arriere du bateau que vous voulez bouger?");
             do{//on recommence jusqu'a ce que les coordonnnes rentrees corresponde a une case qui n'est pas la mer
                 do{//on rentre une lettre(de a a 0) et elle est convertie en chiffre
                     c2= scanner.next().charAt(0);
@@ -518,7 +581,7 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }while(evalCase(plateau,x2,y2)==0);
             
             if(((x1==x2)&&(y1==y2))||(((x1!=(x2+(size-1)))&&(x1!=(x2-(size-1))))&&((y1!=(y2+(size-1)))&&(y1!=(y2-(size-1)))))){//message de probleme si incoherence entre les points
-                System.out.println("l'espace entre les positions de l'avant et de l'arriere du bateau est incoherent, veillez recommencer svp");
+                System.out.println("L'espace entre les positions de l'avant et de l'arriere du bateau est incoherent, veillez recommencer svp");
             }
             
       }while(((x1==x2)&&(y1==y2))||(((x1!=(x2+(size-1)))&&(x1!=(x2-(size-1))))&&((y1!=(y2+(size-1)))&&(y1!=(y2-(size-1))))));
