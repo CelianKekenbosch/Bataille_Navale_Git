@@ -135,7 +135,7 @@ public class Plateau {
                 }
                 else
                 {
-                    System.out.print(" ");
+                    System.out.print(plateau[i][j]);
                 }
             }
             System.out.println(" ");   
@@ -143,7 +143,7 @@ public class Plateau {
     }
     
     //Recupere une grille dans laquelle on a les infos des navires pour les transferer au plateau d'affichage
-    public void convertGridIntoPlateau(int grid[][])
+    public void convertGridIntoPlateau()
     {
         int i,j;
         //On va parcourir la grille, et on va transferer chaque case de celle-ci dans un plateau

@@ -23,22 +23,22 @@ public class Ship {
     }
 }
     
-public static void fire(Plateau plateau,int firePower, String typeShip)
+public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship cruiser1, Ship cruiser2, Ship destroyer1, Ship destroyer2, Ship destroyer3, Ship submarine1, Ship submarine2, Ship submarine3, Ship submarine4)
 {   
     int x,y;
     char c;
     Scanner input = new Scanner(System.in);
     do{
         System.out.println("Rentrez l'abcisse du point d'impact svp (entre 0 et 14)");
-        x = input.nextInt();
-    }while((x<0)||(x>14));
+        y = input.nextInt();
+    }while((y<0)||(y>14));
       
       
     do{
         System.out.println("Rentrez l'ordonnee du point d'impact svp (entre a et o)");
         c = input.next().charAt(0);
-        y=(int)(c -'a');
-    }while((y<0)||(y>14));
+        x=(int)(c -'a');
+    }while((x<0)||(x>14));
 
         
 
@@ -79,21 +79,21 @@ public static void fire(Plateau plateau,int firePower, String typeShip)
                     }
                     if((x-1)>=0)
                     {
-                        if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0))
+                        if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0)&&(plateau.grid[x][y]==5))
                         {
                             fixerCase(plateau, x-1, y, 5);	//Case de gauche
                         } 
                     }
                     if((x+1)<15)
                     {
-                        if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0))
+                        if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0)&&(plateau.grid[x][y]==5))
                         {
                             fixerCase(plateau, x+1, y, 5);	//Case de droite
                         } 
                     }
                     if((y-1)>=0)
                     {
-                        if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0))
+                        if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0)&&(plateau.grid[x][y]==5))
                         {
                             fixerCase(plateau, x, y-1, 5);  //Case du dessus	
                         } 	
@@ -108,66 +108,326 @@ public static void fire(Plateau plateau,int firePower, String typeShip)
                     }
                     if((x-1)>=0)
                     {
-                        if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0))
+                        if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0)&&(plateau.grid[x][y]==5))
                         {
                             fixerCase(plateau, x-1, y, 5);	//Case de gauche
                         } 
                     }
                     if((x+1)<15)
                     {
-                        if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0))
+                        if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0)&&(plateau.grid[x][y]==5))
                         {
                             fixerCase(plateau, x+1, y, 5);	//Case de droite
                         } 
                     }
                     if((y-1)>=0)
                     {
-                        if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0))
+                        if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0)&&(plateau.grid[x][y]==5))
                         {
                             fixerCase(plateau, x, y-1, 5);  //Case du dessus	
                         } 	
                     }
                     if((y+1)<15)
                     {
-                        if((plateau.grid[x][y+1] != 1)&&(plateau.grid[x][y+1] != 0))
+                        if((plateau.grid[x][y+1] != 1)&&(plateau.grid[x][y+1] != 0)&&(plateau.grid[x][y]==5))
                         {
                             fixerCase(plateau, x, y+1, 5);  //Case du dessous	
                         }                    
                     }
-                    if((x-2)>=0)
+                    if(((x-1)>=0)&&((y-1)>=0))
                     {
-                        if((plateau.grid[x-2][y] != 1)&&(plateau.grid[x-2][y] != 0))
+                        if((plateau.grid[x-1][y-1] != 1)&&(plateau.grid[x-1][y-1] != 0)&&(plateau.grid[x][y]==5))
                         {
-                            fixerCase(plateau, x-2, y, 5);  //Case de gauche x2	
+                            fixerCase(plateau, x-1, y-1, 5);  //Case nord ouest	
                         }
                     }
-                    if((x+2)<15)
+                    if(((x+1)<15)&&((y-1)>=0))
                     {
-                        if((plateau.grid[x+2][y] != 1)&&(plateau.grid[x+2][y] != 0))
+                        if((plateau.grid[x+1][y-1] != 1)&&(plateau.grid[x+1][y-1] != 0)&&(plateau.grid[x][y]==5))
                         {
-                            fixerCase(plateau, x+2, y, 5);  //Case de droite x2	
+                            fixerCase(plateau, x+1, y-1, 5);  //Case nord est
                         }
                     }
-                    if((y-2)>=0)
+                    if(((y+1)<15)&&((x-1)>=0))
                     {
-                        if((plateau.grid[x][y-2] != 1)&&(plateau.grid[x][y-2] != 0))
+                        if((plateau.grid[x-1][y+1] != 1)&&(plateau.grid[x-1][y+1] != 0)&&(plateau.grid[x][y]==5))
                         {
-                            fixerCase(plateau, x, y-2, 5);  //Case du dessus x2	
+                            fixerCase(plateau, x-1, y+1, 5);  //Case sud ouest
                         }
                     }
-                    if((y+2)<15)
+                    if(((y+1)<15)&&((x+1)<15))
                     {
-                        if((plateau.grid[x][y+2] != 1)&&(plateau.grid[x][y+2] != 0))
+                        if((plateau.grid[x+1][y+1] != 1)&&(plateau.grid[x+1][y+1] != 0)&&(plateau.grid[x][y]==5))
                         {
-                            fixerCase(plateau, x, y+2, 5);  //Case du dessous x2
+                            fixerCase(plateau, x+1, y+1, 5);  //Case sud est
                         }
                     }
                 }	
             }    
     }
+    
+    //Pour chaque bateau, on regarde si il est vertical ou horizontal, et on update ses cases en fonction
+    if(dreadnought.isVertical)
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int i=0;i<dreadnought.mSize;i++)
+        {
+            if(plateau.grid[dreadnought.xBoat+i][dreadnought.yBoat] == 4)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        dreadnought.isAlive = alive;
+    }
+    else
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int j=0;j<dreadnought.mSize;j++)
+        {
+            if(plateau.grid[dreadnought.xBoat][dreadnought.yBoat+j] == 4)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        dreadnought.isAlive = alive;
+    }
+
+
+    if(cruiser1.isVertical)
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int i=0;i<cruiser1.mSize;i++)
+        {
+            if(plateau.grid[cruiser1.xBoat+i][cruiser1.yBoat] == 3)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        cruiser1.isAlive = alive;
+    }
+    else
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int j=0;j<cruiser1.mSize;j++)
+        {
+            if(plateau.grid[cruiser1.xBoat][cruiser1.yBoat+j] == 3)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        cruiser1.isAlive = alive;
+    }
+
+
+    if(cruiser2.isVertical)
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int i=0;i<cruiser2.mSize;i++)
+        {
+            if(plateau.grid[cruiser2.xBoat+i][cruiser2.yBoat] == 3)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        cruiser2.isAlive = alive;
+    }
+    else
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int j=0;j<cruiser2.mSize;j++)
+        {
+            if(plateau.grid[cruiser2.xBoat][cruiser2.yBoat+j] == 3)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        cruiser2.isAlive = alive;
+    }
+
+
+    if(destroyer1.isVertical)
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int i=0;i<destroyer1.mSize;i++)
+        {
+            if(plateau.grid[destroyer1.xBoat+i][destroyer1.yBoat] == 2)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        destroyer1.isAlive = alive;
+    }
+    else
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int j=0;j<destroyer1.mSize;j++)
+        {
+            if(plateau.grid[destroyer1.xBoat][destroyer1.yBoat+j] == 2)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        destroyer1.isAlive = alive;
+    }
+
+
+    if(destroyer2.isVertical)
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int i=0;i<destroyer2.mSize;i++)
+        {
+            if(plateau.grid[destroyer2.xBoat+i][destroyer2.yBoat] == 2)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        destroyer2.isAlive = alive;
+    }
+    else
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int j=0;j<destroyer2.mSize;j++)
+        {
+            if(plateau.grid[destroyer2.xBoat][destroyer2.yBoat+j] == 2)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        destroyer2.isAlive = alive;
+    }
+
+
+    if(destroyer3.isVertical)
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int i=0;i<destroyer3.mSize;i++)
+        {
+            if(plateau.grid[destroyer3.xBoat+i][destroyer3.yBoat] == 2)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        destroyer3.isAlive = alive;
+    }
+    else
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int j=0;j<destroyer3.mSize;j++)
+        {
+            if(plateau.grid[destroyer3.xBoat][destroyer3.yBoat+j] == 2)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        destroyer3.isAlive = alive;
+    }
+
+
+    if(submarine1.isVertical)
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int i=0;i<submarine1.mSize;i++)
+        {
+            if(plateau.grid[submarine1.xBoat+i][submarine1.yBoat] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        submarine1.isAlive = alive;
+    }
+    else
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int j=0;j<submarine1.mSize;j++)
+        {
+            if(plateau.grid[submarine1.xBoat][submarine1.yBoat+j] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        submarine1.isAlive = alive;
+    }
+
+
+    if(submarine2.isVertical)
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int i=0;i<submarine2.mSize;i++)
+        {
+            if(plateau.grid[submarine2.xBoat+i][submarine2.yBoat] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        submarine2.isAlive = alive;
+    }
+    else
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int j=0;j<submarine2.mSize;j++)
+        {
+            if(plateau.grid[submarine2.xBoat][submarine2.yBoat+j] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        submarine2.isAlive = alive;
+    }
+
+
+    if(submarine3.isVertical)
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int i=0;i<submarine3.mSize;i++)
+        {
+            if(plateau.grid[submarine3.xBoat+i][submarine3.yBoat] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        submarine3.isAlive = alive;
+    }
+    else
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int j=0;j<submarine3.mSize;j++)
+        {
+            if(plateau.grid[submarine3.xBoat][submarine3.yBoat+j] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        submarine3.isAlive = alive;
+    }
+
+
+    if(submarine4.isVertical)
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int i=0;i<submarine4.mSize;i++)
+        {
+            if(plateau.grid[submarine4.xBoat+i][submarine4.yBoat] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        submarine4.isAlive = alive;
+    }
+    else
+    {
+        boolean alive = false; //Par defaut, le bateau est considere comme coule
+        for(int j=0;j<submarine4.mSize;j++)
+        {
+            if(plateau.grid[submarine4.xBoat][submarine4.yBoat+j] == 1)   //Si une seule de ses cases est alive, on dit qu'il n'est as coule
+            {
+                alive = true;
+            }
+        }
+        submarine4.isAlive = alive;
+    }
 }
   
-  public static void fusee_eclairante(Plateau plateau2, Plateau plateau3, String typeShip){
+  public static void fusee_eclairante(Plateau plateau3, String typeShip){
        int x; 
        int y;
        char c;

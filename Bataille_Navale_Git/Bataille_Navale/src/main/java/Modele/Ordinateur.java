@@ -25,13 +25,16 @@ public class Ordinateur
     //IL FAUT FOURNIR LE PLATEAU ADVERSE, LES PREMIERS NAVIRES SONT CEUX DU JOUEUR, LES AUTRES CEUX DE L'IA
     public void iaTurn(Plateau plateau, Ship dreadnought, Ship cruiser1, Ship cruiser2, Ship destroyer1, Ship destroyer2, Ship destroyer3, Ship submarine1, Ship submarine2, Ship submarine3, Ship submarine4, Ship dreadnought11, Ship cruiser11, Ship cruiser22, Ship destroyer11, Ship destroyer22, Ship destroyer33, Ship submarine11, Ship submarine22, Ship submarine33, Ship submarine44)
     {
+        boolean antiDoubleAction = false;
         //Cas ou l'ordinateur n'a pas trouve de bateaux
         if((new_i == -1) && (new_j == -1))
         {
+            antiDoubleAction = true;
             //On va generer un entier egal a 0,1,2 ou 3. Si il est egal a 1 ou 2, l'ordinateur tentera de tirer une fusee eclairante, si c'est 3, il bougera un bateau
             int r;
             do{
             r = 0 + (int)(Math.random() * ((2-0)+1));   //PAS LE 3 POUR LE MOMENT
+            System.out.println(r);
             }while((fusee == 3)&&((r == 1)||(r == 2))); //Si on a plus de fusee, on recommence
 
             //On va generer deux entier aleatoire representant les coordonnees d'un tir (entre 0 et 14)
@@ -42,8 +45,6 @@ public class Ordinateur
             x = 0 + (int)(Math.random() * ((14-0)+1));
             y = 0 + (int)(Math.random() * ((14-0)+1));
             }while(plateau.grid[x][y] == 5);
-            System.out.println(x);
-            System.out.println(y);
             
             //Cas du tir
             if(r == 0)
@@ -69,13 +70,14 @@ public class Ordinateur
             //Cas fusee eclairante
             if((r == 1)||(r == 2))
             {
-                fusee_eclairante_IA(plateau, x, y, destroyer11, destroyer22, destroyer33); //IL FAUT CREER LA METHODE FUSEE ECLAIRANTE IA
+                fusee_eclairante_IA(plateau, x, y, destroyer11, destroyer22, destroyer33); 
+                System.out.println("L'ordinateur tire une fusee eclairante en " + x + ", " + y);
                 //Si la fusee eclairante touche un bateau adverse, il marque les coordonnees de la case en haut a gauche
                 fusee = fusee + 1; //On indique qu'on a tire une fusee (compte)
                 boolean sortie_de_boucle = false; //A defaut de trouver une meilleure solution
-                for(int p=x;((p<15) && (sortie_de_boucle == false) && (p<x+5));p++)
+                for(int p=x;((p<15) && (sortie_de_boucle == false) && (p<x+4));p++)
                 {
-                    for(int q=y;((q<15) && (sortie_de_boucle == false) && (q<y+5));q++)
+                    for(int q=y;((q<15) && (sortie_de_boucle == false) && (q<y+4));q++)
                     {
                         if((plateau.grid[p][q] != 5)&&(plateau.grid[p][q] != 0)) //Si la grille anonyme revele une presence
                         {
@@ -83,6 +85,7 @@ public class Ordinateur
                             new_i = p; 
                             new_j = q;
                             sortie_de_boucle = true;
+                            System.out.println("Des canons s'orientent vers vous..");
                         }
                     }
                 }
@@ -95,7 +98,7 @@ public class Ordinateur
             }*/
         }
         
-        //Si on a coulÃ© un navire, on reset les coordonnees de tir
+        //Si on a coule un navire, on reset les coordonnees de tir
         if(sinked)
         {
             old_i = -1;
@@ -106,7 +109,7 @@ public class Ordinateur
         }
         
         //Cas ou l'ordinateur a trouve un bateau
-        if(((new_i != -1)&&(new_j != -1))&&(sinked == false))
+        if(((new_i != -1)&&(new_j != -1))&&(sinked == false)&&(!antiDoubleAction))
         {
             //On a les coordonnees i,j d'un point d'un bateau
             //Trois cas sont possibles
@@ -118,6 +121,7 @@ public class Ordinateur
                 //Si il vaut 0, on cherche a gauche ou a droite. Si il vaut 1, on cherche au dessus ou en dessous
                 int randomHit;
                 randomHit = 0 + (int)(Math.random() * ((1-0)+1));
+                System.out.println("L'ordinateur va tirer autour d'une epave");
                 
                 if(randomHit == 0)
                 {
@@ -128,7 +132,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_j = new_j - 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
                     }
                     //On va tirer a droite du point (si on peut)
                     else if(new_j < 14)
@@ -136,7 +140,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_j = new_j + 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44); 
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44); 
                     }
                 }
                 if(randomHit == 1)
@@ -148,7 +152,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_i = new_i - 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
                     }
                     //On va tirer en dessous du point (si on peut)
                     else if(new_i < 14)
@@ -156,20 +160,22 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_i = new_i + 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44); 
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44); 
                     }
                 }
             }
             //Cas de la presence d'un navire (a la fusee eclairante)
             else if((plateau.grid[new_i][new_j] == 1)||(plateau.grid[new_i][new_j] == 2)||(plateau.grid[new_i][new_j] == 3)||(plateau.grid[new_i][new_j] == 4))
             {
+                System.out.println("L'ordinateur va tirer sur une cible reperee a la fusee eclairante");
                 //On va tirer tout d'abord au sous marin pour etre sur de toucher, puis eventuellement plus tard, on tirera au plus gros calibres
-                fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, true, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
             }
             
             //Si on a pas touche de bateau au precedent tir, c'est qu'on a mal tirer aleatoirement
             else
             {
+                System.out.println("L'ordinateur va retenter un tir autour de l'epave");
                 new_i = old_i;
                 new_j = old_j;
                 //Comme on revient sur une epave, on recommence un tir aleatoire
@@ -187,7 +193,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_j = new_j - 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
                     }
                     //On va tirer a droite du point (si on peut)
                     else if(new_j < 14)
@@ -195,7 +201,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_j = new_j + 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
                     }
                 }
                 if(randomHit == 1)
@@ -207,7 +213,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_i = new_i - 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44);
                     }
                     //On va tirer en dessous du point (si on peut)
                     else if(new_i < 14)
@@ -215,7 +221,7 @@ public class Ordinateur
                         old_i = new_i;
                         old_j = new_j;
                         new_i = new_i + 1;
-                        fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44); 
+                        sinked = fireIA(plateau, dreadnought, cruiser1, cruiser2, destroyer1, destroyer2, destroyer3, submarine1, submarine2, submarine3, submarine4, new_i, new_j, false, dreadnought11, cruiser11, cruiser22, destroyer11, destroyer22, destroyer33, submarine11, submarine22, submarine33, submarine44); 
                     }
                 }
             }
@@ -226,6 +232,7 @@ public class Ordinateur
     //Methode de tir de l'IA, necessitant les infos de tous les objets Ship ainsi que les coordonnees de tir
     public boolean fireIA(Plateau plateau, Ship dreadnought, Ship cruiser1, Ship cruiser2, Ship destroyer1, Ship destroyer2, Ship destroyer3, Ship submarine1, Ship submarine2, Ship submarine3, Ship submarine4,int x, int y, boolean submarineShot, Ship dreadnought11, Ship cruiser11, Ship cruiser22, Ship destroyer11, Ship destroyer22, Ship destroyer33, Ship submarine11, Ship submarine22, Ship submarine33, Ship submarine44)
     {
+        System.out.println("Tir de l'ordinateur en " + x + ", " + y + " chef !");
         boolean sinked = false;
         //On a deux cas, celui ou on ordonne un tir au sous-marin, et le tir regulier
         //Cas du tir au sous-marin
@@ -250,58 +257,58 @@ public class Ordinateur
                 }
                 if((x-1)>=0)
                 {
-                    if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0))
+                    if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0)&&(plateau.grid[x][y]==5))
                     {
                         fixerCase(plateau, x-1, y, 5);	//Case de gauche
                     } 
                 }
                 if((x+1)<15)
                 {
-                    if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0))
+                    if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0)&&(plateau.grid[x][y]==5))
                     {
                         fixerCase(plateau, x+1, y, 5);	//Case de droite
                     } 
                 }
                 if((y-1)>=0)
                 {
-                    if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0))
+                    if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0)&&(plateau.grid[x][y]==5))
                     {
                         fixerCase(plateau, x, y-1, 5);  //Case du dessus	
                     } 	
                 }
                 if((y+1)<15)
                 {
-                    if((plateau.grid[x][y+1] != 1)&&(plateau.grid[x][y+1] != 0))
+                    if((plateau.grid[x][y+1] != 1)&&(plateau.grid[x][y+1] != 0)&&(plateau.grid[x][y]==5))
                     {
                         fixerCase(plateau, x, y+1, 5);  //Case du dessous	
                     }                    
                 }
-                if((x-2)>=0)
+                if(((x-1)>=0)&&((y-1)>=0))
                 {
-                    if((plateau.grid[x-2][y] != 1)&&(plateau.grid[x-2][y] != 0))
+                    if((plateau.grid[x-1][y-1] != 1)&&(plateau.grid[x-1][y-1] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        fixerCase(plateau, x-2, y, 5);  //Case de gauche x2	
+                        fixerCase(plateau, x-1, y-1, 5);  //Case nord ouest	
                     }
                 }
-                if((x+2)<15)
+                if(((x+1)<15)&&((y-1)>=0))
                 {
-                    if((plateau.grid[x+2][y] != 1)&&(plateau.grid[x+2][y] != 0))
+                    if((plateau.grid[x+1][y-1] != 1)&&(plateau.grid[x+1][y-1] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        fixerCase(plateau, x+2, y, 5);  //Case de droite x2	
+                        fixerCase(plateau, x+1, y-1, 5);  //Case nord est
                     }
                 }
-                if((y-2)>=0)
+                if(((y+1)<15)&&((x-1)>=0))
                 {
-                    if((plateau.grid[x][y-2] != 1)&&(plateau.grid[x][y-2] != 0))
+                    if((plateau.grid[x-1][y+1] != 1)&&(plateau.grid[x-1][y+1] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        fixerCase(plateau, x, y-2, 5);  //Case du dessus x2	
+                        fixerCase(plateau, x-1, y+1, 5);  //Case sud ouest
                     }
                 }
-                if((y+2)<15)
+                if(((y+1)<15)&&((x+1)<15))
                 {
-                    if((plateau.grid[x][y+2] != 1)&&(plateau.grid[x][y+2] != 0))
+                    if((plateau.grid[x+1][y+1] != 1)&&(plateau.grid[x+1][y+1] != 0)&&(plateau.grid[x][y]==5))
                     {
-                        fixerCase(plateau, x, y+2, 5);  //Case du dessous x2
+                        fixerCase(plateau, x+1, y+1, 5);  //Case sud est
                     }
                 }
             }
@@ -314,21 +321,21 @@ public class Ordinateur
                 }
                 if((x-1)>=0)
                 {
-                    if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0))
+                    if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0)&&(plateau.grid[x][y]==5))
                     {
                         fixerCase(plateau, x-1, y, 5);	//Case de gauche
                     } 
                 }
                 if((x+1)<15)
                 {
-                    if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0))
+                    if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0)&&(plateau.grid[x][y]==5))
                     {
                         fixerCase(plateau, x+1, y, 5);	//Case de droite
                     } 
                 }
                 if((y-1)>=0)
                 {
-                    if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0))
+                    if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0)&&(plateau.grid[x][y]==5))
                     {
                         fixerCase(plateau, x, y-1, 5);  //Case du dessus	
                     } 	
@@ -343,21 +350,21 @@ public class Ordinateur
                 }
                 if((x-1)>=0)
                 {
-                    if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0))
+                    if((plateau.grid[x-1][y] != 1)&&(plateau.grid[x-1][y] != 0)&&(plateau.grid[x][y]==5))
                     {
                         fixerCase(plateau, x-1, y, 5);	//Case de gauche
                     } 
                 }
                 if((x+1)<15)
                 {
-                    if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0))
+                    if((plateau.grid[x+1][y] != 1)&&(plateau.grid[x+1][y] != 0)&&(plateau.grid[x][y]==5))
                     {
                         fixerCase(plateau, x+1, y, 5);	//Case de droite
                     } 
                 }
                 if((y-1)>=0)
                 {
-                    if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0))
+                    if((plateau.grid[x][y-1] != 1)&&(plateau.grid[x][y-1] != 0)&&(plateau.grid[x][y]==5))
                     {
                         fixerCase(plateau, x, y-1, 5);  //Case du dessus	
                     } 	
