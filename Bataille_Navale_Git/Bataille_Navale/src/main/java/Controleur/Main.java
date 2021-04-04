@@ -3,10 +3,10 @@ package Controleur;
 import Modele.*;
 import static Modele.Plateau.initValPlateau;
 import java.util.Scanner;
-import static Modele.Ship.move;
 import static Modele.Ship.fusee_eclairante;
 //import static Modele.Ship.fire;
 import static Modele.Plateau.randomPositionOneBoat;
+import static Modele.Ship.move;
 
 public class Main {
 
@@ -113,124 +113,121 @@ public class Main {
                         //Boucle de choix d'actions du joueur lors d'un tour
                         boolean repete;
                         boolean hasFusee;
-                        do{
-                        repete=false;
-                        hasFusee = true;
-                        System.out.println("C'est votre tour, choissisez votre prochaine action:");
-                        System.out.println("");
-                        System.out.println("Position de votre flotte:");
-                        plateau.convertGridIntoPlateau();
-                        plateau.affichePlateau();
-                        System.out.println(" ");
-                        System.out.println("Detruisez la flotte de l'ordinateur:");
-                        //plateauTir.affichePlateau();
-                        //On affiche a chaque tour l'avance de l'attaque du joueur
-                        plateauIA.convertGridIntoPlateau();
-                        plateauIA.affichePlateauMasque();
-                        System.out.println("1. Tirer avec un bateau");
-                        System.out.println("");
-                        System.out.println("2. Tirer une fusee eclairante avec un destroyer");
-                        System.out.println("");
-                        System.out.println("3. Bouger un bateau intact d'une case ");
-                        System.out.println("");
-                        System.out.println("4. Afficher l'aide ");
-                        System.out.println("");
-                        System.out.println("5. Quitter et sauvegarder la partie actuelle");
-                        System.out.println("");
-                        System.out.println("6. Afficher le plateau de l'odinateur (juste pour la soutenance)");
-                        Scanner scannerAction = new Scanner(System.in);
-                        action=scannerAction.nextInt();
+                        boolean moved;
+                        do
+                        {
+                            repete=false;
+                            hasFusee = true;
+                            moved = true;
+                            System.out.println("C'est votre tour, choissisez votre prochaine action:");
+                            System.out.println("");
+                            System.out.println("Position de votre flotte:");
+                            plateau.convertGridIntoPlateau();
+                            plateau.affichePlateau();
+                            System.out.println(" ");
+                            System.out.println("Detruisez la flotte de l'ordinateur:");
+                            //plateauTir.affichePlateau();
+                            //On affiche a chaque tour l'avance de l'attaque du joueur
+                            plateauIA.convertGridIntoPlateau();
+                            plateauIA.affichePlateauMasque();
+                            System.out.println("1. Tirer avec un bateau");
+                            System.out.println("");
+                            System.out.println("2. Tirer une fusee eclairante avec un destroyer");
+                            System.out.println("");
+                            System.out.println("3. Bouger un bateau intact d'une case ");
+                            System.out.println("");
+                            System.out.println("4. Afficher l'aide ");
+                            System.out.println("");
+                            System.out.println("5. Quitter et sauvegarder la partie actuelle");
+                            System.out.println("");
+                            System.out.println("6. Afficher le plateau de l'odinateur (juste pour la soutenance)");
+                            Scanner scannerAction = new Scanner(System.in);
+                            action=scannerAction.nextInt();
 
-                        switch(action){
-                            case 1://ok
-                            {
-                                int typeShip;
-                                boolean alive=true;
-                                do{
-
-                                    System.out.println("Choisissez le type de bateau avec lequel vous voulez tirer (1 pour sous-marin, 2 destroyer, 3 croiseur et 4 cuirasse)");//pareil
-                                    Scanner scannerShip= new Scanner(System.in);
-                                    typeShip = scannerShip.nextInt();
-                                    if(typeShip==2){
-                                        if (!(d1.isAlive)&&!(d2.isAlive)&&!(d3.isAlive)){
-                                            alive=false;
-                                        }
-                                    }
-                                    if(typeShip==3){
-                                        if (!(c1.isAlive)&&!(c2.isAlive)){
-                                            alive=false;
-                                        }
-                                    }
-                                    if(typeShip==4){
-                                        if (!(D1.isAlive)){
-                                            alive=false;
-                                        }    
-                                    }   
-                                }while(((typeShip<1)||(typeShip>5))&&!(alive));
-
-                                switch(typeShip){
-                                    case 1:
-                                        Submarine.fire(plateauIA,"submarine", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
-                                        break;
-                                    case 2:
-                                        Destroyer.fire(plateauIA,"destroyer", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
-                                        break;
-                                    case 3 :
-                                        Cruiser.fire(plateauIA,"cruiser", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
-                                        break;
-                                    default:
-                                        Dreadnought.fire(plateauIA,"dreadnought", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
-                                        break;
-                                }
-                                System.out.println("Votre tir a ete effectue!");
-                                //plateauTir.affichePlateau();//à changer car plateauTir=plateauIA
-                                plateauIA.convertGridIntoPlateau();
-                                plateauIA.affichePlateauMasque();
-                                break;
-                            }
-
-                            case 2://ok
-                                hasFusee = fusee_eclairante(plateauIA, d1, d2, d3);
-                                if(hasFusee)
+                            switch(action){
+                                case 1://ok
                                 {
-                                    System.out.println("Fusee eclairante tiree chef !");
-                                }
-                                break;
+                                    int typeShip;
+                                    boolean alive=true;
+                                    do{
 
-                            case 3://move a changer
-                                System.out.println("Rentrez la taille du bateau que vous voulez bouger");
-                                Scanner scannerTest = new Scanner(System.in);//pareil
-                                do{
-                                    taille=scannerTest.nextInt();
-                                }while((taille<0)||(taille>14));
-                                move(plateau,taille);
-                                plateau.convertGridIntoPlateau();                         
-                                System.out.println("Votre mouvement a ete effectue!");
-                                System.out.println("L'ordinateur va jouer, preparez vous a l'impact!");
-                                break;
-                            case 4://ok
-                                help();
-                                repete=true;
-                                System.out.println("Entrez une touche pour continuer");
-                                Scanner pause= new Scanner(System.in);
-                                char touche;
-                                touche=pause.next().charAt(0);
-                                break;
-                            case 5://R
-                                System.out.println("Vous avez decider de quitter la partie, elle sera sauvegardee ne vous inquietez pas !");
-                                //quitter+sauvegarder
-                                save=true;
-                                break;
-                            default://ok
-                                plateauIA.affichePlateau();
-                                repete=true;
-                                System.out.println("Entrez une touche pour continuer");
-                                Scanner pause1= new Scanner(System.in);
-                                char touche1;
-                                touche=pause1.next().charAt(0);
-                                break;
-                        }
-                        }while((repete)||(!hasFusee));//ok
+                                        System.out.println("Choisissez le type de bateau avec lequel vous voulez tirer (1 pour sous-marin, 2 destroyer, 3 croiseur et 4 cuirasse)");//pareil
+                                        Scanner scannerShip= new Scanner(System.in);
+                                        typeShip = scannerShip.nextInt();
+                                        if(typeShip==2){
+                                            if (!(d1.isAlive)&&!(d2.isAlive)&&!(d3.isAlive)){
+                                                alive=false;
+                                            }
+                                        }
+                                        if(typeShip==3){
+                                            if (!(c1.isAlive)&&!(c2.isAlive)){
+                                                alive=false;
+                                            }
+                                        }
+                                        if(typeShip==4){
+                                            if (!(D1.isAlive)){
+                                                alive=false;
+                                            }    
+                                        }   
+                                    }while(((typeShip<1)||(typeShip>5))&&!(alive));
+
+                                    switch(typeShip){
+                                        case 1:
+                                            Submarine.fire(plateauIA,"submarine", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
+                                            break;
+                                        case 2:
+                                            Destroyer.fire(plateauIA,"destroyer", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
+                                            break;
+                                        case 3 :
+                                            Cruiser.fire(plateauIA,"cruiser", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
+                                            break;
+                                        default:
+                                            Dreadnought.fire(plateauIA,"dreadnought", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
+                                            break;
+                                    }
+                                    System.out.println("Votre tir a ete effectue!");
+                                    //plateauTir.affichePlateau();//à changer car plateauTir=plateauIA
+                                    plateauIA.convertGridIntoPlateau();
+                                    plateauIA.affichePlateauMasque();
+                                    break;
+                                }
+
+                                case 2://ok
+                                    hasFusee = fusee_eclairante(plateauIA, d1, d2, d3);
+                                    if(hasFusee)
+                                    {
+                                        System.out.println("Fusee eclairante tiree chef !");
+                                    }
+                                    break;
+
+                                case 3://move a changer
+
+                                    moved = move(plateau, D1, c1, c2, d1, d2, d3, s1, s2, s3, s4);
+                                    plateau.convertGridIntoPlateau();                         
+                                    break;
+                                case 4://ok
+                                    help();
+                                    repete=true;
+                                    System.out.println("Entrez une touche pour continuer");
+                                    Scanner pause= new Scanner(System.in);
+                                    char touche;
+                                    touche=pause.next().charAt(0);
+                                    break;
+                                case 5://R
+                                    System.out.println("Vous avez decider de quitter la partie, elle sera sauvegardee ne vous inquietez pas !");
+                                    //quitter+sauvegarder
+                                    save=true;
+                                    break;
+                                default://ok
+                                    plateauIA.affichePlateau();
+                                    repete=true;
+                                    System.out.println("Entrez une touche pour continuer");
+                                    Scanner pause1= new Scanner(System.in);
+                                    char touche1;
+                                    touche=pause1.next().charAt(0);
+                                    break;
+                            }
+                        }while((repete)||(!hasFusee)||(!moved));//ok
                         System.out.println("C'est le tour de l'ordinateur, preparez vous a l'impact !");
                         IA.iaTurn(plateau, D1, c1, c2, d1, d2, d3, s1, s2, s3, s4, IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
                     }while((victoire==false)&&(save==false));

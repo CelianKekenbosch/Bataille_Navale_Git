@@ -359,5 +359,10 @@ public class Plateau {
         }
         bateau.xBoat = i;
         bateau.yBoat = j;
+        
+        if(cote == 2)
+        {
+            bateau.isVertical = false;
+        }
     }
 }
