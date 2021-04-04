@@ -7,8 +7,10 @@ import static Modele.Ship.fusee_eclairante;
 //import static Modele.Ship.fire;
 import static Modele.Plateau.randomPositionOneBoat;
 import static Modele.Ship.move;
+import static Vue.Vue.affichePlateau;
+import static Vue.Vue.affichePlateauMasque;
 
-public class Main {
+public class Main{
 
     public static void main(String[] args) {
         int choix;
@@ -129,7 +131,7 @@ public class Main {
                             //plateauTir.affichePlateau();
                             //On affiche a chaque tour l'avance de l'attaque du joueur
                             plateauIA.convertGridIntoPlateau();
-                            plateauIA.affichePlateauMasque();
+                            affichePlateauMasque(plateauIA);
                             System.out.println("1. Tirer avec un bateau");
                             System.out.println("");
                             System.out.println("2. Tirer une fusee eclairante avec un destroyer");
@@ -188,7 +190,7 @@ public class Main {
                                     System.out.println("Votre tir a ete effectue!");
                                     //plateauTir.affichePlateau();//à changer car plateauTir=plateauIA
                                     plateauIA.convertGridIntoPlateau();
-                                    plateauIA.affichePlateauMasque();
+                                    affichePlateauMasque(plateauIA);
                                     break;
                                 }
 
@@ -219,7 +221,7 @@ public class Main {
                                     save=true;
                                     break;
                                 default://ok
-                                    plateauIA.affichePlateau();
+                                    affichePlateau(plateauIA);
                                     repete=true;
                                     System.out.println("Entrez une touche pour continuer");
                                     Scanner pause1= new Scanner(System.in);
