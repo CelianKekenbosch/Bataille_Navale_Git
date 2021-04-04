@@ -32,26 +32,24 @@ public class Main {
             choix= scanner.nextInt();
         }while((choix!=1)&&(choix!=2)&&(choix!=3)&&(choix!=4));
         switch(choix){
-            case 4://on arrete le programme de force
+            case 4: //On arrete le programme de force
                 System.exit(0);
                 break;
-            case 3://on affiche une aide deja ecrite
+            case 3: //On affiche une aide deja ecrite
                 help();
                 break;
-            case 2://on charge une partie deja sauvegardee
+            case 2: //On charge une partie deja sauvegardee
                 break;
-            default://on commence une toute nouvelle partie
+            default:    //On commence une toute nouvelle partie
                 Ordinateur IA=new Ordinateur("IA");
                 Plateau plateau = new Plateau(32,47);   //(32,47) est la taille de la grille avec tous les caracteres
-                Plateau plateauTir = new Plateau(32,47);
+                //Plateau plateauTir = new Plateau(32,47);
                 Plateau plateauIA = new Plateau(32,47);
-                initValPlateau(plateau);//on initialise chaque case du plateau des bateaux du joueur a la valeur de la mer
-                initValPlateau(plateauTir);//on initialise chaque case du plateau de tir du joueur a la valeur de la mer
-                initValPlateau(plateauIA);//on initialise chaque case du plateau des bateaux du joueur a la valeur de la mer
-                /*plateau.convertGridIntoPlateau(plateau.grid);
-                plateauTir.convertGridIntoPlateau(plateauTir.grid);
-                plateauIA.convertGridIntoPlateau(plateauIA.grid);*/
-                //on cre la flotte du joueur 
+                initValPlateau(plateau);//On initialise chaque case du plateau des bateaux du joueur a la valeur de la mer
+                //initValPlateau(plateauTir);//On initialise chaque case du plateau de tir du joueur a la valeur de la mer
+                initValPlateau(plateauIA);//On initialise chaque case du plateau des bateaux du joueur a la valeur de la mer
+
+                //On creer la flotte du joueur 
                 Submarine s1 = new Submarine(1,1,"submarine");
                 Submarine s2 = new Submarine(1,1,"submarine");
                 Submarine s3 = new Submarine(1,1,"submarine");
@@ -62,7 +60,7 @@ public class Main {
                 Cruiser c1 = new Cruiser(5,4,"cruiser");
                 Cruiser c2 = new Cruiser(5,4,"cruiser");
                 Dreadnought D1 = new Dreadnought(7,9,"dreadnought");
-                //on appelle 10x  randomPositionOneBoat() pour les differents bateaux du joueur
+                //On appelle 10x  randomPositionOneBoat() pour les differents bateaux du joueur
                 randomPositionOneBoat(plateau.grid,s1);
                 randomPositionOneBoat(plateau.grid,s2);
                 randomPositionOneBoat(plateau.grid,s3);
@@ -74,9 +72,9 @@ public class Main {
                 randomPositionOneBoat(plateau.grid,c2);
                 randomPositionOneBoat(plateau.grid,D1);
                 
-                plateau.convertGridIntoPlateau(plateau.grid);
+                plateau.convertGridIntoPlateau();
 
-                //on cre la flotte de l'ordinateur
+                //On creer la flotte de l'ordinateur
                 Submarine IAs1 = new Submarine(1,1,"submarine");
                 Submarine IAs2 = new Submarine(1,1,"submarine");
                 Submarine IAs3 = new Submarine(1,1,"submarine");
@@ -87,7 +85,7 @@ public class Main {
                 Cruiser IAc1 = new Cruiser(5,4,"cruiser");
                 Cruiser IAc2 = new Cruiser(5,4,"cruiser");
                 Dreadnought IAD1 = new Dreadnought(7,9,"dreadnought");
-                //on appelle 10x  randomPositionOneBoat() pour les differents bateaux de l'ordinateur
+                //On appelle 10x  randomPositionOneBoat() pour les differents bateaux de l'ordinateur
                 randomPositionOneBoat(plateauIA.grid,IAs1);
                 randomPositionOneBoat(plateauIA.grid,IAs2);
                 randomPositionOneBoat(plateauIA.grid,IAs3);
@@ -99,31 +97,35 @@ public class Main {
                 randomPositionOneBoat(plateauIA.grid,IAc2);
                 randomPositionOneBoat(plateauIA.grid,IAD1);
                 
-                plateauIA.convertGridIntoPlateau(plateauIA.grid);
+                plateauIA.convertGridIntoPlateau();
                 
                 do{
-                    
+                    //Boucle de choix d'actions du joueur lors d'un tour
                     boolean repete;
                     do{
                     repete=false;
                     System.out.println("C'est votre tour, choissisez votre prochaine action:");
                     System.out.println("");
                     System.out.println("Position de votre flotte:");
+                    plateau.convertGridIntoPlateau();
                     plateau.affichePlateau();
                     System.out.println(" ");
                     System.out.println("Detruisez la flotte de l'ordinateur:");
-                    plateauTir.affichePlateau();
-                    System.out.println("1. tirer avec un bateau");
+                    //plateauTir.affichePlateau();
+                    //On affiche a chaque tour l'avance de l'attaque du joueur
+                    plateauIA.convertGridIntoPlateau();
+                    plateauIA.affichePlateauMasque();
+                    System.out.println("1. Tirer avec un bateau");
                     System.out.println("");
-                    System.out.println("2. tirer une fusee eclairante avec un destroyer");
+                    System.out.println("2. Tirer une fusee eclairante avec un destroyer");
                     System.out.println("");
-                    System.out.println("3. bouger un bateau intact d'une case ");
+                    System.out.println("3. Bouger un bateau intact d'une case ");
                     System.out.println("");
                     System.out.println("4. Afficher l'aide ");
                     System.out.println("");
-                    System.out.println("5. Quitter et sauvegarder la partie actuelle ");
+                    System.out.println("5. Quitter et sauvegarder la partie actuelle");
                     System.out.println("");
-                    System.out.println("6. Afficher le plateau de l'odinateur(juste pour la soutenance) ");
+                    System.out.println("6. Afficher le plateau de l'odinateur (juste pour la soutenance)");
                     Scanner scannerAction = new Scanner(System.in);
                     action=scannerAction.nextInt();
                     
@@ -134,7 +136,7 @@ public class Main {
                             boolean alive=true;
                             do{
                                 
-                                System.out.println("choisissez le type de bateau avec lequel vous voulez tirer(1 pour sous-marin, 2 destoyer, 3 croiseur et 4 cuirasse)");//pareil
+                                System.out.println("Choisissez le type de bateau avec lequel vous voulez tirer (1 pour sous-marin, 2 destroyer, 3 croiseur et 4 cuirasse)");//pareil
                                 Scanner scannerShip= new Scanner(System.in);
                                 typeShip = scannerShip.nextInt();
                                 if(typeShip==2){
@@ -156,76 +158,72 @@ public class Main {
                             
                             switch(typeShip){
                                 case 1:
-                                    Submarine.fire(plateauIA,1,"submarine");
+                                    Submarine.fire(plateauIA,"submarine", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
                                     break;
                                 case 2:
-                                    Destroyer.fire(plateauIA,1,"destroyer");
+                                    Destroyer.fire(plateauIA,"destroyer", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
                                     break;
                                 case 3 :
-                                    Cruiser.fire(plateauIA,4,"destroyer");
+                                    Cruiser.fire(plateauIA,"cruiser", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
                                     break;
                                 default:
-                                    Dreadnought.fire(plateauIA,9,"dreadnought");
+                                    Dreadnought.fire(plateauIA,"dreadnought", IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
                                     break;
                             }
-                            System.out.println("votre tir a ete effectue!");
-                            plateauTir.affichePlateau();//à changer car plateauTir=plateauIA
-                            System.out.println("L'ordinateur va jouer, preparez vous a l'impact!");
-                            
+                            System.out.println("Votre tir a ete effectue!");
+                            //plateauTir.affichePlateau();//à changer car plateauTir=plateauIA
+                            plateauIA.convertGridIntoPlateau();
+                            plateauIA.affichePlateauMasque();
                             break;
                         }
                         
                         case 2://R
-                            System.out.println("rentrez le type de bateau qui tire la fusee eclairante(il faut que ce soit un destroyer)");
+                            System.out.println("Rentrez le type de bateau qui tire la fusee eclairante(il faut que ce soit un destroyer)");
                             Scanner scannerType = new Scanner(System.in);//a changer quand les bateaux seront nommes
                             type=scannerType.nextLine();
-                            fusee_eclairante(plateauTir,plateauIA,type);
+                            fusee_eclairante(plateauIA,type);
                             
                             break;
                         case 3://move a changer
-                            System.out.println("rentrez la taille du bateau que vous voulez bouger");
+                            System.out.println("Rentrez la taille du bateau que vous voulez bouger");
                             Scanner scannerTest = new Scanner(System.in);//pareil
                             do{
                                 taille=scannerTest.nextInt();
                             }while((taille<0)||(taille>14));
                             move(plateau,taille);
-                            plateau.convertGridIntoPlateau(plateau.grid);                         
-                            System.out.println("votre mouvement a ete effectue!");
-                            System.out.println("l'ordinateur va jouer, preparez vous a l'impact!");
+                            plateau.convertGridIntoPlateau();                         
+                            System.out.println("Votre mouvement a ete effectue!");
+                            System.out.println("L'ordinateur va jouer, preparez vous a l'impact!");
                             break;
                         case 4://ok
                             help();
                             repete=true;
-                            System.out.println("appuyez sur une touche pour continuer");
+                            System.out.println("Entrez une touche pour continuer");
                             Scanner pause= new Scanner(System.in);
                             char touche;
                             touche=pause.next().charAt(0);
                             break;
                         case 5://R
-                            System.out.println("vous avez decider de quitter la partie, elle sera sauvegardee ne vous inquietez pas!");
+                            System.out.println("Vous avez decider de quitter la partie, elle sera sauvegardee ne vous inquietez pas !");
                             //quitter+sauvegarder
                             save=true;
                             break;
                         default://ok
                             plateauIA.affichePlateau();
                             repete=true;
-                            System.out.println("appuyez sur une touche pour continuer");
+                            System.out.println("Entrez une touche pour continuer");
                             Scanner pause1= new Scanner(System.in);
                             char touche1;
                             touche=pause1.next().charAt(0);
                             break;
                     }
                     }while(repete);//ok
-                    System.out.println("c'est le tour de l'ordinateur");
-                    System.out.println("l'ordinateur va faire son action :");
+                    System.out.println("C'est le tour de l'ordinateur, preparez vous a l'impact !");
                     IA.iaTurn(plateau, D1, c1, c2, d1, d2, d3, s1, s2, s3, s4, IAD1, IAc1, IAc2, IAd1, IAd2, IAd3, IAs1, IAs2, IAs3, IAs4);
-                    
-                    
                 }while((victoire==false)&&(save==false));
                 
                 break;
         }
-
     }
     
     //commence une partie(nouvelle si on n'a pas charge une ancienne)
