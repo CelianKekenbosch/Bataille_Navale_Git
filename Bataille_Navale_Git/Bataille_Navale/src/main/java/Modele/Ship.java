@@ -169,7 +169,7 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
     }    
     
     //Pour chaque bateau, on regarde si il est vertical ou horizontal, et on update ses cases en fonction
-    if(dreadnought.isVertical)
+    if((dreadnought.isVertical)&&(dreadnought.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int i=0;i<dreadnought.mSize;i++)
@@ -180,8 +180,13 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         dreadnought.isAlive = alive;
+        
+        if(!dreadnought.isAlive)
+        {
+            System.out.println("COULE !!! Un cuirasse de moins !!!");
+        }
     }
-    else
+    else if((!dreadnought.isVertical)&&(dreadnought.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int j=0;j<dreadnought.mSize;j++)
@@ -192,10 +197,15 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         dreadnought.isAlive = alive;
+        
+        if(!dreadnought.isAlive)
+        {
+            System.out.println("COULE !!! Un cuirasse de moins !!!");
+        }
     }
 
 
-    if(cruiser1.isVertical)
+    if((cruiser1.isVertical)&&(cruiser1.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int i=0;i<cruiser1.mSize;i++)
@@ -206,8 +216,13 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         cruiser1.isAlive = alive;
+        
+        if(!cruiser1.isAlive)
+        {
+            System.out.println("COULE !!! Un croiseur de moins !!!");
+        }
     }
-    else
+    else if((!cruiser1.isVertical)&&(cruiser1.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int j=0;j<cruiser1.mSize;j++)
@@ -218,10 +233,15 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         cruiser1.isAlive = alive;
+        
+        if(!cruiser1.isAlive)
+        {
+            System.out.println("COULE !!! Un croiseur de moins !!!");
+        }
     }
 
 
-    if(cruiser2.isVertical)
+    if((cruiser2.isVertical)&&(cruiser2.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int i=0;i<cruiser2.mSize;i++)
@@ -232,8 +252,13 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         cruiser2.isAlive = alive;
+        
+        if(!cruiser2.isAlive)
+        {
+            System.out.println("COULE !!! Un croiseur de moins !!!");
+        }
     }
-    else
+    else if((!cruiser2.isVertical)&&(cruiser2.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int j=0;j<cruiser2.mSize;j++)
@@ -244,10 +269,15 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         cruiser2.isAlive = alive;
+        
+        if(!cruiser2.isAlive)
+        {
+            System.out.println("COULE !!! Un croiseur de moins !!!");
+        }
     }
 
 
-    if(destroyer1.isVertical)
+    if((destroyer1.isVertical)&&(destroyer1.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int i=0;i<destroyer1.mSize;i++)
@@ -258,8 +288,13 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         destroyer1.isAlive = alive;
+        
+        if(!destroyer1.isAlive)
+        {
+            System.out.println("COULE !!! Un destroyer de moins !!!");
+        }
     }
-    else
+    else if((!destroyer1.isVertical)&&(destroyer1.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int j=0;j<destroyer1.mSize;j++)
@@ -270,10 +305,15 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         destroyer1.isAlive = alive;
+        
+        if(!destroyer1.isAlive)
+        {
+            System.out.println("COULE !!! Un destroyer de moins !!!");
+        }
     }
 
 
-    if(destroyer2.isVertical)
+    if((destroyer2.isVertical)&&(destroyer2.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int i=0;i<destroyer2.mSize;i++)
@@ -284,8 +324,13 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         destroyer2.isAlive = alive;
+        
+        if(!destroyer2.isAlive)
+        {
+            System.out.println("COULE !!! Un destroyer de moins !!!");
+        }
     }
-    else
+    else if((!destroyer2.isVertical)&&(destroyer2.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int j=0;j<destroyer2.mSize;j++)
@@ -296,10 +341,15 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         destroyer2.isAlive = alive;
+        
+        if(!destroyer2.isAlive)
+        {
+            System.out.println("COULE !!! Un destroyer de moins !!!");
+        }
     }
 
 
-    if(destroyer3.isVertical)
+    if((destroyer3.isVertical)&&(destroyer3.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int i=0;i<destroyer3.mSize;i++)
@@ -310,8 +360,13 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         destroyer3.isAlive = alive;
+        
+        if(!destroyer3.isAlive)
+        {
+            System.out.println("COULE !!! Un destroyer de moins !!!");
+        }
     }
-    else
+    else if((!destroyer3.isVertical)&&(destroyer3.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int j=0;j<destroyer3.mSize;j++)
@@ -322,10 +377,15 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         destroyer3.isAlive = alive;
+        
+        if(!destroyer3.isAlive)
+        {
+            System.out.println("COULE !!! Un destroyer de moins !!!");
+        }
     }
 
 
-    if(submarine1.isVertical)
+    if((submarine1.isVertical)&&(submarine1.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int i=0;i<submarine1.mSize;i++)
@@ -336,8 +396,13 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         submarine1.isAlive = alive;
+        
+        if(!submarine1.isAlive)
+        {
+            System.out.println("COULE !!! Un sous-marin de moins !!!");
+        }
     }
-    else
+    else if((!submarine1.isVertical)&&(submarine1.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int j=0;j<submarine1.mSize;j++)
@@ -348,10 +413,15 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         submarine1.isAlive = alive;
+        
+        if(!submarine1.isAlive)
+        {
+            System.out.println("COULE !!! Un sous-marin de moins !!!");
+        }
     }
 
 
-    if(submarine2.isVertical)
+    if((submarine2.isVertical)&&(submarine2.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int i=0;i<submarine2.mSize;i++)
@@ -362,8 +432,13 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         submarine2.isAlive = alive;
+        
+        if(!submarine2.isAlive)
+        {
+            System.out.println("COULE !!! Un sous-marin de moins !!!");
+        }
     }
-    else
+    else if((!submarine2.isVertical)&&(submarine2.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int j=0;j<submarine2.mSize;j++)
@@ -374,10 +449,15 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         submarine2.isAlive = alive;
+        
+        if(!submarine2.isAlive)
+        {
+            System.out.println("COULE !!! Un sous-marin de moins !!!");
+        }
     }
 
 
-    if(submarine3.isVertical)
+    if((submarine3.isVertical)&&(submarine3.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int i=0;i<submarine3.mSize;i++)
@@ -388,8 +468,13 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         submarine3.isAlive = alive;
+        
+        if(!submarine3.isAlive)
+        {
+            System.out.println("COULE !!! Un sous-marin de moins !!!");
+        }
     }
-    else
+    else if((!submarine3.isVertical)&&(submarine3.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int j=0;j<submarine3.mSize;j++)
@@ -400,10 +485,15 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         submarine3.isAlive = alive;
+        
+        if(!submarine3.isAlive)
+        {
+            System.out.println("COULE !!! Un sous-marin de moins !!!");
+        }
     }
 
 
-    if(submarine4.isVertical)
+    if((submarine4.isVertical)&&(submarine4.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int i=0;i<submarine4.mSize;i++)
@@ -414,8 +504,13 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         submarine4.isAlive = alive;
+        
+        if(!submarine4.isAlive)
+        {
+            System.out.println("COULE !!! Un sous-marin de moins !!!");
+        }
     }
-    else
+    else if((!submarine4.isVertical)&&(submarine4.isAlive))
     {
         boolean alive = false; //Par defaut, le bateau est considere comme coule
         for(int j=0;j<submarine4.mSize;j++)
@@ -426,6 +521,11 @@ public static void fire(Plateau plateau, String typeShip, Ship dreadnought, Ship
             }
         }
         submarine4.isAlive = alive;
+        
+        if(!submarine4.isAlive)
+        {
+            System.out.println("COULE !!! Un sous-marin de moins !!!");
+        }
     }
 }
   
