@@ -140,7 +140,7 @@ public class Main {
                             System.out.println("");
                             System.out.println("5. Quitter et sauvegarder la partie actuelle");
                             System.out.println("");
-                            System.out.println("6. Afficher le plateau de l'odinateur (juste pour la soutenance)");
+                            System.out.println("6. Afficher le plateau de l'ordinateur (juste pour la soutenance)");
                             Scanner scannerAction = new Scanner(System.in);
                             action=scannerAction.nextInt();
 
